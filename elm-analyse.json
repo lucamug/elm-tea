@@ -1,0 +1,35 @@
+{
+  "checks": {
+    "BooleanCase": true,
+    "DropConcatOfLists": false,
+    "DropConsOfItemAndList": true,
+    "NoUncurriedPrefix": true,
+    "MapNothingToNothing": false,
+    "SingleFieldRecord": false,
+    "UnnecessaryListConcat": false,
+    "UnnecessaryPortModule": true,
+    "UnusedImport": true,
+    "UnusedImportAlias": true,
+    "UnusedImportedVariable": true,
+    "UnusedPatternVariable": true,
+    "UnusedTopLevel": true,
+    "UnusedTypeAlias": true,
+    "UnusedValueConstructor": true,
+    "UnusedVariable": true,
+    "UseConsOverConcat": false,
+    "MissingTypeAnnotation": true,
+    "CoreArrayUsage": false,
+    "DebugLog": false,
+    "ExposeAll": false,
+    "ImportAll": false,
+    "RedefineVariable": false,
+    "TriggerWords": true    
+  },
+  "TriggerWords": {
+    "words": ["todo", "fix", "https://github.com/elm-tooling/elm-language-server/blob/main/docs/linting.md"]
+  },
+  "excludedPaths": [
+        "elm-stuff/",
+        "../../.elm/"
+    ]
+}

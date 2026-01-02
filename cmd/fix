@@ -1,0 +1,4 @@
+#!/bin/bash
+set -eu
+
+npx elm-review@2.13.4 --fix-all --allow-remove-files

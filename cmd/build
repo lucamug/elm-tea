@@ -1,0 +1,5 @@
+#!/bin/bash
+set -eu
+
+npx elm@0.19.1-6 make src/Main.elm        --output=docs/build/GENERATED-elm-main.js
+cp public/* docs/

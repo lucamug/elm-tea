@@ -5271,6 +5271,7 @@ var $author$project$Main$p = {
 	svgInnerPath: 'M 7 3 h -3 c -1 0 -1 0 -1 -1 h -1 c 0 1 0 2 1 2 c 2 0 2 2 0 2 c -1 0 -1 1 0 1 h 4 c 1 0 1 -1 0 -1 c -2 0 -2 -2 0 -2 c 1 0 1 -1 0 -1',
 	svgInnerPause: 'M 4.5 2.5 L 2.5 2.5 L 2.5 7.5 L 4.5 7.5 M 7.5 2.5 L 5.5 2.5 L 5.5 7.5 L 7.5 7.5',
 	svgInnerPlay: 'M 8 5 L 3 2 L 3 8',
+	svgInnerReplay: 'M 3 5 l -1 0 a 3 3 1 0 0 3 3 a 0.5 0.5 1 1 0 0 -6 m 0 0 l 0 -1 l -2 1.5 l 2 1.5 l 0 -1 a 0.5 0.5 1 0 1 0 4 a 2 2 0 0 1 -2 -2',
 	svgInnerSettings: 'M 7 6 a 0.5 0.5 1 1 0 0 2 a 0.5 0.5 1 1 0 0 -2 M 4 5 l 2 3 a 1 1 1 1 0 2 -2 l -3 -2 c 1 -2 -1 -3 -2 -2 l 1 1 l 0 1 l -1 0 l -1 -1 c -1 1 0 3 2 2',
 	svgInnerStop: 'M 7 3 L 3 3 L 3 7 L 7 7',
 	svgMainPath: 'M 6 15 H 13 C 22 15 13 6 22 6 H 29 C 30.5 6 30.5 8 29 8 H 22 C 16 8 16 15 22 15 H 29 C 30.5 15 30.5 17 29 17 H 6 C 4.5 17 4.5 15 6 15 M 5 3 V 4 C 5 6 6 6 7 6 H 29 C 30.5 6 30.5 8 29 8 H 7 C 4 8 3 7 3 4 V 3',
@@ -5764,6 +5765,12 @@ var $elm$core$String$toFloat = _String_toFloat;
 var $author$project$Main$update = F2(
 	function (msg, model) {
 		switch (msg.$) {
+			case 'Replay':
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{count: 0, state: $author$project$Main$Play}),
+					$elm$core$Platform$Cmd$none);
 			case 'Reset':
 				return _Utils_Tuple2(
 					_Utils_update(
@@ -5847,6 +5854,7 @@ var $author$project$Main$ChangeSlider = function (a) {
 var $author$project$Main$ChangeState = function (a) {
 	return {$: 'ChangeState', a: a};
 };
+var $author$project$Main$Replay = {$: 'Replay'};
 var $author$project$Main$Reset = {$: 'Reset'};
 var $author$project$Main$ToggleDarkMode = {$: 'ToggleDarkMode'};
 var $author$project$Main$ToggleDebugMode = {$: 'ToggleDebugMode'};
@@ -6149,6 +6157,13 @@ var $author$project$Main$viewControls = function (model) {
 								_List_fromArray(
 									[
 										$author$project$Main$viewButtonTemplate($author$project$Main$p.svgInnerSettings)
+									])),
+								A2(
+								$elm$html$Html$button,
+								A2($author$project$Main$attrsButton, 'Replay', $author$project$Main$Replay),
+								_List_fromArray(
+									[
+										$author$project$Main$viewButtonTemplate($author$project$Main$p.svgInnerReplay)
 									])),
 								A2(
 								$elm$html$Html$input,

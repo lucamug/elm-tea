@@ -50,10 +50,9 @@ p =
     , svgInnerStop = "M 7 3 L 3 3 L 3 7 L 7 7"
     , svgInnerDarkMode = "M 6 2 A 3.2 3.2 0 1 0 8 7 A 2 2 0 1 1 6 2"
     , svgInnerPath = "M 7 3 h -3 c -1 0 -1 0 -1 -1 h -1 c 0 1 0 2 1 2 c 2 0 2 2 0 2 c -1 0 -1 1 0 1 h 4 c 1 0 1 -1 0 -1 c -2 0 -2 -2 0 -2 c 1 0 1 -1 0 -1"
-
-    -- , svgInnerArrows = "M 1 4 l 1 1 l -1 1 l 0 1 l 2 -2 l -2 -2 M 2 3 l 2 2 l -2 2 l 1 0 l 2 -2 l -2 -2 M 4 3 l 2 2 l -2 2 l 1 0 l 2 -2 l -2 -2 M 8 3 l 1 1 l 0 -1 M 9 6 l -1 1 l 1 0 M 6 3 l 2 2 l -2 2 l 1 0 l 2 -2 l -2 -2"
     , svgInnerArrows = "M 2 4 l 1 1 l -1 1 l 0 1 l 2 -2 l -2 -2 M 3 3 l 2 2 l -2 2 l 1 0 l 2 -2 l -2 -2 M 5 3 l 2 2 l -2 2 l 1 0 l 2 -2 l -2 -2 M 7 3 l 1 1 l 0 -1 M 8 6 l -1 1 l 1 0"
     , svgInnerSettings = "M 7 6 a 0.5 0.5 1 1 0 0 2 a 0.5 0.5 1 1 0 0 -2 M 4 5 l 2 3 a 1 1 1 1 0 2 -2 l -3 -2 c 1 -2 -1 -3 -2 -2 l 1 1 l 0 1 l -1 0 l -1 -1 c -1 1 0 3 2 2"
+    , svgInnerReplay = "M 3 5 l -1 0 a 3 3 1 0 0 3 3 a 0.5 0.5 1 1 0 0 -6 m 0 0 l 0 -1 l -2 1.5 l 2 1.5 l 0 -1 a 0.5 0.5 1 0 1 0 4 a 2 2 0 0 1 -2 -2"
     , sizeWidth = 980
     , sizeWidthElmRuntime = 160
     , sizeHeight = 540
@@ -175,6 +174,7 @@ type alias Timeline =
 type Msg
     = ChangeState State
     | Reset
+    | Replay
     | AddTimeline Timeline
     | ToggleDebugMode
     | OnAnimationFrame Float
@@ -357,6 +357,9 @@ timeline2 current speed =
 update : Msg -> Model -> ( Model, Cmd msg )
 update msg model =
     case msg of
+        Replay ->
+            ( { model | count = 0, state = Play }, Cmd.none )
+
         Reset ->
             ( { model | count = 0, animations = [], cachedMaxCount = 0 }, Cmd.none )
 
@@ -748,6 +751,7 @@ viewControls model =
                      , button (attrsButton "Toggle Path" ToggleTrackVisibility) [ viewButtonTemplate p.svgInnerPath ]
                      , button (attrsButton "Toggle All Arrows" ToggleDebugMode) [ viewButtonTemplate p.svgInnerArrows ]
                      , button (attrsButton "Toggle All Arrows" ToggleDebugMode) [ viewButtonTemplate p.svgInnerSettings ]
+                     , button (attrsButton "Replay" Replay) [ viewButtonTemplate p.svgInnerReplay ]
                      , input
                         [ HA.type_ "range"
                         , HA.min "0"

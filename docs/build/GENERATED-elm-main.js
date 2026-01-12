@@ -5207,33 +5207,6 @@ var $elm$core$Task$perform = F2(
 				A2($elm$core$Task$map, toMessage, task)));
 	});
 var $elm$browser$Browser$element = _Browser_element;
-var $elm$core$List$maybeCons = F3(
-	function (f, mx, xs) {
-		var _v0 = f(mx);
-		if (_v0.$ === 'Just') {
-			var x = _v0.a;
-			return A2($elm$core$List$cons, x, xs);
-		} else {
-			return xs;
-		}
-	});
-var $elm$core$List$filterMap = F2(
-	function (f, xs) {
-		return A3(
-			$elm$core$List$foldr,
-			$elm$core$List$maybeCons(f),
-			_List_Nil,
-			xs);
-	});
-var $author$project$Main$filterMapAnimations = F2(
-	function (animations, count) {
-		return A2(
-			$elm$core$List$filterMap,
-			function (anim) {
-				return (_Utils_cmp(count, anim.end) < 0) ? $elm$core$Maybe$Just(anim) : $elm$core$Maybe$Nothing;
-			},
-			animations);
-	});
 var $author$project$Main$Disabled = {$: 'Disabled'};
 var $author$project$Main$Play = {$: 'Play'};
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
@@ -5241,9 +5214,9 @@ var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
 var $author$project$Main$p = {
 	colorArrows: 'rgba(160,160,160,0.5)',
 	colorArrowsTest: 'rgba(220, 0, 0, 0.3)',
-	colorBackgroundGray: 'rgba(200, 200, 200, 0.2)',
+	colorBackgroundGray: 'rgba(200, 200, 200, 0.5)',
 	colorPrimaryBlue: 'rgb(18, 147, 216)',
-	defaultSpeed: 9,
+	defaultSpeed: 10,
 	fadeIn: 8,
 	fadeOut: 8,
 	pointAfterStart: 1.7,
@@ -5268,7 +5241,8 @@ var $author$project$Main$p = {
 	svgArrowHead: 'M 0 0 L 5 5 L 0 10 L 5 10 L 10 5 L 5 0 Z',
 	svgInnerArrows: 'M 2 4 l 1 1 l -1 1 l 0 1 l 2 -2 l -2 -2 M 3 3 l 2 2 l -2 2 l 1 0 l 2 -2 l -2 -2 M 5 3 l 2 2 l -2 2 l 1 0 l 2 -2 l -2 -2 M 7 3 l 1 1 l 0 -1 M 8 6 l -1 1 l 1 0',
 	svgInnerDarkMode: 'M 6 2 A 3.2 3.2 0 1 0 8 7 A 2 2 0 1 1 6 2',
-	svgInnerPath: 'M 7 3 h -3 c -1 0 -1 0 -1 -1 h -1 c 0 1 0 2 1 2 c 2 0 2 2 0 2 c -1 0 -1 1 0 1 h 4 c 1 0 1 -1 0 -1 c -2 0 -2 -2 0 -2 c 1 0 1 -1 0 -1',
+	svgInnerFilter: 'M 6.5 2 v 6 h 0.1 v -6 M 2.3 2 v 6 h 0.1 v -6 M 8 2 v 6 h 0.1 v -6 M 6 2 v 6 h 0.1 v -6 M 4 2 v 6 h 0.1 v -6',
+	svgInnerPath: 'M 7 3 h -3 c -1 0 -1 0 -1 -1 h -1 c 0 1 0 2 1 2 c 2.5 0 2.5 2 0 2 c -1 0 -1 1 0 1 h 4 c 1 0 1 -1 0 -1 c -2.5 0 -2.5 -2 0 -2 c 1 0 1 -1 0 -1',
 	svgInnerPause: 'M 4.5 2.5 L 2.5 2.5 L 2.5 7.5 L 4.5 7.5 M 7.5 2.5 L 5.5 2.5 L 5.5 7.5 L 7.5 7.5',
 	svgInnerPlay: 'M 8 5 L 3 2 L 3 8',
 	svgInnerReplay: 'M 3 5 l -1 0 a 3 3 1 0 0 3 3 a 0.5 0.5 1 1 0 0 -6 m 0 0 l 0 -1 l -2 1.5 l 2 1.5 l 0 -1 a 0.5 0.5 1 0 1 0 4 a 2 2 0 0 1 -2 -2',
@@ -5278,19 +5252,42 @@ var $author$project$Main$p = {
 	svgOuterButton: 'M 5 0 C 9 0 10 1 10 5 C 10 9 9 10 5 10 C 1 10 0 9 0 5 C 0 1 1 0 5 0',
 	svgPointer: 'M 0 0 L 4 12 L 1 11 L 1 15 L -1 15 L -1 11 L -4 12 Z'
 };
+var $author$project$Main$BoxAzzurro = function (a) {
+	return {$: 'BoxAzzurro', a: a};
+};
+var $author$project$Main$BoxGreen = function (a) {
+	return {$: 'BoxGreen', a: a};
+};
+var $author$project$Main$BoxModelNew = {$: 'BoxModelNew'};
 var $author$project$Main$BoxYellow = function (a) {
 	return {$: 'BoxYellow', a: a};
 };
+var $author$project$Main$Pointer = {$: 'Pointer'};
+var $author$project$Main$TipNew = {$: 'TipNew'};
+var $author$project$Main$Title = function (a) {
+	return {$: 'Title', a: a};
+};
 var $author$project$Main$Arrow = {$: 'Arrow'};
 var $elm$svg$Svg$Attributes$class = _VirtualDom_attribute('class');
+var $elm$core$String$fromFloat = _String_fromNumber;
+var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
+var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
+var $author$project$Main$attrsOffset = function (percentage) {
+	return _List_fromArray(
+		[
+			$elm$svg$Svg$Attributes$class('offset-box'),
+			A2(
+			$elm$html$Html$Attributes$style,
+			'offset-distance',
+			$elm$core$String$fromFloat(percentage) + '%'),
+			A2($elm$html$Html$Attributes$style, 'position', 'absolute')
+		]);
+};
 var $elm$svg$Svg$Attributes$d = _VirtualDom_attribute('d');
 var $elm$svg$Svg$Attributes$fill = _VirtualDom_attribute('fill');
-var $elm$core$String$fromFloat = _String_fromNumber;
 var $elm$svg$Svg$Attributes$height = _VirtualDom_attribute('height');
 var $elm$svg$Svg$trustedNode = _VirtualDom_nodeNS('http://www.w3.org/2000/svg');
 var $elm$svg$Svg$path = $elm$svg$Svg$trustedNode('path');
-var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
-var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
 var $elm$svg$Svg$svg = $elm$svg$Svg$trustedNode('svg');
 var $elm$svg$Svg$Attributes$viewBox = _VirtualDom_attribute('viewBox');
 var $elm$svg$Svg$Attributes$width = _VirtualDom_attribute('width');
@@ -5298,19 +5295,15 @@ var $author$project$Main$viewArrow = F2(
 	function (argsFixed, argsVariable) {
 		return A2(
 			$elm$svg$Svg$svg,
-			_List_fromArray(
-				[
-					$elm$svg$Svg$Attributes$viewBox('0 0 10 10'),
-					$elm$svg$Svg$Attributes$class('offset-box'),
-					$elm$svg$Svg$Attributes$width('20px'),
-					$elm$svg$Svg$Attributes$height('20px'),
-					$elm$svg$Svg$Attributes$fill(argsFixed.colorBackground),
-					A2(
-					$elm$html$Html$Attributes$style,
-					'offset-distance',
-					$elm$core$String$fromFloat(argsVariable.percentage) + '%'),
-					A2($elm$html$Html$Attributes$style, 'position', 'absolute')
-				]),
+			_Utils_ap(
+				$author$project$Main$attrsOffset(argsVariable.percentage),
+				_List_fromArray(
+					[
+						$elm$svg$Svg$Attributes$viewBox('0 0 10 10'),
+						$elm$svg$Svg$Attributes$width('20px'),
+						$elm$svg$Svg$Attributes$height('20px'),
+						$elm$svg$Svg$Attributes$fill(argsFixed.colorBackground)
+					])),
 			_List_fromArray(
 				[
 					A2(
@@ -5322,15 +5315,6 @@ var $author$project$Main$viewArrow = F2(
 					_List_Nil)
 				]));
 	});
-var $elm$json$Json$Encode$string = _Json_wrap;
-var $elm$html$Html$Attributes$stringProperty = F2(
-	function (key, string) {
-		return A2(
-			_VirtualDom_property,
-			key,
-			$elm$json$Json$Encode$string(string));
-	});
-var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
 var $elm$html$Html$div = _VirtualDom_node('div');
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
@@ -5341,31 +5325,27 @@ var $author$project$Main$viewBox = F2(
 	function (argsFixed, args) {
 		return A2(
 			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('offset-box'),
-					A2(
-					$elm$html$Html$Attributes$style,
-					'offset-distance',
-					$elm$core$String$fromFloat(args.percentage) + '%'),
-					A2($elm$html$Html$Attributes$style, 'offset-rotate', '0deg'),
-					A2($elm$html$Html$Attributes$style, 'position', 'absolute'),
-					A2($elm$html$Html$Attributes$style, 'height', '20px'),
-					A2(
-					$elm$html$Html$Attributes$style,
-					'width',
-					$elm$core$String$fromInt(
-						$author$project$Main$widthText(argsFixed.text)) + 'px'),
-					A2($elm$html$Html$Attributes$style, 'padding', '4px 0 0 0'),
-					A2($elm$html$Html$Attributes$style, 'border-radius', '8px'),
-					A2($elm$html$Html$Attributes$style, 'text-align', 'center'),
-					A2(
-					$elm$html$Html$Attributes$style,
-					'opacity',
-					$elm$core$String$fromFloat(args.opacity)),
-					A2($elm$html$Html$Attributes$style, 'background-color', argsFixed.colorBackground),
-					A2($elm$html$Html$Attributes$style, 'color', argsFixed.colorForeground)
-				]),
+			_Utils_ap(
+				$author$project$Main$attrsOffset(args.percentage),
+				_List_fromArray(
+					[
+						A2($elm$html$Html$Attributes$style, 'offset-rotate', '0deg'),
+						A2($elm$html$Html$Attributes$style, 'height', '20px'),
+						A2(
+						$elm$html$Html$Attributes$style,
+						'width',
+						$elm$core$String$fromInt(
+							$author$project$Main$widthText(argsFixed.text)) + 'px'),
+						A2($elm$html$Html$Attributes$style, 'padding', '4px 0 0 0'),
+						A2($elm$html$Html$Attributes$style, 'border-radius', '8px'),
+						A2($elm$html$Html$Attributes$style, 'text-align', 'center'),
+						A2(
+						$elm$html$Html$Attributes$style,
+						'opacity',
+						$elm$core$String$fromFloat(args.opacity)),
+						A2($elm$html$Html$Attributes$style, 'background-color', argsFixed.colorBackground),
+						A2($elm$html$Html$Attributes$style, 'color', argsFixed.colorForeground)
+					])),
 			_Utils_ap(
 				_List_Nil,
 				_Utils_ap(
@@ -5416,31 +5396,27 @@ var $author$project$Main$viewPointer = F2(
 		var rotation = (argsVariable.percentage < 100) ? 10 : ((argsVariable.percentage < 140) ? (argsVariable.percentage - 90) : ((argsVariable.percentage < 160) ? (160 - argsVariable.percentage) : 10));
 		return A2(
 			$elm$svg$Svg$svg,
-			_List_fromArray(
-				[
-					$elm$svg$Svg$Attributes$viewBox('-5 -2 10 19'),
-					$elm$svg$Svg$Attributes$width('40px'),
-					$elm$svg$Svg$Attributes$fill('brown'),
-					$elm$svg$Svg$Attributes$class('offset-box'),
-					A2(
-					$elm$html$Html$Attributes$style,
-					'offset-distance',
-					$elm$core$String$fromFloat($author$project$Main$p.pointDom) + '%'),
-					A2($elm$html$Html$Attributes$style, 'position', 'absolute'),
-					A2(
-					$elm$html$Html$Attributes$style,
-					'transform',
-					'translateX(28px) translateY(10px)  rotate(-' + ($elm$core$String$fromFloat(rotation) + 'deg)')),
-					A2($elm$html$Html$Attributes$style, 'transform-origin', '55% 65%'),
-					A2(
-					$elm$html$Html$Attributes$style,
-					'opacity',
-					$elm$core$String$fromFloat(argsVariable.opacity)),
-					A2($elm$html$Html$Attributes$style, 'offset-rotate', '0deg'),
-					$elm$svg$Svg$Attributes$fill('rgba(255,255,255,1)'),
-					$elm$svg$Svg$Attributes$stroke('rgba(50,180,230,1)'),
-					$elm$svg$Svg$Attributes$strokeWidth('1px')
-				]),
+			_Utils_ap(
+				$author$project$Main$attrsOffset($author$project$Main$p.pointDom),
+				_List_fromArray(
+					[
+						$elm$svg$Svg$Attributes$viewBox('-5 -2 10 19'),
+						$elm$svg$Svg$Attributes$width('40px'),
+						$elm$svg$Svg$Attributes$fill('brown'),
+						A2(
+						$elm$html$Html$Attributes$style,
+						'transform',
+						'translateX(28px) translateY(10px)  rotate(-' + ($elm$core$String$fromFloat(rotation) + 'deg)')),
+						A2($elm$html$Html$Attributes$style, 'transform-origin', '55% 65%'),
+						A2(
+						$elm$html$Html$Attributes$style,
+						'opacity',
+						$elm$core$String$fromFloat(argsVariable.opacity)),
+						A2($elm$html$Html$Attributes$style, 'offset-rotate', '0deg'),
+						$elm$svg$Svg$Attributes$fill('rgba(255,255,255,1)'),
+						$elm$svg$Svg$Attributes$stroke('rgba(50,180,230,1)'),
+						$elm$svg$Svg$Attributes$strokeWidth('1px')
+					])),
 			_List_fromArray(
 				[
 					A2(
@@ -5456,36 +5432,72 @@ var $author$project$Main$viewTip = F2(
 	function (argsFixed, args) {
 		return A2(
 			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('offset-box'),
-					A2(
-					$elm$html$Html$Attributes$style,
-					'offset-distance',
-					$elm$core$String$fromFloat(args.percentage) + '%'),
-					A2($elm$html$Html$Attributes$style, 'offset-rotate', '0deg'),
-					A2($elm$html$Html$Attributes$style, 'position', 'absolute'),
-					A2($elm$html$Html$Attributes$style, 'padding', '3px 0 0 0'),
-					A2($elm$html$Html$Attributes$style, 'height', '16px'),
-					A2(
-					$elm$html$Html$Attributes$style,
-					'width',
-					$elm$core$String$fromInt(
-						$author$project$Main$widthText(argsFixed.text) - 6) + 'px'),
-					A2($elm$html$Html$Attributes$style, 'border-radius', '30px'),
-					A2($elm$html$Html$Attributes$style, 'transform', 'rotate(20deg) translateX(18px) translateY(-22px)'),
-					A2($elm$html$Html$Attributes$style, 'font-size', '12px'),
-					A2($elm$html$Html$Attributes$style, 'background-color', argsFixed.colorBackground),
-					A2($elm$html$Html$Attributes$style, 'color', argsFixed.colorForeground),
-					A2($elm$html$Html$Attributes$style, 'text-align', 'center'),
-					A2(
-					$elm$html$Html$Attributes$style,
-					'opacity',
-					$elm$core$String$fromFloat(args.opacity))
-				]),
+			_Utils_ap(
+				$author$project$Main$attrsOffset(args.percentage),
+				_List_fromArray(
+					[
+						A2($elm$html$Html$Attributes$style, 'offset-rotate', '0deg'),
+						A2($elm$html$Html$Attributes$style, 'padding', '3px 0 0 0'),
+						A2($elm$html$Html$Attributes$style, 'height', '16px'),
+						A2(
+						$elm$html$Html$Attributes$style,
+						'width',
+						$elm$core$String$fromInt(
+							$author$project$Main$widthText(argsFixed.text) - 6) + 'px'),
+						A2($elm$html$Html$Attributes$style, 'border-radius', '30px'),
+						A2($elm$html$Html$Attributes$style, 'transform', 'rotate(20deg) translateX(18px) translateY(-22px)'),
+						A2($elm$html$Html$Attributes$style, 'font-size', '12px'),
+						A2($elm$html$Html$Attributes$style, 'background-color', argsFixed.colorBackground),
+						A2($elm$html$Html$Attributes$style, 'color', argsFixed.colorForeground),
+						A2($elm$html$Html$Attributes$style, 'text-align', 'center'),
+						A2(
+						$elm$html$Html$Attributes$style,
+						'opacity',
+						$elm$core$String$fromFloat(args.opacity))
+					])),
 			_List_fromArray(
 				[
 					$elm$html$Html$text(argsFixed.text)
+				]));
+	});
+var $author$project$Main$viewTitle = F2(
+	function (argsFixed, argsVariable) {
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					A2($elm$html$Html$Attributes$style, 'width', '100%'),
+					A2($elm$html$Html$Attributes$style, 'height', '100%'),
+					A2($elm$html$Html$Attributes$style, 'display', 'flex'),
+					A2($elm$html$Html$Attributes$style, 'justify-content', 'center'),
+					A2($elm$html$Html$Attributes$style, 'align-items', 'center'),
+					A2($elm$html$Html$Attributes$style, 'position', 'absolute'),
+					A2(
+					$elm$html$Html$Attributes$style,
+					'opacity',
+					$elm$core$String$fromFloat(argsVariable.opacity))
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$div,
+					_List_fromArray(
+						[
+							A2($elm$html$Html$Attributes$style, 'font-size', '20px'),
+							A2($elm$html$Html$Attributes$style, 'padding', '20px'),
+							A2($elm$html$Html$Attributes$style, 'background-color', 'rgb(255,230,0)'),
+							A2($elm$html$Html$Attributes$style, 'color', 'black'),
+							A2($elm$html$Html$Attributes$style, 'border-radius', '8px'),
+							A2($elm$html$Html$Attributes$style, 'box-shadow', '0 0 500px 100px rgba(0, 0, 0, 1)'),
+							A2(
+							$elm$html$Html$Attributes$style,
+							'transform',
+							'translateY(48px) scale(' + ($elm$core$String$fromFloat((2 + argsVariable.opacity) / 3) + ')'))
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text(argsFixed.text)
+						]))
 				]));
 	});
 var $author$project$Main$objectToHtml = function (object) {
@@ -5528,10 +5540,16 @@ var $author$project$Main$objectToHtml = function (object) {
 				argsFixed: {colorBackground: 'rgba(18, 147, 216, 0.3)', colorForeground: '', text: '', textTip: $elm$core$Maybe$Nothing},
 				element: $author$project$Main$viewArrow
 			};
-		default:
+		case 'Pointer':
 			return {
 				argsFixed: {colorBackground: '', colorForeground: '', text: '', textTip: $elm$core$Maybe$Nothing},
 				element: $author$project$Main$viewPointer
+			};
+		default:
+			var string = object.a;
+			return {
+				argsFixed: {colorBackground: '', colorForeground: '', text: string, textTip: $elm$core$Maybe$Nothing},
+				element: $author$project$Main$viewTitle
 			};
 	}
 };
@@ -5553,6 +5571,95 @@ var $author$project$Main$addPrecedingArrows = F2(
 				{end: anim.end - distanceBetweenBoxAndArrow, object: $author$project$Main$Arrow, path: anim.path, start: anim.start - distanceBetweenBoxAndArrow},
 				anim
 			]);
+	});
+var $author$project$Main$timeline1 = F2(
+	function (current, speed) {
+		var startDelay = 7;
+		var pathViewToDom = {from: $author$project$Main$p.pointView, to: $author$project$Main$p.pointDom};
+		var pathUpdateToView = {from: $author$project$Main$p.pointUpdate, to: $author$project$Main$p.pointView};
+		var pathStartToRuntime = {from: $author$project$Main$p.pointStart, to: $author$project$Main$p.pointRuntime};
+		var pathRuntimeToUpdate = {from: $author$project$Main$p.pointRuntime, to: $author$project$Main$p.pointUpdate};
+		var f0 = ($author$project$Main$p.pointAfterStart + (startDelay * speed)) + current;
+		var f1 = f0 + ((pathStartToRuntime.to - pathStartToRuntime.from) * speed);
+		var f2 = f1 + ((pathRuntimeToUpdate.to - pathRuntimeToUpdate.from) * speed);
+		var f3 = f2 + ((pathUpdateToView.to - pathUpdateToView.from) * speed);
+		var f4 = f3 + ((pathViewToDom.to - pathViewToDom.from) * speed);
+		return _Utils_ap(
+			_List_Nil,
+			_Utils_ap(
+				_List_fromArray(
+					[
+						{
+						end: f4,
+						object: $author$project$Main$TipNew,
+						path: {from: $author$project$Main$p.pointRuntimeSecondPass, to: $author$project$Main$p.pointRuntimeSecondPass},
+						start: ($author$project$Main$p.pointRuntimeSecondPass * speed) + f0
+					}
+					]),
+				_Utils_ap(
+					A2(
+						$author$project$Main$addPrecedingArrows,
+						speed,
+						{
+							end: f1,
+							object: $author$project$Main$BoxYellow('Event'),
+							path: pathStartToRuntime,
+							start: f0
+						}),
+					_Utils_ap(
+						A2(
+							$author$project$Main$addPrecedingArrows,
+							speed,
+							{
+								end: f2,
+								object: $author$project$Main$BoxAzzurro('Model'),
+								path: pathRuntimeToUpdate,
+								start: f1
+							}),
+						_Utils_ap(
+							_List_fromArray(
+								[
+									{
+									end: f2 + (speed * 1.5),
+									object: $author$project$Main$BoxGreen('Msg'),
+									path: pathRuntimeToUpdate,
+									start: f1 + (speed * 1.5)
+								}
+								]),
+							_Utils_ap(
+								A2(
+									$author$project$Main$addPrecedingArrows,
+									speed,
+									{end: f3, object: $author$project$Main$BoxModelNew, path: pathUpdateToView, start: f2}),
+								_Utils_ap(
+									A2(
+										$author$project$Main$addPrecedingArrows,
+										speed,
+										{
+											end: f4,
+											object: $author$project$Main$BoxYellow('Html'),
+											path: pathViewToDom,
+											start: f3
+										}),
+									_Utils_ap(
+										_List_fromArray(
+											[
+												{
+												end: (10 * speed) + current,
+												object: $author$project$Main$Pointer,
+												path: {from: 0, to: 300},
+												start: 0 + current
+											}
+											]),
+										_List_fromArray(
+											[
+												{
+												end: 100,
+												object: $author$project$Main$Title('A simple DOM-only interaction without side effects'),
+												path: {from: 0, to: 0},
+												start: 0
+											}
+											])))))))));
 	});
 var $author$project$Main$timeline2 = F2(
 	function (current, speed) {
@@ -5604,22 +5711,21 @@ var $author$project$Main$init = function (_v0) {
 	return _Utils_Tuple2(
 		$author$project$Main$updateCachedMaxCount(
 			{
-				animations: A2($author$project$Main$timeline2, 0, $author$project$Main$p.defaultSpeed),
+				animations: _Utils_ap(
+					A2($author$project$Main$timeline1, 0, $author$project$Main$p.defaultSpeed),
+					A2($author$project$Main$timeline2, 0, $author$project$Main$p.defaultSpeed)),
 				cachedMaxCount: 0,
 				count: 0,
-				debugMode: $author$project$Main$Disabled,
+				debugArrowMode: $author$project$Main$Disabled,
 				isDarkMode: false,
 				isTrackVisible: false,
-				state: $author$project$Main$Play
+				isVintageFilterOn: true,
+				playPauseState: $author$project$Main$Play
 			}),
 		$elm$core$Platform$Cmd$none);
 };
-var $elm$core$List$isEmpty = function (xs) {
-	if (!xs.b) {
-		return true;
-	} else {
-		return false;
-	}
+var $author$project$Main$isAnimationPlaying = function (model) {
+	return (_Utils_cmp(model.count, model.cachedMaxCount) < 0) && _Utils_eq(model.playPauseState, $author$project$Main$Play);
 };
 var $elm$core$Platform$Sub$batch = _Platform_batch;
 var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
@@ -5769,7 +5875,7 @@ var $author$project$Main$update = F2(
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{count: 0, state: $author$project$Main$Play}),
+						{count: 0, playPauseState: $author$project$Main$Play}),
 					$elm$core$Platform$Cmd$none);
 			case 'Reset':
 				return _Utils_Tuple2(
@@ -5778,11 +5884,11 @@ var $author$project$Main$update = F2(
 						{animations: _List_Nil, cachedMaxCount: 0, count: 0}),
 					$elm$core$Platform$Cmd$none);
 			case 'ChangeState':
-				var state = msg.a;
+				var playPauseState = msg.a;
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{state: state}),
+						{playPauseState: playPauseState}),
 					$elm$core$Platform$Cmd$none);
 			case 'ChangeSlider':
 				var string = msg.a;
@@ -5792,18 +5898,18 @@ var $author$project$Main$update = F2(
 					return _Utils_Tuple2(
 						_Utils_update(
 							model,
-							{count: _float, state: $author$project$Main$Pause}),
+							{count: _float, playPauseState: $author$project$Main$Pause}),
 						$elm$core$Platform$Cmd$none);
 				} else {
 					return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 				}
-			case 'ToggleDebugMode':
+			case 'CycleDebugArrowMode':
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
 						{
-							debugMode: function () {
-								var _v2 = model.debugMode;
+							debugArrowMode: function () {
+								var _v2 = model.debugArrowMode;
 								switch (_v2.$) {
 									case 'ShowAllArrows':
 										return $author$project$Main$ShowOneArrow;
@@ -5837,14 +5943,29 @@ var $author$project$Main$update = F2(
 						model,
 						{isTrackVisible: !model.isTrackVisible}),
 					$elm$core$Platform$Cmd$none);
-			default:
+			case 'ToggleDarkMode':
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
 						{isDarkMode: !model.isDarkMode}),
 					$elm$core$Platform$Cmd$none);
+			default:
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{isVintageFilterOn: !model.isVintageFilterOn}),
+					$elm$core$Platform$Cmd$none);
 		}
 	});
+var $elm$json$Json$Encode$string = _Json_wrap;
+var $elm$html$Html$Attributes$stringProperty = F2(
+	function (key, string) {
+		return A2(
+			_VirtualDom_property,
+			key,
+			$elm$json$Json$Encode$string(string));
+	});
+var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
 var $author$project$Main$AddTimeline = function (a) {
 	return {$: 'AddTimeline', a: a};
 };
@@ -5854,10 +5975,11 @@ var $author$project$Main$ChangeSlider = function (a) {
 var $author$project$Main$ChangeState = function (a) {
 	return {$: 'ChangeState', a: a};
 };
+var $author$project$Main$CycleDebugArrowMode = {$: 'CycleDebugArrowMode'};
 var $author$project$Main$Replay = {$: 'Replay'};
 var $author$project$Main$Reset = {$: 'Reset'};
 var $author$project$Main$ToggleDarkMode = {$: 'ToggleDarkMode'};
-var $author$project$Main$ToggleDebugMode = {$: 'ToggleDebugMode'};
+var $author$project$Main$ToggleFilter = {$: 'ToggleFilter'};
 var $author$project$Main$ToggleTrackVisibility = {$: 'ToggleTrackVisibility'};
 var $elm$core$Basics$negate = function (n) {
 	return -n;
@@ -5961,94 +6083,6 @@ var $elm$core$String$padLeft = F3(
 var $elm$html$Html$Attributes$step = function (n) {
 	return A2($elm$html$Html$Attributes$stringProperty, 'step', n);
 };
-var $author$project$Main$BoxAzzurro = function (a) {
-	return {$: 'BoxAzzurro', a: a};
-};
-var $author$project$Main$BoxGreen = function (a) {
-	return {$: 'BoxGreen', a: a};
-};
-var $author$project$Main$BoxModelNew = {$: 'BoxModelNew'};
-var $author$project$Main$Pointer = {$: 'Pointer'};
-var $author$project$Main$TipNew = {$: 'TipNew'};
-var $author$project$Main$timeline1 = F2(
-	function (current, speed) {
-		var startDelay = 7;
-		var pathViewToDom = {from: $author$project$Main$p.pointView, to: $author$project$Main$p.pointDom};
-		var pathUpdateToView = {from: $author$project$Main$p.pointUpdate, to: $author$project$Main$p.pointView};
-		var pathStartToRuntime = {from: $author$project$Main$p.pointStart, to: $author$project$Main$p.pointRuntime};
-		var pathRuntimeToUpdate = {from: $author$project$Main$p.pointRuntime, to: $author$project$Main$p.pointUpdate};
-		var f0 = ($author$project$Main$p.pointAfterStart + (startDelay * speed)) + current;
-		var f1 = f0 + ((pathStartToRuntime.to - pathStartToRuntime.from) * speed);
-		var f2 = f1 + ((pathRuntimeToUpdate.to - pathRuntimeToUpdate.from) * speed);
-		var f3 = f2 + ((pathUpdateToView.to - pathUpdateToView.from) * speed);
-		var f4 = f3 + ((pathViewToDom.to - pathViewToDom.from) * speed);
-		return _Utils_ap(
-			_List_Nil,
-			_Utils_ap(
-				_List_fromArray(
-					[
-						{
-						end: f4,
-						object: $author$project$Main$TipNew,
-						path: {from: $author$project$Main$p.pointRuntimeSecondPass, to: $author$project$Main$p.pointRuntimeSecondPass},
-						start: ($author$project$Main$p.pointRuntimeSecondPass * speed) + f0
-					}
-					]),
-				_Utils_ap(
-					A2(
-						$author$project$Main$addPrecedingArrows,
-						speed,
-						{
-							end: f1,
-							object: $author$project$Main$BoxYellow('Event'),
-							path: pathStartToRuntime,
-							start: f0
-						}),
-					_Utils_ap(
-						A2(
-							$author$project$Main$addPrecedingArrows,
-							speed,
-							{
-								end: f2,
-								object: $author$project$Main$BoxAzzurro('Model'),
-								path: pathRuntimeToUpdate,
-								start: f1
-							}),
-						_Utils_ap(
-							_List_fromArray(
-								[
-									{
-									end: f2 + (speed * 1.5),
-									object: $author$project$Main$BoxGreen('Msg'),
-									path: pathRuntimeToUpdate,
-									start: f1 + (speed * 1.5)
-								}
-								]),
-							_Utils_ap(
-								A2(
-									$author$project$Main$addPrecedingArrows,
-									speed,
-									{end: f3, object: $author$project$Main$BoxModelNew, path: pathUpdateToView, start: f2}),
-								_Utils_ap(
-									A2(
-										$author$project$Main$addPrecedingArrows,
-										speed,
-										{
-											end: f4,
-											object: $author$project$Main$BoxYellow('Html'),
-											path: pathViewToDom,
-											start: f3
-										}),
-									_List_fromArray(
-										[
-											{
-											end: (10 * speed) + current,
-											object: $author$project$Main$Pointer,
-											path: {from: 0, to: 300},
-											start: 0 + current
-										}
-										]))))))));
-	});
 var $elm$html$Html$Attributes$type_ = $elm$html$Html$Attributes$stringProperty('type');
 var $elm$html$Html$Attributes$value = $elm$html$Html$Attributes$stringProperty('value');
 var $author$project$Main$viewButtonTemplate = function (extra) {
@@ -6059,7 +6093,8 @@ var $author$project$Main$viewButtonTemplate = function (extra) {
 				$elm$svg$Svg$Attributes$viewBox('0 0 10 10'),
 				$elm$svg$Svg$Attributes$width('40px'),
 				$elm$svg$Svg$Attributes$fill($author$project$Main$p.colorPrimaryBlue),
-				A2($elm$html$Html$Attributes$style, 'margin', '5px')
+				A2($elm$html$Html$Attributes$style, 'margin', '5px'),
+				A2($elm$html$Html$Attributes$style, 'cursor', 'pointer')
 			]),
 		_List_fromArray(
 			[
@@ -6081,8 +6116,7 @@ var $author$project$Main$viewControls = function (model) {
 				A2(
 				$elm$html$Html$Attributes$style,
 				'width',
-				$elm$core$String$fromInt($author$project$Main$p.sizeWidth) + 'px'),
-				A2($elm$html$Html$Attributes$style, 'border', '1px solid red')
+				$elm$core$String$fromInt($author$project$Main$p.sizeWidth) + 'px')
 			]),
 		_Utils_ap(
 			_List_Nil,
@@ -6098,7 +6132,7 @@ var $author$project$Main$viewControls = function (model) {
 						_List_fromArray(
 							[
 								function () {
-								var _v0 = model.state;
+								var _v0 = model.playPauseState;
 								if (_v0.$ === 'Play') {
 									return A2(
 										$elm$html$Html$button,
@@ -6146,17 +6180,24 @@ var $author$project$Main$viewControls = function (model) {
 									])),
 								A2(
 								$elm$html$Html$button,
-								A2($author$project$Main$attrsButton, 'Toggle All Arrows', $author$project$Main$ToggleDebugMode),
+								A2($author$project$Main$attrsButton, 'Cycle Through Debug Arrows', $author$project$Main$CycleDebugArrowMode),
 								_List_fromArray(
 									[
 										$author$project$Main$viewButtonTemplate($author$project$Main$p.svgInnerArrows)
 									])),
 								A2(
 								$elm$html$Html$button,
-								A2($author$project$Main$attrsButton, 'Toggle All Arrows', $author$project$Main$ToggleDebugMode),
+								A2($author$project$Main$attrsButton, 'Toggle Filter', $author$project$Main$ToggleFilter),
 								_List_fromArray(
 									[
 										$author$project$Main$viewButtonTemplate($author$project$Main$p.svgInnerSettings)
+									])),
+								A2(
+								$elm$html$Html$button,
+								A2($author$project$Main$attrsButton, 'Toggle Filter', $author$project$Main$ToggleFilter),
+								_List_fromArray(
+									[
+										$author$project$Main$viewButtonTemplate($author$project$Main$p.svgInnerFilter)
 									])),
 								A2(
 								$elm$html$Html$button,
@@ -6335,27 +6376,23 @@ var $elm$core$String$replace = F3(
 var $author$project$Main$arrowLong = function (args) {
 	return A2(
 		$elm$svg$Svg$svg,
-		_List_fromArray(
-			[
-				$elm$svg$Svg$Attributes$width(
-				$elm$core$String$fromFloat(args.length * 2.14) + 'px'),
-				$elm$svg$Svg$Attributes$class('offset-box'),
-				$elm$svg$Svg$Attributes$viewBox(
-				A2(
-					$elm$core$String$join,
-					' ',
+		_Utils_ap(
+			$author$project$Main$attrsOffset(args.percentage),
+			_List_fromArray(
+				[
+					$elm$svg$Svg$Attributes$width(
+					$elm$core$String$fromFloat(args.length * 2.14) + 'px'),
+					$elm$svg$Svg$Attributes$viewBox(
 					A2(
-						$elm$core$List$map,
-						$elm$core$String$fromFloat,
-						_List_fromArray(
-							[(0 - args.length) + 5, 0, args.length + 5, 10])))),
-				$elm$svg$Svg$Attributes$fill($author$project$Main$p.colorArrows),
-				A2(
-				$elm$html$Html$Attributes$style,
-				'offset-distance',
-				$elm$core$String$fromFloat(args.percentage) + '%'),
-				A2($elm$html$Html$Attributes$style, 'position', 'absolute')
-			]),
+						$elm$core$String$join,
+						' ',
+						A2(
+							$elm$core$List$map,
+							$elm$core$String$fromFloat,
+							_List_fromArray(
+								[(0 - args.length) + 5, 0, args.length + 5, 10])))),
+					$elm$svg$Svg$Attributes$fill($author$project$Main$p.colorArrows)
+				])),
 		_List_fromArray(
 			[
 				A2(
@@ -6372,6 +6409,15 @@ var $author$project$Main$arrowLong = function (args) {
 				_List_Nil)
 			]));
 };
+var $author$project$Main$cssForSlider = '\n:root {\n  /* Configuration Variables */\n  --slider-track-height:4px;\n  --slider-track-bg: ' + ($author$project$Main$p.colorArrows + (';\n  --slider-thumb-size-height: 40px;\n  --slider-thumb-size-width: 14px;\n  --slider-thumb-bg: ' + ($author$project$Main$p.colorPrimaryBlue + ';\n  --slider-thumb-radius: 6px;\n  --slider-border-radius: 4px;\n}\n\n/* General styling for the input element */\n.slider {\n  -webkit-appearance: none;\n  appearance: none;\n  width: 100%;\n  background: transparent;\n  margin: 5px;\n  padding-bottom: 3px;\n  cursor: pointer;\n}\n\n/* --- TRACK STYLES --- */\n/* Webkit (Chrome, Safari, Edge) */\n.slider::-webkit-slider-runnable-track {\n  width: 100%;\n  height: var(--slider-track-height);\n  background: var(--slider-track-bg);\n  border-radius: var(--slider-border-radius);\n}\n\n/* Firefox */\n.slider::-moz-range-track {\n  width: 100%;\n  height: var(--slider-track-height);\n  background: var(--slider-track-bg);\n  border-radius: var(--slider-border-radius);\n}\n\n/* --- THUMB STYLES --- */\n/* Webkit (Chrome, Safari, Edge) */\n.slider::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  appearance: none;\n  height: var(--slider-thumb-size-height);\n  width: var(--slider-thumb-size-width);\n  background: var(--slider-thumb-bg);\n  border-radius: var(--slider-thumb-radius);\n  /* Centering formula: (track-height / 2) - (thumb-height / 2) */\n  margin-top: calc((var(--slider-track-height) / 2) - (var(--slider-thumb-size-height) / 2));\n}\n\n/* Firefox */\n.slider::-moz-range-thumb {\n  height: var(--slider-thumb-size-height);\n  width: var(--slider-thumb-size-width);\n  background: var(--slider-thumb-bg);\n  border-radius: var(--slider-thumb-radius);\n  border: none; /* Firefox adds a default border */\n}\n')));
+var $author$project$Main$cssForVintageFilter = function (isRunning) {
+	return '.elm-tea {\n  filter: sepia(0.4) blur(0.5px);\n  box-shadow: 0 0 150px black inset;\n} ' + (isRunning ? '\n.elm-tea:before {\n  content: \'\';\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  background: repeating-linear-gradient(90deg, rgba(130,130,130,0.3) 0 2px, transparent 4px 35vmin);\n  pointer-events: none;\n  animation: vlines 0.45s steps(1) infinite;\n}\n\n@keyframes  vlines {\n  0%, 100% { transform: translateX(0); opacity: 0.5 }\n  10% { transform: translateX(-1%) }\n  20% { transform: translateX(1%) }\n  30% { transform: translateX(-2%); opacity: 0.75 }\n  40% { transform: translateX(3%) }\n  50% { transform: translateX(-3%); opacity: 0.5 }\n  60% { transform: translateX(8%) }\n  70% { transform: translateX(-3%) }\n  80% { transform: translateX(10%); opacity: 0.25 }\n  90% { transform: translateX(-2%) }\n}\n\n.elm-tea:after {\n  content: \'\';\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  opacity: 0.5;\n  background-image: repeating-conic-gradient(rgba(150,150,150,1) 0%, transparent 0.00003%, transparent 0.0005%, transparent 0.00095%), repeating-conic-gradient(rgba(150,150,150,1) 0%, transparent 0.00005%, transparent 0.00015%, transparent 0.0009%);\n  pointer-events: none;\n  animation: noise 0.5s steps(1) infinite;\n}\n\n@keyframes  noise  {\n  0%, 100% { transform: translate(0,0) }\n  10% { transform: translate(-1%, -1%) }\n  20% { transform: translate(1%, 1%) }\n  30% { transform: translate(-2%, -2%) }\n  40% { transform: translate(3%, 3%) }\n  50% { transform: translate(-3%, -3%) }\n  60% { transform: translate(4%, 4%) }\n  70% { transform: translate(-4%, -4%) }\n  80% { transform: translate(2%, 2%) }\n  90% { transform: translate(-3%, -3%) }\n}' : '');
+};
+var $elm$virtual_dom$VirtualDom$node = function (tag) {
+	return _VirtualDom_node(
+		_VirtualDom_noScript(tag));
+};
+var $elm$html$Html$node = $elm$virtual_dom$VirtualDom$node;
 var $author$project$Main$svgMultiplier = F2(
 	function (multiplier, svg) {
 		return A2(
@@ -6391,13 +6437,24 @@ var $author$project$Main$svgMultiplier = F2(
 				A2($elm$core$String$split, ' ', svg)));
 	});
 var $author$project$Main$svgMainPath = A2($author$project$Main$svgMultiplier, 28, $author$project$Main$p.svgMainPath);
-var $author$project$Main$css = A3($elm$core$String$replace, '{{svgMainPath}}', $author$project$Main$svgMainPath, '.offset-box {offset-path: path(\'{{svgMainPath}}\')}');
-var $author$project$Main$cssForSlider = '\n:root {\n  /* Configuration Variables */\n  --slider-track-height:4px;\n  --slider-track-bg: ' + ($author$project$Main$p.colorArrows + (';\n  --slider-thumb-size-height: 40px;\n  --slider-thumb-size-width: 14px;\n  --slider-thumb-bg: ' + ($author$project$Main$p.colorPrimaryBlue + ';\n  --slider-thumb-radius: 6px;\n  --slider-border-radius: 4px;\n}\n\n/* General styling for the input element */\n.slider {\n  -webkit-appearance: none;\n  appearance: none;\n  width: 100%;\n  background: transparent;\n  margin: 5px;\n  padding-bottom: 3px;\n  cursor: pointer;\n}\n\n/* --- TRACK STYLES --- */\n/* Webkit (Chrome, Safari, Edge) */\n.slider::-webkit-slider-runnable-track {\n  width: 100%;\n  height: var(--slider-track-height);\n  background: var(--slider-track-bg);\n  border-radius: var(--slider-border-radius);\n}\n\n/* Firefox */\n.slider::-moz-range-track {\n  width: 100%;\n  height: var(--slider-track-height);\n  background: var(--slider-track-bg);\n  border-radius: var(--slider-border-radius);\n}\n\n/* --- THUMB STYLES --- */\n/* Webkit (Chrome, Safari, Edge) */\n.slider::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  appearance: none;\n  height: var(--slider-thumb-size-height);\n  width: var(--slider-thumb-size-width);\n  background: var(--slider-thumb-bg);\n  border-radius: var(--slider-thumb-radius);\n  /* Centering formula: (track-height / 2) - (thumb-height / 2) */\n  margin-top: calc((var(--slider-track-height) / 2) - (var(--slider-thumb-size-height) / 2));\n}\n\n/* Firefox */\n.slider::-moz-range-thumb {\n  height: var(--slider-thumb-size-height);\n  width: var(--slider-thumb-size-width);\n  background: var(--slider-thumb-bg);\n  border-radius: var(--slider-thumb-radius);\n  border: none; /* Firefox adds a default border */\n}\n')));
-var $elm$virtual_dom$VirtualDom$node = function (tag) {
-	return _VirtualDom_node(
-		_VirtualDom_noScript(tag));
-};
-var $elm$html$Html$node = $elm$virtual_dom$VirtualDom$node;
+var $elm$core$List$maybeCons = F3(
+	function (f, mx, xs) {
+		var _v0 = f(mx);
+		if (_v0.$ === 'Just') {
+			var x = _v0.a;
+			return A2($elm$core$List$cons, x, xs);
+		} else {
+			return xs;
+		}
+	});
+var $elm$core$List$filterMap = F2(
+	function (f, xs) {
+		return A3(
+			$elm$core$List$foldr,
+			$elm$core$List$maybeCons(f),
+			_List_Nil,
+			xs);
+	});
 var $author$project$Main$viewAnimations = function (model) {
 	return A2(
 		$elm$core$List$filterMap,
@@ -6496,32 +6553,28 @@ var $author$project$Main$viewBoxGeneric = F2(
 	function (args1, args2) {
 		return A2(
 			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					A2($elm$html$Html$Attributes$style, 'position', 'absolute'),
-					A2($elm$html$Html$Attributes$style, 'width', '130px'),
-					A2(
-					$elm$html$Html$Attributes$style,
-					'transform',
-					'translateX(' + ($elm$core$String$fromFloat(args2.translateX) + 'px)')),
-					A2($elm$html$Html$Attributes$style, 'height', '100px'),
-					A2($elm$html$Html$Attributes$style, 'background-color', args1.colorBackground),
-					A2($elm$html$Html$Attributes$style, 'color', args1.colorForeground),
-					A2(
-					$elm$html$Html$Attributes$style,
-					'font-size',
-					$elm$core$String$fromFloat($author$project$Main$fontSize) + 'px'),
-					A2($elm$html$Html$Attributes$style, 'border-radius', '10px'),
-					$elm$svg$Svg$Attributes$class('offset-box'),
-					A2(
-					$elm$html$Html$Attributes$style,
-					'offset-distance',
-					$elm$core$String$fromFloat(args2.percentage) + '%'),
-					A2($elm$html$Html$Attributes$style, 'offset-rotate', '0deg'),
-					A2($elm$html$Html$Attributes$style, 'display', 'flex'),
-					A2($elm$html$Html$Attributes$style, 'align-items', 'center'),
-					A2($elm$html$Html$Attributes$style, 'justify-content', 'center')
-				]),
+			_Utils_ap(
+				$author$project$Main$attrsOffset(args2.percentage),
+				_List_fromArray(
+					[
+						A2($elm$html$Html$Attributes$style, 'width', '130px'),
+						A2(
+						$elm$html$Html$Attributes$style,
+						'transform',
+						'translateX(' + ($elm$core$String$fromFloat(args2.translateX) + 'px)')),
+						A2($elm$html$Html$Attributes$style, 'height', '100px'),
+						A2($elm$html$Html$Attributes$style, 'background-color', args1.colorBackground),
+						A2($elm$html$Html$Attributes$style, 'color', args1.colorForeground),
+						A2(
+						$elm$html$Html$Attributes$style,
+						'font-size',
+						$elm$core$String$fromFloat($author$project$Main$fontSize) + 'px'),
+						A2($elm$html$Html$Attributes$style, 'border-radius', '10px'),
+						A2($elm$html$Html$Attributes$style, 'offset-rotate', '0deg'),
+						A2($elm$html$Html$Attributes$style, 'display', 'flex'),
+						A2($elm$html$Html$Attributes$style, 'align-items', 'center'),
+						A2($elm$html$Html$Attributes$style, 'justify-content', 'center')
+					])),
 			_List_fromArray(
 				[
 					$elm$html$Html$text(args2.text)
@@ -6547,7 +6600,7 @@ var $author$project$Main$arrow_ = function (args) {
 var $elm$core$Basics$round = _Basics_round;
 var $author$project$Main$viewDebuggingArrows = function (model) {
 	var debuggingArrowSpeed = 10;
-	var _v0 = model.debugMode;
+	var _v0 = model.debugArrowMode;
 	switch (_v0.$) {
 		case 'Disabled':
 			return _List_Nil;
@@ -6656,8 +6709,7 @@ var $author$project$Main$viewMain = function (model) {
 				$elm$core$String$fromInt($author$project$Main$p.sizeWidth) + 'px'),
 				A2($elm$html$Html$Attributes$style, 'margin-bottom', '12px'),
 				A2($elm$html$Html$Attributes$style, 'position', 'relative'),
-				A2($elm$html$Html$Attributes$style, 'font-family', 'monospace'),
-				A2($elm$html$Html$Attributes$style, 'border', '1px solid red')
+				A2($elm$html$Html$Attributes$style, 'font-family', 'monospace')
 			]),
 		_Utils_ap(
 			_List_Nil,
@@ -6735,7 +6787,8 @@ var $author$project$Main$viewMain = function (model) {
 																			_List_fromArray(
 																				[
 																					$elm$html$Html$text(
-																					_Utils_ap($author$project$Main$css, $author$project$Main$cssForSlider))
+																					'.offset-box {offset-path: path(\'' + ($author$project$Main$svgMainPath + ('\')}' + ((model.isVintageFilterOn ? $author$project$Main$cssForVintageFilter(
+																						$author$project$Main$isAnimationPlaying(model)) : '') + $author$project$Main$cssForSlider))))
 																				]))
 																		])))))))))))))))));
 };
@@ -6747,12 +6800,13 @@ var $author$project$Main$view = function (model) {
 				A2(
 				$elm$html$Html$Attributes$style,
 				'background-color',
-				model.isDarkMode ? 'rgb(3,3,3)' : 'rgb(255,255,255)'),
+				model.isDarkMode ? 'rgb(30,30,30)' : 'rgb(255,255,255)'),
 				A2($elm$html$Html$Attributes$style, 'height', '100dvh'),
 				A2($elm$html$Html$Attributes$style, 'display', 'flex'),
 				A2($elm$html$Html$Attributes$style, 'align-items', 'center'),
 				A2($elm$html$Html$Attributes$style, 'justify-content', 'center'),
-				A2($elm$html$Html$Attributes$style, 'flex-direction', 'column')
+				A2($elm$html$Html$Attributes$style, 'flex-direction', 'column'),
+				$elm$html$Html$Attributes$class('elm-tea')
 			]),
 		_List_fromArray(
 			[
@@ -6764,17 +6818,7 @@ var $author$project$Main$main = $elm$browser$Browser$element(
 	{
 		init: $author$project$Main$init,
 		subscriptions: function (model) {
-			if ($elm$core$List$isEmpty(
-				A2($author$project$Main$filterMapAnimations, model.animations, model.count))) {
-				return $elm$core$Platform$Sub$none;
-			} else {
-				var _v0 = model.state;
-				if (_v0.$ === 'Play') {
-					return $elm$browser$Browser$Events$onAnimationFrameDelta($author$project$Main$OnAnimationFrame);
-				} else {
-					return $elm$core$Platform$Sub$none;
-				}
-			}
+			return $author$project$Main$isAnimationPlaying(model) ? $elm$browser$Browser$Events$onAnimationFrameDelta($author$project$Main$OnAnimationFrame) : $elm$core$Platform$Sub$none;
 		},
 		update: $author$project$Main$update,
 		view: $author$project$Main$view

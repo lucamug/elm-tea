@@ -6,7 +6,7 @@ import Html exposing (..)
 import Html.Attributes as HA
 import Html.Events as HE
 import Svg
-import Svg.Attributes as SA
+import Svg.Attributes as SA exposing (opacity)
 
 
 
@@ -49,25 +49,27 @@ p =
     , svgInnerPause = "M 4.5 2.5 L 2.5 2.5 L 2.5 7.5 L 4.5 7.5 M 7.5 2.5 L 5.5 2.5 L 5.5 7.5 L 7.5 7.5"
     , svgInnerStop = "M 7 3 L 3 3 L 3 7 L 7 7"
     , svgInnerDarkMode = "M 6 2 A 3.2 3.2 0 1 0 8 7 A 2 2 0 1 1 6 2"
-    , svgInnerPath = "M 7 3 h -3 c -1 0 -1 0 -1 -1 h -1 c 0 1 0 2 1 2 c 2 0 2 2 0 2 c -1 0 -1 1 0 1 h 4 c 1 0 1 -1 0 -1 c -2 0 -2 -2 0 -2 c 1 0 1 -1 0 -1"
+    , svgInnerPath = "M 7 3 h -3 c -1 0 -1 0 -1 -1 h -1 c 0 1 0 2 1 2 c 2.5 0 2.5 2 0 2 c -1 0 -1 1 0 1 h 4 c 1 0 1 -1 0 -1 c -2.5 0 -2.5 -2 0 -2 c 1 0 1 -1 0 -1"
     , svgInnerArrows = "M 2 4 l 1 1 l -1 1 l 0 1 l 2 -2 l -2 -2 M 3 3 l 2 2 l -2 2 l 1 0 l 2 -2 l -2 -2 M 5 3 l 2 2 l -2 2 l 1 0 l 2 -2 l -2 -2 M 7 3 l 1 1 l 0 -1 M 8 6 l -1 1 l 1 0"
     , svgInnerSettings = "M 7 6 a 0.5 0.5 1 1 0 0 2 a 0.5 0.5 1 1 0 0 -2 M 4 5 l 2 3 a 1 1 1 1 0 2 -2 l -3 -2 c 1 -2 -1 -3 -2 -2 l 1 1 l 0 1 l -1 0 l -1 -1 c -1 1 0 3 2 2"
     , svgInnerReplay = "M 3 5 l -1 0 a 3 3 1 0 0 3 3 a 0.5 0.5 1 1 0 0 -6 m 0 0 l 0 -1 l -2 1.5 l 2 1.5 l 0 -1 a 0.5 0.5 1 0 1 0 4 a 2 2 0 0 1 -2 -2"
+    , svgInnerFilter = "M 6.5 2 v 6 h 0.1 v -6 M 2.3 2 v 6 h 0.1 v -6 M 8 2 v 6 h 0.1 v -6 M 6 2 v 6 h 0.1 v -6 M 4 2 v 6 h 0.1 v -6"
     , sizeWidth = 980
     , sizeWidthElmRuntime = 160
     , sizeHeight = 540
     , positionsArrowLong = [ 3.12, 16.51, 25, 36.8, 45.3, 54.6, 65.3, 92.45 ]
     , positionsArrowShort = [ 60.25, 99.7 ]
-    , defaultSpeed = 9
+    , defaultSpeed = 10
     , fadeIn = 8
     , fadeOut = 8
-    , colorBackgroundGray = "rgba(200, 200, 200, 0.2)"
+    , colorBackgroundGray = "rgba(200, 200, 200, 0.5)"
     , colorPrimaryBlue = "rgb(18, 147, 216)" -- "#078dd8"
     , colorArrows = "rgba(160,160,160,0.5)"
     , colorArrowsTest = "rgba(220, 0, 0, 0.3)"
     }
 
 
+cssForSlider : String
 cssForSlider =
     """
 :root {
@@ -133,26 +135,92 @@ cssForSlider =
 """
 
 
+cssForVintageFilter : Bool -> String
+cssForVintageFilter isRunning =
+    -- https://www.winterwind.com/tutorials/css/57
+    """.elm-tea {
+  filter: sepia(0.4) blur(0.5px);
+  box-shadow: 0 0 150px black inset;
+} """
+        ++ (if isRunning then
+                """
+.elm-tea:before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: repeating-linear-gradient(90deg, rgba(130,130,130,0.3) 0 2px, transparent 4px 35vmin);
+  pointer-events: none;
+  animation: vlines 0.45s steps(1) infinite;
+}
+
+@keyframes  vlines {
+  0%, 100% { transform: translateX(0); opacity: 0.5 }
+  10% { transform: translateX(-1%) }
+  20% { transform: translateX(1%) }
+  30% { transform: translateX(-2%); opacity: 0.75 }
+  40% { transform: translateX(3%) }
+  50% { transform: translateX(-3%); opacity: 0.5 }
+  60% { transform: translateX(8%) }
+  70% { transform: translateX(-3%) }
+  80% { transform: translateX(10%); opacity: 0.25 }
+  90% { transform: translateX(-2%) }
+}
+
+.elm-tea:after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0.5;
+  background-image: repeating-conic-gradient(rgba(150,150,150,1) 0%, transparent 0.00003%, transparent 0.0005%, transparent 0.00095%), repeating-conic-gradient(rgba(150,150,150,1) 0%, transparent 0.00005%, transparent 0.00015%, transparent 0.0009%);
+  pointer-events: none;
+  animation: noise 0.5s steps(1) infinite;
+}
+
+@keyframes  noise  {
+  0%, 100% { transform: translate(0,0) }
+  10% { transform: translate(-1%, -1%) }
+  20% { transform: translate(1%, 1%) }
+  30% { transform: translate(-2%, -2%) }
+  40% { transform: translate(3%, 3%) }
+  50% { transform: translate(-3%, -3%) }
+  60% { transform: translate(4%, 4%) }
+  70% { transform: translate(-4%, -4%) }
+  80% { transform: translate(2%, 2%) }
+  90% { transform: translate(-3%, -3%) }
+}"""
+
+            else
+                ""
+           )
+
+
 type alias Model =
-    { count : Float
-    , state : State
-    , animations : List Animation
-    , debugMode : DebugMode
-    , isTrackVisible : Bool
-    , isDarkMode : Bool
+    { animations : List Animation
     , cachedMaxCount : Float
+    , count : Float
+    , debugArrowMode : DebugArrowMode
+    , isDarkMode : Bool
+    , isVintageFilterOn : Bool
+    , isTrackVisible : Bool
+    , playPauseState : PlayPauseState
     }
 
 
-type DebugMode
+type PlayPauseState
+    = Play
+    | Pause
+
+
+type DebugArrowMode
     = ShowAllArrows
     | ShowOneArrow
     | Disabled
-
-
-type State
-    = Play
-    | Pause
 
 
 type alias Animation =
@@ -172,15 +240,16 @@ type alias Timeline =
 
 
 type Msg
-    = ChangeState State
+    = ChangeState PlayPauseState
     | Reset
     | Replay
     | AddTimeline Timeline
-    | ToggleDebugMode
+    | CycleDebugArrowMode
     | OnAnimationFrame Float
     | ChangeSlider String
     | ToggleTrackVisibility
     | ToggleDarkMode
+    | ToggleFilter
 
 
 viewButtonTemplate : String -> Html msg
@@ -190,6 +259,7 @@ viewButtonTemplate extra =
         , SA.width "40px"
         , SA.fill p.colorPrimaryBlue
         , HA.style "margin" "5px"
+        , HA.style "cursor" "pointer"
         ]
         [ Svg.path [ SA.d (p.svgOuterButton ++ " " ++ extra) ] []
         ]
@@ -247,11 +317,12 @@ addPrecedingArrows speed anim =
 init : () -> ( Model, Cmd msg )
 init _ =
     ( { count = 0
-      , state = Play
-      , debugMode = Disabled
-      , animations = timeline2 0 p.defaultSpeed
+      , playPauseState = Play
+      , debugArrowMode = Disabled
+      , animations = timeline1 0 p.defaultSpeed ++ timeline2 0 p.defaultSpeed
       , isTrackVisible = False
       , isDarkMode = False
+      , isVintageFilterOn = True
       , cachedMaxCount = 0
       }
         |> updateCachedMaxCount
@@ -317,6 +388,7 @@ timeline1 current speed =
         ++ addPrecedingArrows speed { start = f2, end = f3, path = pathUpdateToView, object = BoxModelNew }
         ++ addPrecedingArrows speed { start = f3, end = f4, path = pathViewToDom, object = BoxYellow "Html" }
         ++ [ { start = 0 + current, end = 10 * speed + current, path = { from = 0, to = 300 }, object = Pointer } ]
+        ++ [ { start = 0, end = 100, path = { from = 0, to = 0 }, object = Title "A simple DOM-only interaction without side effects" } ]
 
 
 timeline2 : Float -> Float -> List Animation
@@ -358,26 +430,26 @@ update : Msg -> Model -> ( Model, Cmd msg )
 update msg model =
     case msg of
         Replay ->
-            ( { model | count = 0, state = Play }, Cmd.none )
+            ( { model | count = 0, playPauseState = Play }, Cmd.none )
 
         Reset ->
             ( { model | count = 0, animations = [], cachedMaxCount = 0 }, Cmd.none )
 
-        ChangeState state ->
-            ( { model | state = state }, Cmd.none )
+        ChangeState playPauseState ->
+            ( { model | playPauseState = playPauseState }, Cmd.none )
 
         ChangeSlider string ->
             case String.toFloat string of
                 Just float ->
-                    ( { model | count = float, state = Pause }, Cmd.none )
+                    ( { model | count = float, playPauseState = Pause }, Cmd.none )
 
                 Nothing ->
                     ( model, Cmd.none )
 
-        ToggleDebugMode ->
+        CycleDebugArrowMode ->
             ( { model
-                | debugMode =
-                    case model.debugMode of
+                | debugArrowMode =
+                    case model.debugArrowMode of
                         ShowAllArrows ->
                             ShowOneArrow
 
@@ -401,6 +473,9 @@ update msg model =
 
         ToggleDarkMode ->
             ( { model | isDarkMode = not model.isDarkMode }, Cmd.none )
+
+        ToggleFilter ->
+            ( { model | isVintageFilterOn = not model.isVintageFilterOn }, Cmd.none )
 
 
 arrow_ : { count : Float, index : Float, opacity : Float } -> Html msg
@@ -436,7 +511,7 @@ view model =
     div
         [ HA.style "background-color"
             (if model.isDarkMode then
-                "rgb(3,3,3)"
+                "rgb(30,30,30)"
 
              else
                 "rgb(255,255,255)"
@@ -446,6 +521,7 @@ view model =
         , HA.style "align-items" "center"
         , HA.style "justify-content" "center"
         , HA.style "flex-direction" "column"
+        , HA.class "elm-tea"
         ]
         [ viewMain model
         , viewControls model
@@ -460,7 +536,6 @@ viewMain model =
         , HA.style "margin-bottom" "12px"
         , HA.style "position" "relative"
         , HA.style "font-family" "monospace"
-        , HA.style "border" "1px solid red"
         ]
         ([]
             ++ [ viewAreaUnsafe ]
@@ -477,27 +552,36 @@ viewMain model =
             ++ viewDebuggingArrows model
             ++ viewAnimations model
             ++ viewSvgTrack model
-            ++ [ node "style" [] [ text (css ++ cssForSlider) ] ]
+            ++ [ node "style"
+                    []
+                    [ text
+                        (".offset-box {offset-path: path('"
+                            ++ svgMainPath
+                            ++ "')}"
+                            ++ (if model.isVintageFilterOn then
+                                    cssForVintageFilter (isAnimationPlaying model)
+
+                                else
+                                    ""
+                               )
+                            ++ cssForSlider
+                        )
+                    ]
+               ]
          -- ++ [ arrowLong { length = 105, percentage = model.count / 10 } ]
          -- ++ [ arrowLong { length = 52, percentage = model.count / 10 } ]
         )
 
 
-css : String
-css =
-    String.replace "{{svgMainPath}}" svgMainPath ".offset-box {offset-path: path('{{svgMainPath}}')}"
-
-
 arrowLong : { length : Float, percentage : Float } -> Html msg
 arrowLong args =
     Svg.svg
-        [ SA.width (String.fromFloat (args.length * 2.14) ++ "px")
-        , SA.class "offset-box"
-        , SA.viewBox <| String.join " " (List.map String.fromFloat [ 0 - args.length + 5, 0, args.length + 5, 10 ])
-        , SA.fill p.colorArrows
-        , HA.style "offset-distance" (String.fromFloat args.percentage ++ "%")
-        , HA.style "position" "absolute"
-        ]
+        (attrsOffset args.percentage
+            ++ [ SA.width (String.fromFloat (args.length * 2.14) ++ "px")
+               , SA.viewBox <| String.join " " (List.map String.fromFloat [ 0 - args.length + 5, 0, args.length + 5, 10 ])
+               , SA.fill p.colorArrows
+               ]
+        )
         [ Svg.path [ SA.d <| p.svgArrowHead ++ " " ++ String.replace "{{size}}" (String.fromFloat (args.length - 5)) p.svgArrowExtra ] [] ]
 
 
@@ -515,8 +599,6 @@ viewSvgTrack model =
                 , SA.fill "transparent"
                 , SA.stroke p.colorPrimaryBlue -- "rgb(11, 218, 149)"
                 , SA.strokeWidth "7"
-
-                -- , SA.strokeDasharray "4 10"
                 ]
                 []
             ]
@@ -590,7 +672,7 @@ viewDebuggingArrows model =
         debuggingArrowSpeed =
             10
     in
-    case model.debugMode of
+    case model.debugArrowMode of
         Disabled ->
             []
 
@@ -703,21 +785,20 @@ viewBoxBlue =
 viewBoxGeneric : { colorBackground : String, colorForeground : String } -> { translateX : Float, percentage : Float, text : String } -> Html msg
 viewBoxGeneric args1 args2 =
     div
-        [ HA.style "position" "absolute"
-        , HA.style "width" "130px"
-        , HA.style "transform" ("translateX(" ++ String.fromFloat args2.translateX ++ "px)")
-        , HA.style "height" "100px"
-        , HA.style "background-color" args1.colorBackground
-        , HA.style "color" args1.colorForeground
-        , HA.style "font-size" (String.fromFloat fontSize ++ "px")
-        , HA.style "border-radius" "10px"
-        , SA.class "offset-box"
-        , HA.style "offset-distance" (String.fromFloat args2.percentage ++ "%")
-        , HA.style "offset-rotate" "0deg"
-        , HA.style "display" "flex"
-        , HA.style "align-items" "center"
-        , HA.style "justify-content" "center"
-        ]
+        (attrsOffset args2.percentage
+            ++ [ HA.style "width" "130px"
+               , HA.style "transform" ("translateX(" ++ String.fromFloat args2.translateX ++ "px)")
+               , HA.style "height" "100px"
+               , HA.style "background-color" args1.colorBackground
+               , HA.style "color" args1.colorForeground
+               , HA.style "font-size" (String.fromFloat fontSize ++ "px")
+               , HA.style "border-radius" "10px"
+               , HA.style "offset-rotate" "0deg"
+               , HA.style "display" "flex"
+               , HA.style "align-items" "center"
+               , HA.style "justify-content" "center"
+               ]
+        )
         [ text args2.text ]
 
 
@@ -735,12 +816,11 @@ viewControls model =
     div
         [ HA.style "font-family" "monospace"
         , HA.style "width" (String.fromInt p.sizeWidth ++ "px")
-        , HA.style "border" "1px solid red"
         ]
         ([]
             ++ [ div
                     [ HA.style "display" "flex" ]
-                    ([ case model.state of
+                    ([ case model.playPauseState of
                         Play ->
                             button (attrsButton "Play" (ChangeState Pause)) [ viewButtonTemplate p.svgInnerPause ]
 
@@ -749,8 +829,9 @@ viewControls model =
                      , button (attrsButton "Stop" Reset) [ viewButtonTemplate p.svgInnerStop ]
                      , button (attrsButton "Toggle Dark Mode" ToggleDarkMode) [ viewButtonTemplate p.svgInnerDarkMode ]
                      , button (attrsButton "Toggle Path" ToggleTrackVisibility) [ viewButtonTemplate p.svgInnerPath ]
-                     , button (attrsButton "Toggle All Arrows" ToggleDebugMode) [ viewButtonTemplate p.svgInnerArrows ]
-                     , button (attrsButton "Toggle All Arrows" ToggleDebugMode) [ viewButtonTemplate p.svgInnerSettings ]
+                     , button (attrsButton "Cycle Through Debug Arrows" CycleDebugArrowMode) [ viewButtonTemplate p.svgInnerArrows ]
+                     , button (attrsButton "Toggle Filter" ToggleFilter) [ viewButtonTemplate p.svgInnerSettings ]
+                     , button (attrsButton "Toggle Filter" ToggleFilter) [ viewButtonTemplate p.svgInnerFilter ]
                      , button (attrsButton "Replay" Replay) [ viewButtonTemplate p.svgInnerReplay ]
                      , input
                         [ HA.type_ "range"
@@ -813,6 +894,7 @@ type Object
     | Arrow
     | TipNew
     | Pointer
+    | Title String
 
 
 objectToHtml :
@@ -893,6 +975,16 @@ objectToHtml object =
             , element = viewPointer
             }
 
+        Title string ->
+            { argsFixed =
+                { colorBackground = ""
+                , colorForeground = ""
+                , text = string
+                , textTip = Nothing
+                }
+            , element = viewTitle
+            }
+
 
 type alias ObjectDataVariable =
     { percentage : Float
@@ -913,43 +1005,49 @@ widthText text =
     String.length text * 10 + 16
 
 
+attrsOffset : Float -> List (Attribute msg)
+attrsOffset percentage =
+    [ SA.class "offset-box"
+    , HA.style "offset-distance" (String.fromFloat percentage ++ "%")
+    , HA.style "position" "absolute"
+    ]
+
+
 viewTip : ObjectDataFixed -> ObjectDataVariable -> Html msg
 viewTip argsFixed args =
     div
-        [ HA.class "offset-box"
-        , HA.style "offset-distance" (String.fromFloat args.percentage ++ "%")
-        , HA.style "offset-rotate" "0deg"
-        , HA.style "position" "absolute"
-        , HA.style "padding" "3px 0 0 0"
-        , HA.style "height" "16px"
-        , HA.style "width" (String.fromInt (widthText argsFixed.text - 6) ++ "px")
-        , HA.style "border-radius" "30px"
-        , HA.style "transform" "rotate(20deg) translateX(18px) translateY(-22px)"
-        , HA.style "font-size" "12px"
-        , HA.style "background-color" argsFixed.colorBackground
-        , HA.style "color" argsFixed.colorForeground
-        , HA.style "text-align" "center"
-        , HA.style "opacity" (String.fromFloat args.opacity)
-        ]
+        (attrsOffset args.percentage
+            ++ [ HA.style "offset-rotate" "0deg"
+               , HA.style "padding" "3px 0 0 0"
+               , HA.style "height" "16px"
+               , HA.style "width" (String.fromInt (widthText argsFixed.text - 6) ++ "px")
+               , HA.style "border-radius" "30px"
+               , HA.style "transform" "rotate(20deg) translateX(18px) translateY(-22px)"
+               , HA.style "font-size" "12px"
+               , HA.style "background-color" argsFixed.colorBackground
+               , HA.style "color" argsFixed.colorForeground
+               , HA.style "text-align" "center"
+               , HA.style "opacity" (String.fromFloat args.opacity)
+               ]
+        )
         [ text argsFixed.text ]
 
 
 viewBox : ObjectDataFixed -> ObjectDataVariable -> Html msg
 viewBox argsFixed args =
     div
-        [ HA.class "offset-box"
-        , HA.style "offset-distance" (String.fromFloat args.percentage ++ "%")
-        , HA.style "offset-rotate" "0deg"
-        , HA.style "position" "absolute"
-        , HA.style "height" "20px"
-        , HA.style "width" (String.fromInt (widthText argsFixed.text) ++ "px")
-        , HA.style "padding" "4px 0 0 0"
-        , HA.style "border-radius" "8px"
-        , HA.style "text-align" "center"
-        , HA.style "opacity" (String.fromFloat args.opacity)
-        , HA.style "background-color" argsFixed.colorBackground
-        , HA.style "color" argsFixed.colorForeground
-        ]
+        (attrsOffset args.percentage
+            ++ [ HA.style "offset-rotate" "0deg"
+               , HA.style "height" "20px"
+               , HA.style "width" (String.fromInt (widthText argsFixed.text) ++ "px")
+               , HA.style "padding" "4px 0 0 0"
+               , HA.style "border-radius" "8px"
+               , HA.style "text-align" "center"
+               , HA.style "opacity" (String.fromFloat args.opacity)
+               , HA.style "background-color" argsFixed.colorBackground
+               , HA.style "color" argsFixed.colorForeground
+               ]
+        )
         ([]
             ++ (case argsFixed.textTip of
                     Just textTip ->
@@ -979,15 +1077,40 @@ viewBox argsFixed args =
 viewArrow : ObjectDataFixed -> ObjectDataVariable -> Html msg
 viewArrow argsFixed argsVariable =
     Svg.svg
-        [ SA.viewBox "0 0 10 10"
-        , SA.class "offset-box"
-        , SA.width "20px"
-        , SA.height "20px"
-        , SA.fill argsFixed.colorBackground
-        , HA.style "offset-distance" (String.fromFloat argsVariable.percentage ++ "%")
-        , HA.style "position" "absolute"
-        ]
+        (attrsOffset argsVariable.percentage
+            ++ [ SA.viewBox "0 0 10 10"
+               , SA.width "20px"
+               , SA.height "20px"
+               , SA.fill argsFixed.colorBackground
+               ]
+        )
         [ Svg.path [ SA.d p.svgArrowHead ] [] ]
+
+
+viewTitle : ObjectDataFixed -> ObjectDataVariable -> Html msg
+viewTitle argsFixed argsVariable =
+    div
+        [ HA.style "width" "100%"
+        , HA.style "height" "100%"
+        , HA.style "display" "flex"
+        , HA.style "justify-content" "center"
+        , HA.style "align-items" "center"
+        , HA.style "position" "absolute"
+
+        -- , HA.style "background-color" "rgba(255,255,255,0.5)"
+        , HA.style "opacity" (String.fromFloat argsVariable.opacity)
+        ]
+        [ div
+            [ HA.style "font-size" "20px"
+            , HA.style "padding" "20px"
+            , HA.style "background-color" "rgb(255,230,0)"
+            , HA.style "color" "black"
+            , HA.style "border-radius" "8px"
+            , HA.style "box-shadow" "0 0 500px 100px rgba(0, 0, 0, 1)"
+            , HA.style "transform" ("translateY(48px) scale(" ++ String.fromFloat ((2 + argsVariable.opacity) / 3) ++ ")")
+            ]
+            [ text argsFixed.text ]
+        ]
 
 
 viewPointer : ObjectDataFixed -> ObjectDataVariable -> Html msg
@@ -1014,37 +1137,25 @@ viewPointer _ argsVariable =
         -- + 5
     in
     Svg.svg
-        [ SA.viewBox "-5 -2 10 19"
-        , SA.width "40px"
-        , SA.fill "brown"
-        , SA.class "offset-box"
-        , HA.style "offset-distance" (String.fromFloat p.pointDom ++ "%")
-        , HA.style "position" "absolute"
-        , HA.style "transform" ("translateX(28px) translateY(10px)  rotate(-" ++ String.fromFloat rotation ++ "deg)")
-        , HA.style "transform-origin" "55% 65%"
-        , HA.style "opacity" (String.fromFloat argsVariable.opacity)
-        , HA.style "offset-rotate" "0deg"
-        , SA.fill "rgba(255,255,255,1)"
-        , SA.stroke "rgba(50,180,230,1)"
-
-        -- , SA.strokeLinecap "round"
-        , SA.strokeWidth "1px"
-        ]
+        (attrsOffset p.pointDom
+            ++ [ SA.viewBox "-5 -2 10 19"
+               , SA.width "40px"
+               , SA.fill "brown"
+               , HA.style "transform" ("translateX(28px) translateY(10px)  rotate(-" ++ String.fromFloat rotation ++ "deg)")
+               , HA.style "transform-origin" "55% 65%"
+               , HA.style "opacity" (String.fromFloat argsVariable.opacity)
+               , HA.style "offset-rotate" "0deg"
+               , SA.fill "rgba(255,255,255,1)"
+               , SA.stroke "rgba(50,180,230,1)"
+               , SA.strokeWidth "1px"
+               ]
+        )
         [ Svg.path [ SA.d p.svgPointer ] []
         ]
 
 
-filterMapAnimations : List Animation -> Float -> List Animation
-filterMapAnimations animations count =
-    List.filterMap
-        (\anim ->
-            if count < anim.end then
-                Just anim
-
-            else
-                Nothing
-        )
-        animations
+isAnimationPlaying model =
+    model.count < model.cachedMaxCount && model.playPauseState == Play
 
 
 main : Program () Model Msg
@@ -1055,14 +1166,9 @@ main =
         , update = update
         , subscriptions =
             \model ->
-                if List.isEmpty (filterMapAnimations model.animations model.count) then
-                    Sub.none
+                if isAnimationPlaying model then
+                    Browser.Events.onAnimationFrameDelta OnAnimationFrame
 
                 else
-                    case model.state of
-                        Play ->
-                            Browser.Events.onAnimationFrameDelta OnAnimationFrame
-
-                        Pause ->
-                            Sub.none
+                    Sub.none
         }

@@ -2,11 +2,11 @@ module Main exposing (main)
 
 import Browser
 import Browser.Events
-import Html exposing (..)
+import Html exposing (Attribute, Html, a, button, div, input, node, text)
 import Html.Attributes as HA
 import Html.Events as HE
 import Svg
-import Svg.Attributes as SA exposing (opacity)
+import Svg.Attributes as SA
 
 
 
@@ -66,6 +66,8 @@ p =
     , colorPrimaryBlue = "rgb(18, 147, 216)" -- "#078dd8"
     , colorArrows = "rgba(160,160,160,0.5)"
     , colorArrowsTest = "rgba(220, 0, 0, 0.3)"
+    , cssAnimationTransformationGrains = [ ( 0, 0, 1 ), ( -1, -1, 1 ), ( 1, 1, 1 ), ( -2, -2, 1 ), ( 3, 3, 1 ), ( -3, -3, 1 ), ( 4, 4, 1 ), ( -4, -4, 1 ), ( 2, 2, 1 ), ( -3, -3, 1 ), ( 0, 0, 1 ) ]
+    , cssAnimationTransformationVlines = [ ( 0, 0, 0.5 ), ( -1, 0, 1 ), ( 1, 0, 1 ), ( -2, 0, 0.75 ), ( 3, 0, 1 ), ( -3, 0, 0.5 ), ( 8, 0, 1 ), ( -3, 0, 1 ), ( 10, 0, 0.25 ), ( -2, 0, 1 ), ( 0, 0, 0.5 ) ]
     }
 
 
@@ -82,7 +84,6 @@ cssForSlider =
   --slider-thumb-radius: 6px;
   --slider-border-radius: 4px;
 }
-
 /* General styling for the input element */
 .slider {
   -webkit-appearance: none;
@@ -93,7 +94,6 @@ cssForSlider =
   padding-bottom: 3px;
   cursor: pointer;
 }
-
 /* --- TRACK STYLES --- */
 /* Webkit (Chrome, Safari, Edge) */
 .slider::-webkit-slider-runnable-track {
@@ -102,7 +102,6 @@ cssForSlider =
   background: var(--slider-track-bg);
   border-radius: var(--slider-border-radius);
 }
-
 /* Firefox */
 .slider::-moz-range-track {
   width: 100%;
@@ -110,7 +109,6 @@ cssForSlider =
   background: var(--slider-track-bg);
   border-radius: var(--slider-border-radius);
 }
-
 /* --- THUMB STYLES --- */
 /* Webkit (Chrome, Safari, Edge) */
 .slider::-webkit-slider-thumb {
@@ -123,7 +121,6 @@ cssForSlider =
   /* Centering formula: (track-height / 2) - (thumb-height / 2) */
   margin-top: calc((var(--slider-track-height) / 2) - (var(--slider-thumb-size-height) / 2));
 }
-
 /* Firefox */
 .slider::-moz-range-thumb {
   height: var(--slider-thumb-size-height);
@@ -131,19 +128,27 @@ cssForSlider =
   background: var(--slider-thumb-bg);
   border-radius: var(--slider-thumb-radius);
   border: none; /* Firefox adds a default border */
-}
-"""
+}"""
 
 
 cssForVintageFilter : Bool -> String
 cssForVintageFilter isRunning =
+    let
+        speed : String
+        speed =
+            if isRunning then
+                "0"
+
+            else
+                "20"
+    in
     -- https://www.winterwind.com/tutorials/css/57
-    """.elm-tea {
-  filter: sepia(0.4) blur(0.5px);
+    """
+.elm-tea {
+  filter: brightness(90%) sepia(0.4) blur(0.6px);
   box-shadow: 0 0 150px black inset;
-} """
-        ++ (if isRunning then
-                """
+  animation: jiggle """ ++ speed ++ """.99s steps(1) infinite;
+}
 .elm-tea:before {
   content: '';
   position: absolute;
@@ -153,22 +158,8 @@ cssForVintageFilter isRunning =
   left: 0;
   background: repeating-linear-gradient(90deg, rgba(130,130,130,0.3) 0 2px, transparent 4px 35vmin);
   pointer-events: none;
-  animation: vlines 0.45s steps(1) infinite;
+  animation: vlines """ ++ speed ++ """.45s steps(1) infinite;
 }
-
-@keyframes  vlines {
-  0%, 100% { transform: translateX(0); opacity: 0.5 }
-  10% { transform: translateX(-1%) }
-  20% { transform: translateX(1%) }
-  30% { transform: translateX(-2%); opacity: 0.75 }
-  40% { transform: translateX(3%) }
-  50% { transform: translateX(-3%); opacity: 0.5 }
-  60% { transform: translateX(8%) }
-  70% { transform: translateX(-3%) }
-  80% { transform: translateX(10%); opacity: 0.25 }
-  90% { transform: translateX(-2%) }
-}
-
 .elm-tea:after {
   content: '';
   position: absolute;
@@ -176,28 +167,50 @@ cssForVintageFilter isRunning =
   height: 100%;
   top: 0;
   left: 0;
-  opacity: 0.5;
-  background-image: repeating-conic-gradient(rgba(150,150,150,1) 0%, transparent 0.00003%, transparent 0.0005%, transparent 0.00095%), repeating-conic-gradient(rgba(150,150,150,1) 0%, transparent 0.00005%, transparent 0.00015%, transparent 0.0009%);
+  opacity: 0.6;
+  background-image: repeating-conic-gradient(rgba(160,160,160,1) 0%, transparent 0.00003%, transparent 0.0005%, transparent 0.00095%), repeating-conic-gradient(rgba(160,160,160,1) 0%, transparent 0.00005%, transparent 0.00015%, transparent 0.0009%);
   pointer-events: none;
-  animation: noise 0.5s steps(1) infinite;
+  animation: grains """ ++ speed ++ """.5s steps(1) infinite;
 }
+@keyframes grains {""" ++ cssKeyframesGrains ++ """}
+@keyframes vlines {""" ++ cssKeyframesVlines ++ """}
+@keyframes jiggle {""" ++ cssKeyframesJiggle ++ """}"""
 
-@keyframes  noise  {
-  0%, 100% { transform: translate(0,0) }
-  10% { transform: translate(-1%, -1%) }
-  20% { transform: translate(1%, 1%) }
-  30% { transform: translate(-2%, -2%) }
-  40% { transform: translate(3%, 3%) }
-  50% { transform: translate(-3%, -3%) }
-  60% { transform: translate(4%, 4%) }
-  70% { transform: translate(-4%, -4%) }
-  80% { transform: translate(2%, 2%) }
-  90% { transform: translate(-3%, -3%) }
-}"""
+
+cssKeyframesVlines : String
+cssKeyframesVlines =
+    String.concat (List.indexedMap (\index a -> cssTransformer index a) p.cssAnimationTransformationVlines)
+
+
+cssKeyframesGrains : String
+cssKeyframesGrains =
+    String.concat (List.indexedMap (\index a -> cssTransformer index a) p.cssAnimationTransformationGrains)
+
+
+cssKeyframesJiggle : String
+cssKeyframesJiggle =
+    String.concat
+        (p.cssAnimationTransformationGrains
+            |> List.map (\( x, y, opacity ) -> ( x / 300, y / 50, opacity ))
+            |> List.indexedMap cssTransformer
+        )
+
+
+cssTransformer : Int -> ( Float, Float, Float ) -> String
+cssTransformer index ( x, y, opacity ) =
+    String.fromInt (index * 10)
+        ++ "% { transform: translate("
+        ++ String.fromFloat x
+        ++ "%, "
+        ++ String.fromFloat y
+        ++ "%)"
+        ++ (if opacity == 1 then
+                ""
 
             else
-                ""
+                "; opacity: " ++ String.fromFloat opacity
            )
+        ++ " }"
 
 
 type alias Model =
@@ -212,20 +225,9 @@ type alias Model =
     }
 
 
-type PlayPauseState
-    = Play
-    | Pause
-
-
-type DebugArrowMode
-    = ShowAllArrows
-    | ShowOneArrow
-    | Disabled
-
-
 type alias Animation =
-    { start : Float
-    , end : Float
+    { showStart : Float
+    , showEnd : Float
     , path : PathSection
     , object : Object
     }
@@ -239,30 +241,76 @@ type alias Timeline =
     List Animation
 
 
+type alias ObjectDataVariable =
+    { percentage : Float
+    , opacity : Float
+    }
+
+
+type alias ObjectDataFixed =
+    { text : String
+    , textTip : Maybe String
+    , colorBackground : String
+    , colorForeground : String
+    }
+
+
 type Msg
     = ChangeState PlayPauseState
     | Reset
     | Replay
     | AddTimeline Timeline
     | CycleDebugArrowMode
-    | OnAnimationFrame Float
+    | OnAnimationFrame
     | ChangeSlider String
     | ToggleTrackVisibility
     | ToggleDarkMode
     | ToggleFilter
 
 
-viewButtonTemplate : String -> Html msg
-viewButtonTemplate extra =
-    Svg.svg
-        [ SA.viewBox "0 0 10 10"
-        , SA.width "40px"
-        , SA.fill p.colorPrimaryBlue
-        , HA.style "margin" "5px"
-        , HA.style "cursor" "pointer"
-        ]
-        [ Svg.path [ SA.d (p.svgOuterButton ++ " " ++ extra) ] []
-        ]
+type Object
+    = BoxGreen String
+    | BoxYellow String
+    | BoxAzzurro String
+    | BoxModelNew
+    | Arrow
+    | TipNew
+    | Pointer
+    | Title (Maybe String) String
+    | TitleInitial
+
+
+type PlayPauseState
+    = Play
+    | Pause
+
+
+type DebugArrowMode
+    = ShowAllArrows
+    | ShowOneArrow
+    | Disabled
+
+
+init : () -> ( Model, Cmd msg )
+init _ =
+    ( { count = 0
+      , playPauseState = Play
+      , debugArrowMode = Disabled
+      , animations =
+            []
+                ++ timeline1 400 p.defaultSpeed
+                ++ timelineTitleChapter1 200 p.defaultSpeed
+                ++ timeline2 1300 p.defaultSpeed
+                ++ timelineTitleChapter2 1100 p.defaultSpeed
+                ++ timelineTitleOpening 0 p.defaultSpeed
+      , isTrackVisible = False
+      , isDarkMode = False
+      , isVintageFilterOn = True
+      , cachedMaxCount = 0
+      }
+        |> updateCachedMaxCount
+    , Cmd.none
+    )
 
 
 svgMultiplier : Float -> String -> String
@@ -300,13 +348,13 @@ addPrecedingArrows speed anim =
         distanceBetweenBoxAndArrow =
             speed * (widthBox / 55)
     in
-    [ { start = anim.start - (distanceBetweenBoxAndArrow + distanceBetweenArrows)
-      , end = anim.end - (distanceBetweenBoxAndArrow + distanceBetweenArrows)
+    [ { showStart = anim.showStart - (distanceBetweenBoxAndArrow + distanceBetweenArrows)
+      , showEnd = anim.showEnd - (distanceBetweenBoxAndArrow + distanceBetweenArrows)
       , path = anim.path
       , object = Arrow
       }
-    , { start = anim.start - distanceBetweenBoxAndArrow
-      , end = anim.end - distanceBetweenBoxAndArrow
+    , { showStart = anim.showStart - distanceBetweenBoxAndArrow
+      , showEnd = anim.showEnd - distanceBetweenBoxAndArrow
       , path = anim.path
       , object = Arrow
       }
@@ -314,26 +362,10 @@ addPrecedingArrows speed anim =
     ]
 
 
-init : () -> ( Model, Cmd msg )
-init _ =
-    ( { count = 0
-      , playPauseState = Play
-      , debugArrowMode = Disabled
-      , animations = timeline1 0 p.defaultSpeed ++ timeline2 0 p.defaultSpeed
-      , isTrackVisible = False
-      , isDarkMode = False
-      , isVintageFilterOn = True
-      , cachedMaxCount = 0
-      }
-        |> updateCachedMaxCount
-    , Cmd.none
-    )
-
-
 updateCachedMaxCount : Model -> Model
 updateCachedMaxCount model =
     model.animations
-        |> List.foldl (\anim acc -> max acc anim.end) 0
+        |> List.foldl (\anim acc -> max acc anim.showEnd) 0
         |> (\max -> { model | cachedMaxCount = max })
 
 
@@ -381,14 +413,28 @@ timeline1 current speed =
             f3 + (pathViewToDom.to - pathViewToDom.from) * speed
     in
     []
-        ++ [ { start = (p.pointRuntimeSecondPass * speed) + f0, end = f4, path = { from = p.pointRuntimeSecondPass, to = p.pointRuntimeSecondPass }, object = TipNew } ]
-        ++ addPrecedingArrows speed { start = f0, end = f1, path = pathStartToRuntime, object = BoxYellow "Event" }
-        ++ addPrecedingArrows speed { start = f1, end = f2, path = pathRuntimeToUpdate, object = BoxAzzurro "Model" }
-        ++ [ { start = f1 + (speed * 1.5), end = f2 + (speed * 1.5), path = pathRuntimeToUpdate, object = BoxGreen "Msg" } ]
-        ++ addPrecedingArrows speed { start = f2, end = f3, path = pathUpdateToView, object = BoxModelNew }
-        ++ addPrecedingArrows speed { start = f3, end = f4, path = pathViewToDom, object = BoxYellow "Html" }
-        ++ [ { start = 0 + current, end = 10 * speed + current, path = { from = 0, to = 300 }, object = Pointer } ]
-        ++ [ { start = 0, end = 100, path = { from = 0, to = 0 }, object = Title "A simple DOM-only interaction without side effects" } ]
+        ++ [ { showStart = (p.pointRuntimeSecondPass * speed) + f0, showEnd = f4, path = { from = p.pointRuntimeSecondPass, to = p.pointRuntimeSecondPass }, object = TipNew } ]
+        ++ addPrecedingArrows speed { showStart = f0, showEnd = f1, path = pathStartToRuntime, object = BoxYellow "Event" }
+        ++ addPrecedingArrows speed { showStart = f1, showEnd = f2, path = pathRuntimeToUpdate, object = BoxAzzurro "Model" }
+        ++ [ { showStart = f1 + (speed * 1.5), showEnd = f2 + (speed * 1.5), path = pathRuntimeToUpdate, object = BoxGreen "Msg" } ]
+        ++ addPrecedingArrows speed { showStart = f2, showEnd = f3, path = pathUpdateToView, object = BoxModelNew }
+        ++ addPrecedingArrows speed { showStart = f3, showEnd = f4, path = pathViewToDom, object = BoxYellow "Html" }
+        ++ [ { showStart = current, showEnd = 10 * speed + current, path = { from = 0, to = 300 }, object = Pointer } ]
+
+
+timelineTitleOpening : Float -> Float -> List Animation
+timelineTitleOpening current speed =
+    [ { showStart = current, showEnd = current + 180, path = { from = 0, to = 0 }, object = TitleInitial } ]
+
+
+timelineTitleChapter1 : Float -> Float -> List Animation
+timelineTitleChapter1 current speed =
+    [ { showStart = current, showEnd = current + 180, path = { from = 0, to = 0 }, object = Title (Just "CHAPTER 1") "A simple DOM-only interaction without side effects" } ]
+
+
+timelineTitleChapter2 : Float -> Float -> List Animation
+timelineTitleChapter2 current speed =
+    [ { showStart = current, showEnd = current + 180, path = { from = 0, to = 0 }, object = Title (Just "Chapter 2") "A simple DOM-only interaction without side effects" } ]
 
 
 timeline2 : Float -> Float -> List Animation
@@ -421,9 +467,8 @@ timeline2 current speed =
         f2 =
             f1 + (pathEffectsToUpdate.to - pathEffectsToUpdate.from + delay) * speed
     in
-    []
-        ++ addPrecedingArrows speed { start = f0, end = f1, path = pathUpdateToEffects, object = BoxYellow "Cmd" }
-        ++ addPrecedingArrows speed { start = f1WithDelay, end = f2, path = pathEffectsToUpdate, object = BoxYellow "Response" }
+    addPrecedingArrows speed { showStart = f0, showEnd = f1, path = pathUpdateToEffects, object = BoxYellow "Cmd" }
+        ++ addPrecedingArrows speed { showStart = f1WithDelay, showEnd = f2, path = pathEffectsToUpdate, object = BoxYellow "Response" }
 
 
 update : Msg -> Model -> ( Model, Cmd msg )
@@ -465,7 +510,7 @@ update msg model =
         AddTimeline timeline ->
             ( { model | animations = model.animations ++ timeline } |> updateCachedMaxCount, Cmd.none )
 
-        OnAnimationFrame _ ->
+        OnAnimationFrame ->
             ( { model | count = model.count + 1 }, Cmd.none )
 
         ToggleTrackVisibility ->
@@ -476,425 +521,6 @@ update msg model =
 
         ToggleFilter ->
             ( { model | isVintageFilterOn = not model.isVintageFilterOn }, Cmd.none )
-
-
-arrow_ : { count : Float, index : Float, opacity : Float } -> Html msg
-arrow_ args =
-    viewArrow
-        { text = ""
-        , textTip = Nothing
-        , colorBackground = p.colorArrowsTest
-        , colorForeground = ""
-        }
-        { percentage =
-            -- It makes debug arrow to work until 300%, then they will accumulate
-            -- in one place
-            let
-                newCount : Float
-                newCount =
-                    args.count + args.index
-            in
-            if newCount >= 200 then
-                newCount - 200
-
-            else if newCount >= 100 then
-                newCount - 100
-
-            else
-                newCount
-        , opacity = args.opacity
-        }
-
-
-view : Model -> Html Msg
-view model =
-    div
-        [ HA.style "background-color"
-            (if model.isDarkMode then
-                "rgb(30,30,30)"
-
-             else
-                "rgb(255,255,255)"
-            )
-        , HA.style "height" "100dvh"
-        , HA.style "display" "flex"
-        , HA.style "align-items" "center"
-        , HA.style "justify-content" "center"
-        , HA.style "flex-direction" "column"
-        , HA.class "elm-tea"
-        ]
-        [ viewMain model
-        , viewControls model
-        ]
-
-
-viewMain : Model -> Html msg
-viewMain model =
-    div
-        [ HA.style "height" (String.fromInt p.sizeHeight ++ "px")
-        , HA.style "width" (String.fromInt p.sizeWidth ++ "px")
-        , HA.style "margin-bottom" "12px"
-        , HA.style "position" "relative"
-        , HA.style "font-family" "monospace"
-        ]
-        ([]
-            ++ [ viewAreaUnsafe ]
-            ++ [ viewAreaSafe ]
-            ++ [ viewElmRuntime ]
-            ++ [ viewBoxBlue { text = "update", translateX = 20, percentage = p.pointUpdate } ]
-            ++ [ viewBoxBlue { text = "view", translateX = 20, percentage = p.pointView } ]
-            ++ [ viewBoxYellow { text = "DOM", translateX = -20, percentage = p.pointDom } ]
-            ++ [ viewBoxYellow { text = "Effects", translateX = 10, percentage = p.pointEffects } ]
-            ++ List.map (\percentage -> arrowLong { length = 105, percentage = percentage }) p.positionsArrowLong
-            ++ List.map (\percentage -> arrowLong { length = 46, percentage = percentage }) p.positionsArrowShort
-            ++ [ viewObject (BoxAzzurro "Model") { percentage = 31.1, opacity = 1 } ]
-            ++ viewSvgTrack model
-            ++ viewDebuggingArrows model
-            ++ viewAnimations model
-            ++ viewSvgTrack model
-            ++ [ node "style"
-                    []
-                    [ text
-                        (".offset-box {offset-path: path('"
-                            ++ svgMainPath
-                            ++ "')}"
-                            ++ (if model.isVintageFilterOn then
-                                    cssForVintageFilter (isAnimationPlaying model)
-
-                                else
-                                    ""
-                               )
-                            ++ cssForSlider
-                        )
-                    ]
-               ]
-         -- ++ [ arrowLong { length = 105, percentage = model.count / 10 } ]
-         -- ++ [ arrowLong { length = 52, percentage = model.count / 10 } ]
-        )
-
-
-arrowLong : { length : Float, percentage : Float } -> Html msg
-arrowLong args =
-    Svg.svg
-        (attrsOffset args.percentage
-            ++ [ SA.width (String.fromFloat (args.length * 2.14) ++ "px")
-               , SA.viewBox <| String.join " " (List.map String.fromFloat [ 0 - args.length + 5, 0, args.length + 5, 10 ])
-               , SA.fill p.colorArrows
-               ]
-        )
-        [ Svg.path [ SA.d <| p.svgArrowHead ++ " " ++ String.replace "{{size}}" (String.fromFloat (args.length - 5)) p.svgArrowExtra ] [] ]
-
-
-viewSvgTrack : Model -> List (Html msg)
-viewSvgTrack model =
-    if model.isTrackVisible then
-        [ Svg.svg
-            [ SA.width (String.fromInt p.sizeWidth)
-            , SA.height (String.fromInt p.sizeHeight)
-            , HA.style "position" "absolute"
-            , HA.style "opacity" "0.3"
-            ]
-            [ Svg.path
-                [ SA.d svgMainPath
-                , SA.fill "transparent"
-                , SA.stroke p.colorPrimaryBlue -- "rgb(11, 218, 149)"
-                , SA.strokeWidth "7"
-                ]
-                []
-            ]
-        ]
-
-    else
-        []
-
-
-viewAnimations : Model -> List (Html msg)
-viewAnimations model =
-    List.filterMap
-        (\anim ->
-            if anim.start < model.count && model.count < anim.end then
-                let
-                    position : Float
-                    position =
-                        model.count - anim.start
-
-                    animLength : Float
-                    animLength =
-                        anim.end - anim.start
-
-                    temp : Float
-                    temp =
-                        position / animLength
-
-                    percentageRelative : Float
-                    percentageRelative =
-                        temp * 100
-
-                    pathLength : Float
-                    pathLength =
-                        anim.path.to - anim.path.from
-
-                    percentageAbsolute : Float
-                    percentageAbsolute =
-                        (temp * pathLength) + anim.path.from
-
-                    opacity : Float
-                    opacity =
-                        if percentageRelative < p.fadeIn then
-                            percentageRelative / p.fadeIn
-
-                        else if percentageRelative > (100 - p.fadeOut) then
-                            (100 - percentageRelative) / p.fadeOut
-
-                        else
-                            1
-                in
-                Just <|
-                    let
-                        html =
-                            objectToHtml anim.object
-                    in
-                    html.element html.argsFixed
-                        { percentage = percentageAbsolute
-                        , opacity = opacity
-                        }
-
-            else
-                Nothing
-        )
-        model.animations
-
-
-viewDebuggingArrows : Model -> List (Html msg)
-viewDebuggingArrows model =
-    let
-        debuggingArrowSpeed : Float
-        debuggingArrowSpeed =
-            10
-    in
-    case model.debugArrowMode of
-        Disabled ->
-            []
-
-        ShowAllArrows ->
-            let
-                qty : Float
-                qty =
-                    1.5
-            in
-            List.map
-                (\index ->
-                    arrow_
-                        { count = model.count / debuggingArrowSpeed, index = toFloat index / qty, opacity = 1 }
-                )
-                (List.range 0 (round (100 * qty)))
-
-        ShowOneArrow ->
-            [ arrow_ { count = model.count / debuggingArrowSpeed, index = 0, opacity = 1 } ]
-
-
-viewObject : Object -> ObjectDataVariable -> Html msg
-viewObject object args =
-    let
-        f : { argsFixed : ObjectDataFixed, element : ObjectDataFixed -> ObjectDataVariable -> Html msg }
-        f =
-            objectToHtml object
-    in
-    f.element f.argsFixed args
-
-
-size1 =
-    80
-
-
-fontSize =
-    18
-
-
-viewAreaUnsafe =
-    div
-        [ HA.style "position" "absolute"
-        , HA.style "width" (String.fromFloat (((p.sizeWidth - p.sizeWidthElmRuntime) / 2) - 50) ++ "px")
-        , HA.style "height" (String.fromFloat (p.sizeHeight - size1) ++ "px")
-        , HA.style "background-color" p.colorBackgroundGray
-        , HA.style "color" p.colorPrimaryBlue
-        , HA.style "font-size" (String.fromFloat fontSize ++ "px")
-        , HA.style "padding" "20px"
-        , HA.style "left" "0px"
-        , HA.style "top" (String.fromFloat size1 ++ "px")
-        , HA.style "text-align" "right"
-        , HA.style "box-sizing" "border-box"
-        , HA.style "border-radius" "12px"
-        ]
-        [ text "Unsafe Area" ]
-
-
-viewAreaSafe =
-    div
-        [ HA.style "position" "absolute"
-        , HA.style "width" (String.fromFloat (((p.sizeWidth - p.sizeWidthElmRuntime) / 2) - 50) ++ "px")
-        , HA.style "height" (String.fromFloat (p.sizeHeight - size1) ++ "px")
-        , HA.style "background-color" p.colorBackgroundGray
-        , HA.style "color" p.colorPrimaryBlue
-        , HA.style "font-size" (String.fromFloat fontSize ++ "px")
-        , HA.style "padding" "20px"
-        , HA.style "right" "0px"
-        , HA.style "top" (String.fromFloat size1 ++ "px")
-        , HA.style "text-align" "left"
-        , HA.style "box-sizing" "border-box"
-        , HA.style "border-radius" "12px"
-        ]
-        [ text "Safe Area" ]
-
-
-viewElmRuntime =
-    div
-        [ HA.style "position" "absolute"
-        , HA.style "width" (String.fromFloat p.sizeWidthElmRuntime ++ "px")
-        , HA.style "height" (String.fromFloat (p.sizeHeight - size1) ++ "px")
-        , HA.style "background-color" "rgba(18, 147, 216, 0.3)"
-        , HA.style "color" p.colorPrimaryBlue
-        , HA.style "font-size" (String.fromFloat fontSize ++ "px")
-        , HA.style "left" (String.fromFloat ((p.sizeWidth - p.sizeWidthElmRuntime) / 2) ++ "px")
-        , HA.style "top" (String.fromFloat size1 ++ "px")
-        , HA.style "text-align" "center"
-        , HA.style "padding" "20px"
-        , HA.style "box-sizing" "border-box"
-        , HA.style "border-radius" "12px"
-        ]
-        [ text "Elm Runtime"
-        ]
-
-
-viewBoxYellow : { translateX : Float, percentage : Float, text : String } -> Html msg
-viewBoxYellow =
-    viewBoxGeneric
-        { colorBackground = "rgba(255,230,0, 0.8)"
-        , colorForeground = "rgba(100,100,0, 1)"
-        }
-
-
-viewBoxBlue : { translateX : Float, percentage : Float, text : String } -> Html msg
-viewBoxBlue =
-    viewBoxGeneric
-        { colorBackground = "rgba(18, 147, 216, 0.3)"
-        , colorForeground = p.colorPrimaryBlue
-        }
-
-
-viewBoxGeneric : { colorBackground : String, colorForeground : String } -> { translateX : Float, percentage : Float, text : String } -> Html msg
-viewBoxGeneric args1 args2 =
-    div
-        (attrsOffset args2.percentage
-            ++ [ HA.style "width" "130px"
-               , HA.style "transform" ("translateX(" ++ String.fromFloat args2.translateX ++ "px)")
-               , HA.style "height" "100px"
-               , HA.style "background-color" args1.colorBackground
-               , HA.style "color" args1.colorForeground
-               , HA.style "font-size" (String.fromFloat fontSize ++ "px")
-               , HA.style "border-radius" "10px"
-               , HA.style "offset-rotate" "0deg"
-               , HA.style "display" "flex"
-               , HA.style "align-items" "center"
-               , HA.style "justify-content" "center"
-               ]
-        )
-        [ text args2.text ]
-
-
-attrsButton title msg =
-    [ HA.style "border" "0"
-    , HA.style "padding" "0"
-    , HA.style "background-color" "transparent"
-    , HA.title title
-    , HE.onClick msg
-    ]
-
-
-viewControls : Model -> Html Msg
-viewControls model =
-    div
-        [ HA.style "font-family" "monospace"
-        , HA.style "width" (String.fromInt p.sizeWidth ++ "px")
-        ]
-        ([]
-            ++ [ div
-                    [ HA.style "display" "flex" ]
-                    ([ case model.playPauseState of
-                        Play ->
-                            button (attrsButton "Play" (ChangeState Pause)) [ viewButtonTemplate p.svgInnerPause ]
-
-                        Pause ->
-                            button (attrsButton "Pause" (ChangeState Play)) [ viewButtonTemplate p.svgInnerPlay ]
-                     , button (attrsButton "Stop" Reset) [ viewButtonTemplate p.svgInnerStop ]
-                     , button (attrsButton "Toggle Dark Mode" ToggleDarkMode) [ viewButtonTemplate p.svgInnerDarkMode ]
-                     , button (attrsButton "Toggle Path" ToggleTrackVisibility) [ viewButtonTemplate p.svgInnerPath ]
-                     , button (attrsButton "Cycle Through Debug Arrows" CycleDebugArrowMode) [ viewButtonTemplate p.svgInnerArrows ]
-                     , button (attrsButton "Toggle Filter" ToggleFilter) [ viewButtonTemplate p.svgInnerSettings ]
-                     , button (attrsButton "Toggle Filter" ToggleFilter) [ viewButtonTemplate p.svgInnerFilter ]
-                     , button (attrsButton "Replay" Replay) [ viewButtonTemplate p.svgInnerReplay ]
-                     , input
-                        [ HA.type_ "range"
-                        , HA.min "0"
-                        , HA.max (String.fromFloat model.cachedMaxCount)
-                        , HA.style "width" "100%"
-                        , HA.value (String.fromFloat model.count)
-                        , HA.step (String.fromFloat 1)
-                        , HA.class "slider"
-                        , HE.onInput ChangeSlider
-                        ]
-                        []
-                     ]
-                        ++ (let
-                                remainingTime =
-                                    abs (model.cachedMaxCount - model.count)
-
-                                remainingTimeSeconds =
-                                    floor (remainingTime / 60)
-
-                                remainingTime60 =
-                                    remainingTime - (toFloat remainingTimeSeconds * 60)
-                            in
-                            [ div
-                                [ HA.style "width" "90px"
-                                , HA.style "display" "flex"
-                                , HA.style "align-items" "center"
-                                , HA.style "justify-content" "right"
-                                , HA.style "font-size" "20px"
-                                , HA.style "color" "gray"
-                                ]
-                                [ text <| String.fromInt remainingTimeSeconds
-                                , text ":"
-                                , text <| String.padLeft 2 '0' (String.fromInt <| floor remainingTime60)
-                                ]
-                            ]
-                           )
-                    )
-               , div []
-                    [ button [ HE.onClick <| AddTimeline <| timeline1 model.count 1 ] [ text "Add 1" ]
-                    , button [ HE.onClick <| AddTimeline <| timeline1 model.count 3 ] [ text "Add 3" ]
-                    , button [ HE.onClick <| AddTimeline <| timeline1 model.count 5 ] [ text "Add 5" ]
-                    , button [ HE.onClick <| AddTimeline <| timeline1 model.count 10 ] [ text "Add 10" ]
-                    ]
-               , div []
-                    [ button [ HE.onClick <| AddTimeline <| timeline2 model.count 1 ] [ text "Add 1" ]
-                    , button [ HE.onClick <| AddTimeline <| timeline2 model.count 3 ] [ text "Add 3" ]
-                    , button [ HE.onClick <| AddTimeline <| timeline2 model.count 5 ] [ text "Add 5" ]
-                    , button [ HE.onClick <| AddTimeline <| timeline2 model.count 10 ] [ text "Add 10" ]
-                    ]
-               ]
-        )
-
-
-type Object
-    = BoxGreen String
-    | BoxYellow String
-    | BoxAzzurro String
-    | BoxModelNew
-    | Arrow
-    | TipNew
-    | Pointer
-    | Title String
 
 
 objectToHtml :
@@ -975,42 +601,445 @@ objectToHtml object =
             , element = viewPointer
             }
 
-        Title string ->
+        Title string1 string2 ->
             { argsFixed =
                 { colorBackground = ""
                 , colorForeground = ""
-                , text = string
-                , textTip = Nothing
+                , text = string2
+                , textTip = string1
                 }
             , element = viewTitle
             }
 
-
-type alias ObjectDataVariable =
-    { percentage : Float
-    , opacity : Float
-    }
-
-
-type alias ObjectDataFixed =
-    { text : String
-    , textTip : Maybe String
-    , colorBackground : String
-    , colorForeground : String
-    }
+        TitleInitial ->
+            { argsFixed =
+                { colorBackground = ""
+                , colorForeground = ""
+                , text = ""
+                , textTip = Nothing
+                }
+            , element = viewTitleInitial
+            }
 
 
-widthText : String -> Int
-widthText text =
-    String.length text * 10 + 16
+view : Model -> Html Msg
+view model =
+    div
+        [ HA.style "background-color"
+            (if model.isDarkMode then
+                "rgb(30,30,30)"
+
+             else
+                "rgb(255,255,255)"
+            )
+        ]
+        [ div
+            [ HA.style "height" "100dvh"
+            , HA.style "display" "flex"
+            , HA.style "align-items" "center"
+            , HA.style "justify-content" "center"
+            , HA.style "flex-direction" "column"
+            , HA.class "elm-tea"
+            ]
+            [ viewMain model
+            , viewControls model
+            ]
+        ]
 
 
-attrsOffset : Float -> List (Attribute msg)
-attrsOffset percentage =
-    [ SA.class "offset-box"
-    , HA.style "offset-distance" (String.fromFloat percentage ++ "%")
-    , HA.style "position" "absolute"
-    ]
+viewMain : Model -> Html msg
+viewMain model =
+    div
+        [ HA.style "height" (String.fromInt p.sizeHeight ++ "px")
+        , HA.style "width" (String.fromInt p.sizeWidth ++ "px")
+        , HA.style "margin-bottom" "12px"
+        , HA.style "position" "relative"
+        , HA.style "font-family" "monospace"
+        ]
+        (viewAreaUnsafe
+            :: viewAreaSafe
+            :: viewElmRuntime
+            :: viewBoxBlue { text = "update", translateX = 20, percentage = p.pointUpdate }
+            :: viewBoxBlue { text = "view", translateX = 20, percentage = p.pointView }
+            :: viewBoxYellow { text = "DOM", translateX = -20, percentage = p.pointDom }
+            :: viewBoxYellow { text = "Effects", translateX = 10, percentage = p.pointEffects }
+            :: List.map (\percentage -> viewArrowElongated { length = 105, percentage = percentage }) p.positionsArrowLong
+            ++ List.map (\percentage -> viewArrowElongated { length = 46, percentage = percentage }) p.positionsArrowShort
+            ++ [ viewObject (BoxAzzurro "Model") { percentage = 31.1, opacity = 1 } ]
+            ++ viewSvgTrack model
+            ++ viewDebuggingArrows model
+            ++ viewAnimations model
+            ++ viewSvgTrack model
+            ++ [ node "style"
+                    []
+                    [ text
+                        (".offset-box {offset-path: path('"
+                            ++ svgMainPath
+                            ++ "')}"
+                            ++ (if model.isVintageFilterOn then
+                                    cssForVintageFilter (isAnimationPlaying model)
+
+                                else
+                                    ""
+                               )
+                            ++ cssForSlider
+                        )
+                    ]
+               ]
+         -- ++ [ arrowLong { length = 105, percentage = model.count / 10 } ]
+         -- ++ [ arrowLong { length = 52, percentage = model.count / 10 } ]
+        )
+
+
+viewArrow : ObjectDataFixed -> ObjectDataVariable -> Html msg
+viewArrow argsFixed argsVariable =
+    Svg.svg
+        (attrsOffset argsVariable.percentage
+            ++ [ SA.viewBox "0 0 10 10"
+               , SA.width "20px"
+               , SA.height "20px"
+               , SA.fill argsFixed.colorBackground
+               ]
+        )
+        [ Svg.path [ SA.d p.svgArrowHead ] [] ]
+
+
+viewArrowForTesting : { count : Float, index : Float, opacity : Float } -> Html msg
+viewArrowForTesting args =
+    viewArrow
+        { text = ""
+        , textTip = Nothing
+        , colorBackground = p.colorArrowsTest
+        , colorForeground = ""
+        }
+        { percentage =
+            -- It makes debug arrow to work until 300%, then they will accumulate
+            -- in one place
+            let
+                newCount : Float
+                newCount =
+                    args.count + args.index
+            in
+            if newCount >= 200 then
+                newCount - 200
+
+            else if newCount >= 100 then
+                newCount - 100
+
+            else
+                newCount
+        , opacity = args.opacity
+        }
+
+
+viewArrowElongated : { length : Float, percentage : Float } -> Html msg
+viewArrowElongated args =
+    Svg.svg
+        (attrsOffset args.percentage
+            ++ [ SA.width (String.fromFloat (args.length * 2.14) ++ "px")
+               , SA.viewBox <| String.join " " (List.map String.fromFloat [ -args.length + 5, 0, args.length + 5, 10 ])
+               , SA.fill p.colorArrows
+               ]
+        )
+        [ Svg.path [ SA.d <| p.svgArrowHead ++ " " ++ String.replace "{{size}}" (String.fromFloat (args.length - 5)) p.svgArrowExtra ] [] ]
+
+
+viewButtonTemplate : String -> Html msg
+viewButtonTemplate extra =
+    Svg.svg
+        [ SA.viewBox "0 0 10 10"
+        , SA.width "40px"
+        , SA.fill p.colorPrimaryBlue
+        , HA.style "margin" "5px"
+        , HA.style "cursor" "pointer"
+        ]
+        [ Svg.path [ SA.d (p.svgOuterButton ++ " " ++ extra) ] []
+        ]
+
+
+viewSvgTrack : Model -> List (Html msg)
+viewSvgTrack model =
+    if model.isTrackVisible then
+        [ Svg.svg
+            [ SA.width (String.fromInt p.sizeWidth)
+            , SA.height (String.fromInt p.sizeHeight)
+            , HA.style "position" "absolute"
+            , HA.style "opacity" "0.3"
+            ]
+            [ Svg.path
+                [ SA.d svgMainPath
+                , SA.fill "transparent"
+                , SA.stroke p.colorPrimaryBlue -- "rgb(11, 218, 149)"
+                , SA.strokeWidth "7"
+                ]
+                []
+            ]
+        ]
+
+    else
+        []
+
+
+viewAnimations : Model -> List (Html msg)
+viewAnimations model =
+    List.filterMap
+        (\anim ->
+            if anim.showStart < model.count && model.count < anim.showEnd then
+                Just <|
+                    let
+                        position : Float
+                        position =
+                            model.count - anim.showStart
+
+                        animLength : Float
+                        animLength =
+                            anim.showEnd - anim.showStart
+
+                        temp : Float
+                        temp =
+                            position / animLength
+
+                        percentageRelative : Float
+                        percentageRelative =
+                            temp * 100
+
+                        pathLength : Float
+                        pathLength =
+                            anim.path.to - anim.path.from
+
+                        percentageAbsolute : Float
+                        percentageAbsolute =
+                            (temp * pathLength) + anim.path.from
+
+                        opacity : Float
+                        opacity =
+                            if percentageRelative < p.fadeIn then
+                                percentageRelative / p.fadeIn
+
+                            else if percentageRelative > (100 - p.fadeOut) then
+                                (100 - percentageRelative) / p.fadeOut
+
+                            else
+                                1
+
+                        html =
+                            objectToHtml anim.object
+                    in
+                    html.element html.argsFixed
+                        { percentage = percentageAbsolute
+                        , opacity = opacity
+                        }
+
+            else
+                Nothing
+        )
+        model.animations
+
+
+viewDebuggingArrows : Model -> List (Html msg)
+viewDebuggingArrows model =
+    let
+        debuggingArrowSpeed : Float
+        debuggingArrowSpeed =
+            10
+    in
+    case model.debugArrowMode of
+        Disabled ->
+            []
+
+        ShowAllArrows ->
+            let
+                qty : Float
+                qty =
+                    1.5
+            in
+            List.map
+                (\index ->
+                    viewArrowForTesting
+                        { count = model.count / debuggingArrowSpeed, index = toFloat index / qty, opacity = 1 }
+                )
+                (List.range 0 (round (100 * qty)))
+
+        ShowOneArrow ->
+            [ viewArrowForTesting { count = model.count / debuggingArrowSpeed, index = 0, opacity = 1 } ]
+
+
+viewObject : Object -> ObjectDataVariable -> Html msg
+viewObject object args =
+    let
+        f : { argsFixed : ObjectDataFixed, element : ObjectDataFixed -> ObjectDataVariable -> Html msg }
+        f =
+            objectToHtml object
+    in
+    f.element f.argsFixed args
+
+
+viewMajorBlock : { extra : List (Attribute msg), text : String } -> Html msg
+viewMajorBlock args =
+    let
+        size1 : number
+        size1 =
+            80
+    in
+    div
+        ([ HA.style "position" "absolute"
+         , HA.style "height" (String.fromFloat (p.sizeHeight - size1) ++ "px")
+         , HA.style "color" p.colorPrimaryBlue
+         , HA.style "font-size" (String.fromFloat fontSize ++ "px")
+         , HA.style "padding" "20px"
+         , HA.style "top" (String.fromFloat size1 ++ "px")
+         , HA.style "text-align" "right"
+         , HA.style "box-sizing" "border-box"
+         , HA.style "border-radius" "12px"
+         ]
+            ++ args.extra
+        )
+        [ text args.text ]
+
+
+viewAreaUnsafe : Html msg
+viewAreaUnsafe =
+    viewMajorBlock
+        { text = "Unsafe Area"
+        , extra =
+            [ HA.style "left" "0px"
+            , HA.style "width" (String.fromFloat (((p.sizeWidth - p.sizeWidthElmRuntime) / 2) - 50) ++ "px")
+            , HA.style "background-color" p.colorBackgroundGray
+            ]
+        }
+
+
+viewAreaSafe : Html msg
+viewAreaSafe =
+    viewMajorBlock
+        { text = "Safe Area"
+        , extra =
+            [ HA.style "right" "0px"
+            , HA.style "width" (String.fromFloat (((p.sizeWidth - p.sizeWidthElmRuntime) / 2) - 50) ++ "px")
+            , HA.style "background-color" p.colorBackgroundGray
+            ]
+        }
+
+
+viewElmRuntime : Html msg
+viewElmRuntime =
+    viewMajorBlock
+        { text = "Elm Runtime"
+        , extra =
+            [ HA.style "left" (String.fromFloat ((p.sizeWidth - p.sizeWidthElmRuntime) / 2) ++ "px")
+            , HA.style "width" (String.fromFloat p.sizeWidthElmRuntime ++ "px")
+            , HA.style "background-color" "rgba(18, 147, 216, 0.3)"
+            ]
+        }
+
+
+viewBoxYellow : { translateX : Float, percentage : Float, text : String } -> Html msg
+viewBoxYellow =
+    viewBoxGeneric
+        { colorBackground = "rgba(255,230,0, 0.8)"
+        , colorForeground = "rgba(100,100,0, 1)"
+        }
+
+
+viewBoxBlue : { translateX : Float, percentage : Float, text : String } -> Html msg
+viewBoxBlue =
+    viewBoxGeneric
+        { colorBackground = "rgba(18, 147, 216, 0.3)"
+        , colorForeground = p.colorPrimaryBlue
+        }
+
+
+viewBoxGeneric : { colorBackground : String, colorForeground : String } -> { translateX : Float, percentage : Float, text : String } -> Html msg
+viewBoxGeneric args1 args2 =
+    div
+        (attrsOffset args2.percentage
+            ++ [ HA.style "width" "130px"
+               , HA.style "height" "100px"
+               , HA.style "transform" ("translateX(" ++ String.fromFloat args2.translateX ++ "px)")
+               , HA.style "background-color" args1.colorBackground
+               , HA.style "color" args1.colorForeground
+               , HA.style "font-size" (String.fromFloat fontSize ++ "px")
+               , HA.style "border-radius" "10px"
+               , HA.style "offset-rotate" "0deg"
+               , HA.style "display" "flex"
+               , HA.style "align-items" "center"
+               , HA.style "justify-content" "center"
+               ]
+        )
+        [ text args2.text ]
+
+
+viewControls : Model -> Html Msg
+viewControls model =
+    div
+        [ HA.style "font-family" "monospace"
+        , HA.style "width" (String.fromInt p.sizeWidth ++ "px")
+        ]
+        [ div
+            [ HA.style "display" "flex" ]
+            ([ case model.playPauseState of
+                Play ->
+                    button (attrsButton "Play" (ChangeState Pause)) [ viewButtonTemplate p.svgInnerPause ]
+
+                Pause ->
+                    button (attrsButton "Pause" (ChangeState Play)) [ viewButtonTemplate p.svgInnerPlay ]
+             , button (attrsButton "Stop" Reset) [ viewButtonTemplate p.svgInnerStop ]
+             , button (attrsButton "Toggle Dark Mode" ToggleDarkMode) [ viewButtonTemplate p.svgInnerDarkMode ]
+             , button (attrsButton "Toggle Path" ToggleTrackVisibility) [ viewButtonTemplate p.svgInnerPath ]
+             , button (attrsButton "Cycle Through Debug Arrows" CycleDebugArrowMode) [ viewButtonTemplate p.svgInnerArrows ]
+             , button (attrsButton "Toggle Filter" ToggleFilter) [ viewButtonTemplate p.svgInnerSettings ]
+             , button (attrsButton "Toggle Filter" ToggleFilter) [ viewButtonTemplate p.svgInnerFilter ]
+             , button (attrsButton "Replay" Replay) [ viewButtonTemplate p.svgInnerReplay ]
+             , input
+                [ HA.type_ "range"
+                , HA.min "0"
+                , HA.max (String.fromFloat model.cachedMaxCount)
+                , HA.style "width" "100%"
+                , HA.value (String.fromFloat model.count)
+                , HA.step (String.fromFloat 1)
+                , HA.class "slider"
+                , HE.onInput ChangeSlider
+                ]
+                []
+             ]
+                ++ (let
+                        remainingTime =
+                            abs (model.cachedMaxCount - model.count)
+
+                        remainingTimeSeconds =
+                            floor (remainingTime / 60)
+
+                        remainingTime60 =
+                            remainingTime - (toFloat remainingTimeSeconds * 60)
+                    in
+                    [ div
+                        [ HA.style "width" "120px"
+                        , HA.style "display" "flex"
+                        , HA.style "align-items" "center"
+                        , HA.style "justify-content" "right"
+                        , HA.style "font-size" "20px"
+                        , HA.style "color" "gray"
+                        ]
+                        [ text <| String.fromInt remainingTimeSeconds
+                        , text ":"
+                        , text <| String.padLeft 2 '0' (String.fromInt <| floor remainingTime60)
+                        ]
+                    ]
+                   )
+            )
+        , div []
+            [ button [ HE.onClick <| AddTimeline <| timeline1 model.count 1 ] [ text "Add 1" ]
+            , button [ HE.onClick <| AddTimeline <| timeline1 model.count 3 ] [ text "Add 3" ]
+            , button [ HE.onClick <| AddTimeline <| timeline1 model.count 5 ] [ text "Add 5" ]
+            , button [ HE.onClick <| AddTimeline <| timeline1 model.count 10 ] [ text "Add 10" ]
+            ]
+        , div []
+            [ button [ HE.onClick <| AddTimeline <| timeline2 model.count 1 ] [ text "Add 1" ]
+            , button [ HE.onClick <| AddTimeline <| timeline2 model.count 3 ] [ text "Add 3" ]
+            , button [ HE.onClick <| AddTimeline <| timeline2 model.count 5 ] [ text "Add 5" ]
+            , button [ HE.onClick <| AddTimeline <| timeline2 model.count 10 ] [ text "Add 10" ]
+            ]
+        ]
 
 
 viewTip : ObjectDataFixed -> ObjectDataVariable -> Html msg
@@ -1048,47 +1077,33 @@ viewBox argsFixed args =
                , HA.style "color" argsFixed.colorForeground
                ]
         )
-        ([]
-            ++ (case argsFixed.textTip of
-                    Just textTip ->
-                        [ div
-                            [ HA.style "position" "absolute"
-                            , HA.style "background-color" "red"
-                            , HA.style "color" "white"
-                            , HA.style "padding" "3px 0 0 0"
-                            , HA.style "height" "16px"
-                            , HA.style "width" (String.fromInt (widthText textTip - 6) ++ "px")
-                            , HA.style "border-radius" "30px"
-                            , HA.style "transform" "rotate(20deg)"
-                            , HA.style "top" "-12px"
-                            , HA.style "right" "-12px"
-                            , HA.style "font-size" "12px"
-                            ]
-                            [ text textTip ]
-                        ]
+        ((case argsFixed.textTip of
+            Just textTip ->
+                [ div
+                    [ HA.style "position" "absolute"
+                    , HA.style "background-color" "red"
+                    , HA.style "color" "white"
+                    , HA.style "padding" "3px 0 0 0"
+                    , HA.style "height" "16px"
+                    , HA.style "width" (String.fromInt (widthText textTip - 6) ++ "px")
+                    , HA.style "border-radius" "30px"
+                    , HA.style "transform" "rotate(20deg)"
+                    , HA.style "top" "-12px"
+                    , HA.style "right" "-12px"
+                    , HA.style "font-size" "12px"
+                    ]
+                    [ text textTip ]
+                ]
 
-                    Nothing ->
-                        []
-               )
+            Nothing ->
+                []
+         )
             ++ [ text argsFixed.text ]
         )
 
 
-viewArrow : ObjectDataFixed -> ObjectDataVariable -> Html msg
-viewArrow argsFixed argsVariable =
-    Svg.svg
-        (attrsOffset argsVariable.percentage
-            ++ [ SA.viewBox "0 0 10 10"
-               , SA.width "20px"
-               , SA.height "20px"
-               , SA.fill argsFixed.colorBackground
-               ]
-        )
-        [ Svg.path [ SA.d p.svgArrowHead ] [] ]
-
-
-viewTitle : ObjectDataFixed -> ObjectDataVariable -> Html msg
-viewTitle argsFixed argsVariable =
+viewTitle_ : List (Html msg) -> ObjectDataFixed -> ObjectDataVariable -> Html msg
+viewTitle_ html argsFixed argsVariable =
     div
         [ HA.style "width" "100%"
         , HA.style "height" "100%"
@@ -1096,8 +1111,6 @@ viewTitle argsFixed argsVariable =
         , HA.style "justify-content" "center"
         , HA.style "align-items" "center"
         , HA.style "position" "absolute"
-
-        -- , HA.style "background-color" "rgba(255,255,255,0.5)"
         , HA.style "opacity" (String.fromFloat argsVariable.opacity)
         ]
         [ div
@@ -1108,14 +1121,71 @@ viewTitle argsFixed argsVariable =
             , HA.style "border-radius" "8px"
             , HA.style "box-shadow" "0 0 500px 100px rgba(0, 0, 0, 1)"
             , HA.style "transform" ("translateY(48px) scale(" ++ String.fromFloat ((2 + argsVariable.opacity) / 3) ++ ")")
+            , HA.style "display" "flex"
+            , HA.style "flex-direction" "column"
+            , HA.style "gap" "8px"
             ]
-            [ text argsFixed.text ]
+            html
         ]
+
+
+viewTitle : ObjectDataFixed -> ObjectDataVariable -> Html msg
+viewTitle argsFixed argsVariable =
+    viewTitle_
+        ([]
+            ++ (case argsFixed.textTip of
+                    Just string ->
+                        [ div
+                            [ HA.style "font-size" "20px"
+                            , HA.style "text-align" "center"
+                            , HA.style "font-family" "cursive"
+                            ]
+                            [ text string ]
+                        ]
+
+                    Nothing ->
+                        []
+               )
+            ++ [ div [] [ text argsFixed.text ] ]
+        )
+        argsFixed
+        argsVariable
+
+
+viewTitleInitial : ObjectDataFixed -> ObjectDataVariable -> Html msg
+viewTitleInitial argsFixed argsVariable =
+    viewTitle_
+        [ div
+            [ HA.style "font-size" "60px"
+            , HA.style "padding" "10px"
+            , HA.style "font-family" "cursive"
+            ]
+            [ text "The Elm Architecture" ]
+        , div
+            [ HA.style "font-size" "16px"
+            , HA.style "text-align" "center"
+            ]
+            [ text "An animation by "
+            , a [ HA.href "https://github.com/lucamug" ] [ text "lucamug" ]
+            ]
+        , div
+            [ HA.style "font-size" "16px"
+            , HA.style "text-align" "center"
+            ]
+            [ text "Made with "
+            , a [ HA.href "https://elm-lang.org/" ] [ text "elm" ]
+            , text " - Code at "
+            , a [ HA.href "https://github.com/lucamug/elm-tea" ] [ text "elm-tea" ]
+            ]
+        ]
+        argsFixed
+        argsVariable
 
 
 viewPointer : ObjectDataFixed -> ObjectDataVariable -> Html msg
 viewPointer _ argsVariable =
     let
+        rotation : Float
         rotation =
             if argsVariable.percentage < 100 then
                 -- 0 ~ 99
@@ -1133,14 +1203,11 @@ viewPointer _ argsVariable =
 
             else
                 10
-
-        -- + 5
     in
     Svg.svg
         (attrsOffset p.pointDom
             ++ [ SA.viewBox "-5 -2 10 19"
                , SA.width "40px"
-               , SA.fill "brown"
                , HA.style "transform" ("translateX(28px) translateY(10px)  rotate(-" ++ String.fromFloat rotation ++ "deg)")
                , HA.style "transform-origin" "55% 65%"
                , HA.style "opacity" (String.fromFloat argsVariable.opacity)
@@ -1154,6 +1221,35 @@ viewPointer _ argsVariable =
         ]
 
 
+attrsButton : String -> b -> List (Attribute b)
+attrsButton title msg =
+    [ HA.style "border" "0"
+    , HA.style "padding" "0"
+    , HA.style "background-color" "transparent"
+    , HA.title title
+    , HE.onClick msg
+    ]
+
+
+attrsOffset : Float -> List (Attribute msg)
+attrsOffset percentage =
+    [ SA.class "offset-box"
+    , HA.style "offset-distance" (String.fromFloat percentage ++ "%")
+    , HA.style "position" "absolute"
+    ]
+
+
+fontSize : number
+fontSize =
+    18
+
+
+widthText : String -> Int
+widthText text =
+    String.length text * 10 + 16
+
+
+isAnimationPlaying : { a | count : comparable, cachedMaxCount : comparable, playPauseState : PlayPauseState } -> Bool
 isAnimationPlaying model =
     model.count < model.cachedMaxCount && model.playPauseState == Play
 
@@ -1167,7 +1263,7 @@ main =
         , subscriptions =
             \model ->
                 if isAnimationPlaying model then
-                    Browser.Events.onAnimationFrameDelta OnAnimationFrame
+                    Browser.Events.onAnimationFrameDelta (\_ -> OnAnimationFrame)
 
                 else
                     Sub.none

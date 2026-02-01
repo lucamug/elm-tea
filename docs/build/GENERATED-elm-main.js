@@ -4415,9 +4415,7 @@ var _Bitwise_shiftRightZfBy = F2(function(offset, a)
 {
 	return a >>> offset;
 });
-var $author$project$Main$OnAnimationFrame = function (a) {
-	return {$: 'OnAnimationFrame', a: a};
-};
+var $author$project$Main$OnAnimationFrame = {$: 'OnAnimationFrame'};
 var $elm$core$Basics$EQ = {$: 'EQ'};
 var $elm$core$Basics$GT = {$: 'GT'};
 var $elm$core$Basics$LT = {$: 'LT'};
@@ -5211,11 +5209,42 @@ var $author$project$Main$Disabled = {$: 'Disabled'};
 var $author$project$Main$Play = {$: 'Play'};
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
+var $elm$core$Basics$negate = function (n) {
+	return -n;
+};
 var $author$project$Main$p = {
 	colorArrows: 'rgba(160,160,160,0.5)',
 	colorArrowsTest: 'rgba(220, 0, 0, 0.3)',
 	colorBackgroundGray: 'rgba(200, 200, 200, 0.5)',
 	colorPrimaryBlue: 'rgb(18, 147, 216)',
+	cssAnimationTransformationGrains: _List_fromArray(
+		[
+			_Utils_Tuple3(0, 0, 1),
+			_Utils_Tuple3(-1, -1, 1),
+			_Utils_Tuple3(1, 1, 1),
+			_Utils_Tuple3(-2, -2, 1),
+			_Utils_Tuple3(3, 3, 1),
+			_Utils_Tuple3(-3, -3, 1),
+			_Utils_Tuple3(4, 4, 1),
+			_Utils_Tuple3(-4, -4, 1),
+			_Utils_Tuple3(2, 2, 1),
+			_Utils_Tuple3(-3, -3, 1),
+			_Utils_Tuple3(0, 0, 1)
+		]),
+	cssAnimationTransformationVlines: _List_fromArray(
+		[
+			_Utils_Tuple3(0, 0, 0.5),
+			_Utils_Tuple3(-1, 0, 1),
+			_Utils_Tuple3(1, 0, 1),
+			_Utils_Tuple3(-2, 0, 0.75),
+			_Utils_Tuple3(3, 0, 1),
+			_Utils_Tuple3(-3, 0, 0.5),
+			_Utils_Tuple3(8, 0, 1),
+			_Utils_Tuple3(-3, 0, 1),
+			_Utils_Tuple3(10, 0, 0.25),
+			_Utils_Tuple3(-2, 0, 1),
+			_Utils_Tuple3(0, 0, 0.5)
+		]),
 	defaultSpeed: 10,
 	fadeIn: 8,
 	fadeOut: 8,
@@ -5264,9 +5293,6 @@ var $author$project$Main$BoxYellow = function (a) {
 };
 var $author$project$Main$Pointer = {$: 'Pointer'};
 var $author$project$Main$TipNew = {$: 'TipNew'};
-var $author$project$Main$Title = function (a) {
-	return {$: 'Title', a: a};
-};
 var $author$project$Main$Arrow = {$: 'Arrow'};
 var $elm$svg$Svg$Attributes$class = _VirtualDom_attribute('class');
 var $elm$core$String$fromFloat = _String_fromNumber;
@@ -5347,47 +5373,45 @@ var $author$project$Main$viewBox = F2(
 						A2($elm$html$Html$Attributes$style, 'color', argsFixed.colorForeground)
 					])),
 			_Utils_ap(
-				_List_Nil,
-				_Utils_ap(
-					function () {
-						var _v0 = argsFixed.textTip;
-						if (_v0.$ === 'Just') {
-							var textTip = _v0.a;
-							return _List_fromArray(
-								[
-									A2(
-									$elm$html$Html$div,
-									_List_fromArray(
-										[
-											A2($elm$html$Html$Attributes$style, 'position', 'absolute'),
-											A2($elm$html$Html$Attributes$style, 'background-color', 'red'),
-											A2($elm$html$Html$Attributes$style, 'color', 'white'),
-											A2($elm$html$Html$Attributes$style, 'padding', '3px 0 0 0'),
-											A2($elm$html$Html$Attributes$style, 'height', '16px'),
-											A2(
-											$elm$html$Html$Attributes$style,
-											'width',
-											$elm$core$String$fromInt(
-												$author$project$Main$widthText(textTip) - 6) + 'px'),
-											A2($elm$html$Html$Attributes$style, 'border-radius', '30px'),
-											A2($elm$html$Html$Attributes$style, 'transform', 'rotate(20deg)'),
-											A2($elm$html$Html$Attributes$style, 'top', '-12px'),
-											A2($elm$html$Html$Attributes$style, 'right', '-12px'),
-											A2($elm$html$Html$Attributes$style, 'font-size', '12px')
-										]),
-									_List_fromArray(
-										[
-											$elm$html$Html$text(textTip)
-										]))
-								]);
-						} else {
-							return _List_Nil;
-						}
-					}(),
-					_List_fromArray(
-						[
-							$elm$html$Html$text(argsFixed.text)
-						]))));
+				function () {
+					var _v0 = argsFixed.textTip;
+					if (_v0.$ === 'Just') {
+						var textTip = _v0.a;
+						return _List_fromArray(
+							[
+								A2(
+								$elm$html$Html$div,
+								_List_fromArray(
+									[
+										A2($elm$html$Html$Attributes$style, 'position', 'absolute'),
+										A2($elm$html$Html$Attributes$style, 'background-color', 'red'),
+										A2($elm$html$Html$Attributes$style, 'color', 'white'),
+										A2($elm$html$Html$Attributes$style, 'padding', '3px 0 0 0'),
+										A2($elm$html$Html$Attributes$style, 'height', '16px'),
+										A2(
+										$elm$html$Html$Attributes$style,
+										'width',
+										$elm$core$String$fromInt(
+											$author$project$Main$widthText(textTip) - 6) + 'px'),
+										A2($elm$html$Html$Attributes$style, 'border-radius', '30px'),
+										A2($elm$html$Html$Attributes$style, 'transform', 'rotate(20deg)'),
+										A2($elm$html$Html$Attributes$style, 'top', '-12px'),
+										A2($elm$html$Html$Attributes$style, 'right', '-12px'),
+										A2($elm$html$Html$Attributes$style, 'font-size', '12px')
+									]),
+								_List_fromArray(
+									[
+										$elm$html$Html$text(textTip)
+									]))
+							]);
+					} else {
+						return _List_Nil;
+					}
+				}(),
+				_List_fromArray(
+					[
+						$elm$html$Html$text(argsFixed.text)
+					])));
 	});
 var $elm$svg$Svg$Attributes$stroke = _VirtualDom_attribute('stroke');
 var $elm$svg$Svg$Attributes$strokeWidth = _VirtualDom_attribute('stroke-width');
@@ -5402,7 +5426,6 @@ var $author$project$Main$viewPointer = F2(
 					[
 						$elm$svg$Svg$Attributes$viewBox('-5 -2 10 19'),
 						$elm$svg$Svg$Attributes$width('40px'),
-						$elm$svg$Svg$Attributes$fill('brown'),
 						A2(
 						$elm$html$Html$Attributes$style,
 						'transform',
@@ -5460,8 +5483,8 @@ var $author$project$Main$viewTip = F2(
 					$elm$html$Html$text(argsFixed.text)
 				]));
 	});
-var $author$project$Main$viewTitle = F2(
-	function (argsFixed, argsVariable) {
+var $author$project$Main$viewTitle_ = F3(
+	function (html, argsFixed, argsVariable) {
 		return A2(
 			$elm$html$Html$div,
 			_List_fromArray(
@@ -5492,13 +5515,146 @@ var $author$project$Main$viewTitle = F2(
 							A2(
 							$elm$html$Html$Attributes$style,
 							'transform',
-							'translateY(48px) scale(' + ($elm$core$String$fromFloat((2 + argsVariable.opacity) / 3) + ')'))
+							'translateY(48px) scale(' + ($elm$core$String$fromFloat((2 + argsVariable.opacity) / 3) + ')')),
+							A2($elm$html$Html$Attributes$style, 'display', 'flex'),
+							A2($elm$html$Html$Attributes$style, 'flex-direction', 'column'),
+							A2($elm$html$Html$Attributes$style, 'gap', '8px')
+						]),
+					html)
+				]));
+	});
+var $author$project$Main$viewTitle = F2(
+	function (argsFixed, argsVariable) {
+		return A3(
+			$author$project$Main$viewTitle_,
+			_Utils_ap(
+				_List_Nil,
+				_Utils_ap(
+					function () {
+						var _v0 = argsFixed.textTip;
+						if (_v0.$ === 'Just') {
+							var string = _v0.a;
+							return _List_fromArray(
+								[
+									A2(
+									$elm$html$Html$div,
+									_List_fromArray(
+										[
+											A2($elm$html$Html$Attributes$style, 'font-size', '20px'),
+											A2($elm$html$Html$Attributes$style, 'text-align', 'center'),
+											A2($elm$html$Html$Attributes$style, 'font-family', 'cursive')
+										]),
+									_List_fromArray(
+										[
+											$elm$html$Html$text(string)
+										]))
+								]);
+						} else {
+							return _List_Nil;
+						}
+					}(),
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$div,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text(argsFixed.text)
+								]))
+						]))),
+			argsFixed,
+			argsVariable);
+	});
+var $elm$html$Html$a = _VirtualDom_node('a');
+var $elm$json$Json$Encode$string = _Json_wrap;
+var $elm$html$Html$Attributes$stringProperty = F2(
+	function (key, string) {
+		return A2(
+			_VirtualDom_property,
+			key,
+			$elm$json$Json$Encode$string(string));
+	});
+var $elm$html$Html$Attributes$href = function (url) {
+	return A2(
+		$elm$html$Html$Attributes$stringProperty,
+		'href',
+		_VirtualDom_noJavaScriptUri(url));
+};
+var $author$project$Main$viewTitleInitial = F2(
+	function (argsFixed, argsVariable) {
+		return A3(
+			$author$project$Main$viewTitle_,
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$div,
+					_List_fromArray(
+						[
+							A2($elm$html$Html$Attributes$style, 'font-size', '60px'),
+							A2($elm$html$Html$Attributes$style, 'padding', '10px'),
+							A2($elm$html$Html$Attributes$style, 'font-family', 'cursive')
 						]),
 					_List_fromArray(
 						[
-							$elm$html$Html$text(argsFixed.text)
+							$elm$html$Html$text('The Elm Architecture')
+						])),
+					A2(
+					$elm$html$Html$div,
+					_List_fromArray(
+						[
+							A2($elm$html$Html$Attributes$style, 'font-size', '16px'),
+							A2($elm$html$Html$Attributes$style, 'text-align', 'center')
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text('An animation by '),
+							A2(
+							$elm$html$Html$a,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$href('https://github.com/lucamug')
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text('lucamug')
+								]))
+						])),
+					A2(
+					$elm$html$Html$div,
+					_List_fromArray(
+						[
+							A2($elm$html$Html$Attributes$style, 'font-size', '16px'),
+							A2($elm$html$Html$Attributes$style, 'text-align', 'center')
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Made with '),
+							A2(
+							$elm$html$Html$a,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$href('https://elm-lang.org/')
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text('elm')
+								])),
+							$elm$html$Html$text(' - Code at '),
+							A2(
+							$elm$html$Html$a,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$href('https://github.com/lucamug/elm-tea')
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text('elm-tea')
+								]))
 						]))
-				]));
+				]),
+			argsFixed,
+			argsVariable);
 	});
 var $author$project$Main$objectToHtml = function (object) {
 	switch (object.$) {
@@ -5545,11 +5701,17 @@ var $author$project$Main$objectToHtml = function (object) {
 				argsFixed: {colorBackground: '', colorForeground: '', text: '', textTip: $elm$core$Maybe$Nothing},
 				element: $author$project$Main$viewPointer
 			};
-		default:
-			var string = object.a;
+		case 'Title':
+			var string1 = object.a;
+			var string2 = object.b;
 			return {
-				argsFixed: {colorBackground: '', colorForeground: '', text: string, textTip: $elm$core$Maybe$Nothing},
+				argsFixed: {colorBackground: '', colorForeground: '', text: string2, textTip: string1},
 				element: $author$project$Main$viewTitle
+			};
+		default:
+			return {
+				argsFixed: {colorBackground: '', colorForeground: '', text: '', textTip: $elm$core$Maybe$Nothing},
+				element: $author$project$Main$viewTitleInitial
 			};
 	}
 };
@@ -5567,8 +5729,8 @@ var $author$project$Main$addPrecedingArrows = F2(
 		var distanceBetweenArrows = speed / 2.1;
 		return _List_fromArray(
 			[
-				{end: anim.end - (distanceBetweenBoxAndArrow + distanceBetweenArrows), object: $author$project$Main$Arrow, path: anim.path, start: anim.start - (distanceBetweenBoxAndArrow + distanceBetweenArrows)},
-				{end: anim.end - distanceBetweenBoxAndArrow, object: $author$project$Main$Arrow, path: anim.path, start: anim.start - distanceBetweenBoxAndArrow},
+				{object: $author$project$Main$Arrow, path: anim.path, showEnd: anim.showEnd - (distanceBetweenBoxAndArrow + distanceBetweenArrows), showStart: anim.showStart - (distanceBetweenBoxAndArrow + distanceBetweenArrows)},
+				{object: $author$project$Main$Arrow, path: anim.path, showEnd: anim.showEnd - distanceBetweenBoxAndArrow, showStart: anim.showStart - distanceBetweenBoxAndArrow},
 				anim
 			]);
 	});
@@ -5590,10 +5752,10 @@ var $author$project$Main$timeline1 = F2(
 				_List_fromArray(
 					[
 						{
-						end: f4,
 						object: $author$project$Main$TipNew,
 						path: {from: $author$project$Main$p.pointRuntimeSecondPass, to: $author$project$Main$p.pointRuntimeSecondPass},
-						start: ($author$project$Main$p.pointRuntimeSecondPass * speed) + f0
+						showEnd: f4,
+						showStart: ($author$project$Main$p.pointRuntimeSecondPass * speed) + f0
 					}
 					]),
 				_Utils_ap(
@@ -5601,65 +5763,55 @@ var $author$project$Main$timeline1 = F2(
 						$author$project$Main$addPrecedingArrows,
 						speed,
 						{
-							end: f1,
 							object: $author$project$Main$BoxYellow('Event'),
 							path: pathStartToRuntime,
-							start: f0
+							showEnd: f1,
+							showStart: f0
 						}),
 					_Utils_ap(
 						A2(
 							$author$project$Main$addPrecedingArrows,
 							speed,
 							{
-								end: f2,
 								object: $author$project$Main$BoxAzzurro('Model'),
 								path: pathRuntimeToUpdate,
-								start: f1
+								showEnd: f2,
+								showStart: f1
 							}),
 						_Utils_ap(
 							_List_fromArray(
 								[
 									{
-									end: f2 + (speed * 1.5),
 									object: $author$project$Main$BoxGreen('Msg'),
 									path: pathRuntimeToUpdate,
-									start: f1 + (speed * 1.5)
+									showEnd: f2 + (speed * 1.5),
+									showStart: f1 + (speed * 1.5)
 								}
 								]),
 							_Utils_ap(
 								A2(
 									$author$project$Main$addPrecedingArrows,
 									speed,
-									{end: f3, object: $author$project$Main$BoxModelNew, path: pathUpdateToView, start: f2}),
+									{object: $author$project$Main$BoxModelNew, path: pathUpdateToView, showEnd: f3, showStart: f2}),
 								_Utils_ap(
 									A2(
 										$author$project$Main$addPrecedingArrows,
 										speed,
 										{
-											end: f4,
 											object: $author$project$Main$BoxYellow('Html'),
 											path: pathViewToDom,
-											start: f3
+											showEnd: f4,
+											showStart: f3
 										}),
-									_Utils_ap(
-										_List_fromArray(
-											[
-												{
-												end: (10 * speed) + current,
-												object: $author$project$Main$Pointer,
-												path: {from: 0, to: 300},
-												start: 0 + current
-											}
-											]),
-										_List_fromArray(
-											[
-												{
-												end: 100,
-												object: $author$project$Main$Title('A simple DOM-only interaction without side effects'),
-												path: {from: 0, to: 0},
-												start: 0
-											}
-											])))))))));
+									_List_fromArray(
+										[
+											{
+											object: $author$project$Main$Pointer,
+											path: {from: 0, to: 300},
+											showEnd: (10 * speed) + current,
+											showStart: current
+										}
+										]))))))));
 	});
 var $author$project$Main$timeline2 = F2(
 	function (current, speed) {
@@ -5671,26 +5823,71 @@ var $author$project$Main$timeline2 = F2(
 		var f1WithDelay = f1 + (delay * speed);
 		var f2 = f1 + (((pathEffectsToUpdate.to - pathEffectsToUpdate.from) + delay) * speed);
 		return _Utils_ap(
-			_List_Nil,
-			_Utils_ap(
-				A2(
-					$author$project$Main$addPrecedingArrows,
-					speed,
-					{
-						end: f1,
-						object: $author$project$Main$BoxYellow('Cmd'),
-						path: pathUpdateToEffects,
-						start: f0
-					}),
-				A2(
-					$author$project$Main$addPrecedingArrows,
-					speed,
-					{
-						end: f2,
-						object: $author$project$Main$BoxYellow('Response'),
-						path: pathEffectsToUpdate,
-						start: f1WithDelay
-					})));
+			A2(
+				$author$project$Main$addPrecedingArrows,
+				speed,
+				{
+					object: $author$project$Main$BoxYellow('Cmd'),
+					path: pathUpdateToEffects,
+					showEnd: f1,
+					showStart: f0
+				}),
+			A2(
+				$author$project$Main$addPrecedingArrows,
+				speed,
+				{
+					object: $author$project$Main$BoxYellow('Response'),
+					path: pathEffectsToUpdate,
+					showEnd: f2,
+					showStart: f1WithDelay
+				}));
+	});
+var $author$project$Main$Title = F2(
+	function (a, b) {
+		return {$: 'Title', a: a, b: b};
+	});
+var $author$project$Main$timelineTitleChapter1 = F2(
+	function (current, speed) {
+		return _List_fromArray(
+			[
+				{
+				object: A2(
+					$author$project$Main$Title,
+					$elm$core$Maybe$Just('CHAPTER 1'),
+					'A simple DOM-only interaction without side effects'),
+				path: {from: 0, to: 0},
+				showEnd: current + 180,
+				showStart: current
+			}
+			]);
+	});
+var $author$project$Main$timelineTitleChapter2 = F2(
+	function (current, speed) {
+		return _List_fromArray(
+			[
+				{
+				object: A2(
+					$author$project$Main$Title,
+					$elm$core$Maybe$Just('Chapter 2'),
+					'A simple DOM-only interaction without side effects'),
+				path: {from: 0, to: 0},
+				showEnd: current + 180,
+				showStart: current
+			}
+			]);
+	});
+var $author$project$Main$TitleInitial = {$: 'TitleInitial'};
+var $author$project$Main$timelineTitleOpening = F2(
+	function (current, speed) {
+		return _List_fromArray(
+			[
+				{
+				object: $author$project$Main$TitleInitial,
+				path: {from: 0, to: 0},
+				showEnd: current + 180,
+				showStart: current
+			}
+			]);
 	});
 var $author$project$Main$updateCachedMaxCount = function (model) {
 	return function (max) {
@@ -5702,7 +5899,7 @@ var $author$project$Main$updateCachedMaxCount = function (model) {
 			$elm$core$List$foldl,
 			F2(
 				function (anim, acc) {
-					return A2($elm$core$Basics$max, acc, anim.end);
+					return A2($elm$core$Basics$max, acc, anim.showEnd);
 				}),
 			0,
 			model.animations));
@@ -5712,8 +5909,16 @@ var $author$project$Main$init = function (_v0) {
 		$author$project$Main$updateCachedMaxCount(
 			{
 				animations: _Utils_ap(
-					A2($author$project$Main$timeline1, 0, $author$project$Main$p.defaultSpeed),
-					A2($author$project$Main$timeline2, 0, $author$project$Main$p.defaultSpeed)),
+					_List_Nil,
+					_Utils_ap(
+						A2($author$project$Main$timeline1, 400, $author$project$Main$p.defaultSpeed),
+						_Utils_ap(
+							A2($author$project$Main$timelineTitleChapter1, 200, $author$project$Main$p.defaultSpeed),
+							_Utils_ap(
+								A2($author$project$Main$timeline2, 1300, $author$project$Main$p.defaultSpeed),
+								_Utils_ap(
+									A2($author$project$Main$timelineTitleChapter2, 1100, $author$project$Main$p.defaultSpeed),
+									A2($author$project$Main$timelineTitleOpening, 0, $author$project$Main$p.defaultSpeed)))))),
 				cachedMaxCount: 0,
 				count: 0,
 				debugArrowMode: $author$project$Main$Disabled,
@@ -5957,14 +6162,6 @@ var $author$project$Main$update = F2(
 					$elm$core$Platform$Cmd$none);
 		}
 	});
-var $elm$json$Json$Encode$string = _Json_wrap;
-var $elm$html$Html$Attributes$stringProperty = F2(
-	function (key, string) {
-		return A2(
-			_VirtualDom_property,
-			key,
-			$elm$json$Json$Encode$string(string));
-	});
 var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
 var $author$project$Main$AddTimeline = function (a) {
 	return {$: 'AddTimeline', a: a};
@@ -5981,9 +6178,6 @@ var $author$project$Main$Reset = {$: 'Reset'};
 var $author$project$Main$ToggleDarkMode = {$: 'ToggleDarkMode'};
 var $author$project$Main$ToggleFilter = {$: 'ToggleFilter'};
 var $author$project$Main$ToggleTrackVisibility = {$: 'ToggleTrackVisibility'};
-var $elm$core$Basics$negate = function (n) {
-	return -n;
-};
 var $elm$core$Basics$abs = function (n) {
 	return (n < 0) ? (-n) : n;
 };
@@ -6118,300 +6312,295 @@ var $author$project$Main$viewControls = function (model) {
 				'width',
 				$elm$core$String$fromInt($author$project$Main$p.sizeWidth) + 'px')
 			]),
-		_Utils_ap(
-			_List_Nil,
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							A2($elm$html$Html$Attributes$style, 'display', 'flex')
-						]),
-					_Utils_ap(
-						_List_fromArray(
-							[
-								function () {
-								var _v0 = model.playPauseState;
-								if (_v0.$ === 'Play') {
-									return A2(
-										$elm$html$Html$button,
-										A2(
-											$author$project$Main$attrsButton,
-											'Play',
-											$author$project$Main$ChangeState($author$project$Main$Pause)),
-										_List_fromArray(
-											[
-												$author$project$Main$viewButtonTemplate($author$project$Main$p.svgInnerPause)
-											]));
-								} else {
-									return A2(
-										$elm$html$Html$button,
-										A2(
-											$author$project$Main$attrsButton,
-											'Pause',
-											$author$project$Main$ChangeState($author$project$Main$Play)),
-										_List_fromArray(
-											[
-												$author$project$Main$viewButtonTemplate($author$project$Main$p.svgInnerPlay)
-											]));
-								}
-							}(),
-								A2(
-								$elm$html$Html$button,
-								A2($author$project$Main$attrsButton, 'Stop', $author$project$Main$Reset),
-								_List_fromArray(
-									[
-										$author$project$Main$viewButtonTemplate($author$project$Main$p.svgInnerStop)
-									])),
-								A2(
-								$elm$html$Html$button,
-								A2($author$project$Main$attrsButton, 'Toggle Dark Mode', $author$project$Main$ToggleDarkMode),
-								_List_fromArray(
-									[
-										$author$project$Main$viewButtonTemplate($author$project$Main$p.svgInnerDarkMode)
-									])),
-								A2(
-								$elm$html$Html$button,
-								A2($author$project$Main$attrsButton, 'Toggle Path', $author$project$Main$ToggleTrackVisibility),
-								_List_fromArray(
-									[
-										$author$project$Main$viewButtonTemplate($author$project$Main$p.svgInnerPath)
-									])),
-								A2(
-								$elm$html$Html$button,
-								A2($author$project$Main$attrsButton, 'Cycle Through Debug Arrows', $author$project$Main$CycleDebugArrowMode),
-								_List_fromArray(
-									[
-										$author$project$Main$viewButtonTemplate($author$project$Main$p.svgInnerArrows)
-									])),
-								A2(
-								$elm$html$Html$button,
-								A2($author$project$Main$attrsButton, 'Toggle Filter', $author$project$Main$ToggleFilter),
-								_List_fromArray(
-									[
-										$author$project$Main$viewButtonTemplate($author$project$Main$p.svgInnerSettings)
-									])),
-								A2(
-								$elm$html$Html$button,
-								A2($author$project$Main$attrsButton, 'Toggle Filter', $author$project$Main$ToggleFilter),
-								_List_fromArray(
-									[
-										$author$project$Main$viewButtonTemplate($author$project$Main$p.svgInnerFilter)
-									])),
-								A2(
-								$elm$html$Html$button,
-								A2($author$project$Main$attrsButton, 'Replay', $author$project$Main$Replay),
-								_List_fromArray(
-									[
-										$author$project$Main$viewButtonTemplate($author$project$Main$p.svgInnerReplay)
-									])),
-								A2(
-								$elm$html$Html$input,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$type_('range'),
-										$elm$html$Html$Attributes$min('0'),
-										$elm$html$Html$Attributes$max(
-										$elm$core$String$fromFloat(model.cachedMaxCount)),
-										A2($elm$html$Html$Attributes$style, 'width', '100%'),
-										$elm$html$Html$Attributes$value(
-										$elm$core$String$fromFloat(model.count)),
-										$elm$html$Html$Attributes$step(
-										$elm$core$String$fromFloat(1)),
-										$elm$html$Html$Attributes$class('slider'),
-										$elm$html$Html$Events$onInput($author$project$Main$ChangeSlider)
-									]),
-								_List_Nil)
-							]),
-						function () {
-							var remainingTime = $elm$core$Basics$abs(model.cachedMaxCount - model.count);
-							var remainingTimeSeconds = $elm$core$Basics$floor(remainingTime / 60);
-							var remainingTime60 = remainingTime - (remainingTimeSeconds * 60);
-							return _List_fromArray(
-								[
-									A2(
-									$elm$html$Html$div,
-									_List_fromArray(
-										[
-											A2($elm$html$Html$Attributes$style, 'width', '90px'),
-											A2($elm$html$Html$Attributes$style, 'display', 'flex'),
-											A2($elm$html$Html$Attributes$style, 'align-items', 'center'),
-											A2($elm$html$Html$Attributes$style, 'justify-content', 'right'),
-											A2($elm$html$Html$Attributes$style, 'font-size', '20px'),
-											A2($elm$html$Html$Attributes$style, 'color', 'gray')
-										]),
-									_List_fromArray(
-										[
-											$elm$html$Html$text(
-											$elm$core$String$fromInt(remainingTimeSeconds)),
-											$elm$html$Html$text(':'),
-											$elm$html$Html$text(
-											A3(
-												$elm$core$String$padLeft,
-												2,
-												_Utils_chr('0'),
-												$elm$core$String$fromInt(
-													$elm$core$Basics$floor(remainingTime60))))
-										]))
-								]);
-						}())),
-					A2(
-					$elm$html$Html$div,
-					_List_Nil,
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$button,
-							_List_fromArray(
-								[
-									$elm$html$Html$Events$onClick(
-									$author$project$Main$AddTimeline(
-										A2($author$project$Main$timeline1, model.count, 1)))
-								]),
-							_List_fromArray(
-								[
-									$elm$html$Html$text('Add 1')
-								])),
-							A2(
-							$elm$html$Html$button,
-							_List_fromArray(
-								[
-									$elm$html$Html$Events$onClick(
-									$author$project$Main$AddTimeline(
-										A2($author$project$Main$timeline1, model.count, 3)))
-								]),
-							_List_fromArray(
-								[
-									$elm$html$Html$text('Add 3')
-								])),
-							A2(
-							$elm$html$Html$button,
-							_List_fromArray(
-								[
-									$elm$html$Html$Events$onClick(
-									$author$project$Main$AddTimeline(
-										A2($author$project$Main$timeline1, model.count, 5)))
-								]),
-							_List_fromArray(
-								[
-									$elm$html$Html$text('Add 5')
-								])),
-							A2(
-							$elm$html$Html$button,
-							_List_fromArray(
-								[
-									$elm$html$Html$Events$onClick(
-									$author$project$Main$AddTimeline(
-										A2($author$project$Main$timeline1, model.count, 10)))
-								]),
-							_List_fromArray(
-								[
-									$elm$html$Html$text('Add 10')
-								]))
-						])),
-					A2(
-					$elm$html$Html$div,
-					_List_Nil,
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$button,
-							_List_fromArray(
-								[
-									$elm$html$Html$Events$onClick(
-									$author$project$Main$AddTimeline(
-										A2($author$project$Main$timeline2, model.count, 1)))
-								]),
-							_List_fromArray(
-								[
-									$elm$html$Html$text('Add 1')
-								])),
-							A2(
-							$elm$html$Html$button,
-							_List_fromArray(
-								[
-									$elm$html$Html$Events$onClick(
-									$author$project$Main$AddTimeline(
-										A2($author$project$Main$timeline2, model.count, 3)))
-								]),
-							_List_fromArray(
-								[
-									$elm$html$Html$text('Add 3')
-								])),
-							A2(
-							$elm$html$Html$button,
-							_List_fromArray(
-								[
-									$elm$html$Html$Events$onClick(
-									$author$project$Main$AddTimeline(
-										A2($author$project$Main$timeline2, model.count, 5)))
-								]),
-							_List_fromArray(
-								[
-									$elm$html$Html$text('Add 5')
-								])),
-							A2(
-							$elm$html$Html$button,
-							_List_fromArray(
-								[
-									$elm$html$Html$Events$onClick(
-									$author$project$Main$AddTimeline(
-										A2($author$project$Main$timeline2, model.count, 10)))
-								]),
-							_List_fromArray(
-								[
-									$elm$html$Html$text('Add 10')
-								]))
-						]))
-				])));
-};
-var $elm$core$String$replace = F3(
-	function (before, after, string) {
-		return A2(
-			$elm$core$String$join,
-			after,
-			A2($elm$core$String$split, before, string));
-	});
-var $author$project$Main$arrowLong = function (args) {
-	return A2(
-		$elm$svg$Svg$svg,
-		_Utils_ap(
-			$author$project$Main$attrsOffset(args.percentage),
-			_List_fromArray(
-				[
-					$elm$svg$Svg$Attributes$width(
-					$elm$core$String$fromFloat(args.length * 2.14) + 'px'),
-					$elm$svg$Svg$Attributes$viewBox(
-					A2(
-						$elm$core$String$join,
-						' ',
-						A2(
-							$elm$core$List$map,
-							$elm$core$String$fromFloat,
-							_List_fromArray(
-								[(0 - args.length) + 5, 0, args.length + 5, 10])))),
-					$elm$svg$Svg$Attributes$fill($author$project$Main$p.colorArrows)
-				])),
 		_List_fromArray(
 			[
 				A2(
-				$elm$svg$Svg$path,
+				$elm$html$Html$div,
 				_List_fromArray(
 					[
-						$elm$svg$Svg$Attributes$d(
-						$author$project$Main$p.svgArrowHead + (' ' + A3(
-							$elm$core$String$replace,
-							'{{size}}',
-							$elm$core$String$fromFloat(args.length - 5),
-							$author$project$Main$p.svgArrowExtra)))
+						A2($elm$html$Html$Attributes$style, 'display', 'flex')
 					]),
-				_List_Nil)
+				_Utils_ap(
+					_List_fromArray(
+						[
+							function () {
+							var _v0 = model.playPauseState;
+							if (_v0.$ === 'Play') {
+								return A2(
+									$elm$html$Html$button,
+									A2(
+										$author$project$Main$attrsButton,
+										'Play',
+										$author$project$Main$ChangeState($author$project$Main$Pause)),
+									_List_fromArray(
+										[
+											$author$project$Main$viewButtonTemplate($author$project$Main$p.svgInnerPause)
+										]));
+							} else {
+								return A2(
+									$elm$html$Html$button,
+									A2(
+										$author$project$Main$attrsButton,
+										'Pause',
+										$author$project$Main$ChangeState($author$project$Main$Play)),
+									_List_fromArray(
+										[
+											$author$project$Main$viewButtonTemplate($author$project$Main$p.svgInnerPlay)
+										]));
+							}
+						}(),
+							A2(
+							$elm$html$Html$button,
+							A2($author$project$Main$attrsButton, 'Stop', $author$project$Main$Reset),
+							_List_fromArray(
+								[
+									$author$project$Main$viewButtonTemplate($author$project$Main$p.svgInnerStop)
+								])),
+							A2(
+							$elm$html$Html$button,
+							A2($author$project$Main$attrsButton, 'Toggle Dark Mode', $author$project$Main$ToggleDarkMode),
+							_List_fromArray(
+								[
+									$author$project$Main$viewButtonTemplate($author$project$Main$p.svgInnerDarkMode)
+								])),
+							A2(
+							$elm$html$Html$button,
+							A2($author$project$Main$attrsButton, 'Toggle Path', $author$project$Main$ToggleTrackVisibility),
+							_List_fromArray(
+								[
+									$author$project$Main$viewButtonTemplate($author$project$Main$p.svgInnerPath)
+								])),
+							A2(
+							$elm$html$Html$button,
+							A2($author$project$Main$attrsButton, 'Cycle Through Debug Arrows', $author$project$Main$CycleDebugArrowMode),
+							_List_fromArray(
+								[
+									$author$project$Main$viewButtonTemplate($author$project$Main$p.svgInnerArrows)
+								])),
+							A2(
+							$elm$html$Html$button,
+							A2($author$project$Main$attrsButton, 'Toggle Filter', $author$project$Main$ToggleFilter),
+							_List_fromArray(
+								[
+									$author$project$Main$viewButtonTemplate($author$project$Main$p.svgInnerSettings)
+								])),
+							A2(
+							$elm$html$Html$button,
+							A2($author$project$Main$attrsButton, 'Toggle Filter', $author$project$Main$ToggleFilter),
+							_List_fromArray(
+								[
+									$author$project$Main$viewButtonTemplate($author$project$Main$p.svgInnerFilter)
+								])),
+							A2(
+							$elm$html$Html$button,
+							A2($author$project$Main$attrsButton, 'Replay', $author$project$Main$Replay),
+							_List_fromArray(
+								[
+									$author$project$Main$viewButtonTemplate($author$project$Main$p.svgInnerReplay)
+								])),
+							A2(
+							$elm$html$Html$input,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$type_('range'),
+									$elm$html$Html$Attributes$min('0'),
+									$elm$html$Html$Attributes$max(
+									$elm$core$String$fromFloat(model.cachedMaxCount)),
+									A2($elm$html$Html$Attributes$style, 'width', '100%'),
+									$elm$html$Html$Attributes$value(
+									$elm$core$String$fromFloat(model.count)),
+									$elm$html$Html$Attributes$step(
+									$elm$core$String$fromFloat(1)),
+									$elm$html$Html$Attributes$class('slider'),
+									$elm$html$Html$Events$onInput($author$project$Main$ChangeSlider)
+								]),
+							_List_Nil)
+						]),
+					function () {
+						var remainingTime = $elm$core$Basics$abs(model.cachedMaxCount - model.count);
+						var remainingTimeSeconds = $elm$core$Basics$floor(remainingTime / 60);
+						var remainingTime60 = remainingTime - (remainingTimeSeconds * 60);
+						return _List_fromArray(
+							[
+								A2(
+								$elm$html$Html$div,
+								_List_fromArray(
+									[
+										A2($elm$html$Html$Attributes$style, 'width', '120px'),
+										A2($elm$html$Html$Attributes$style, 'display', 'flex'),
+										A2($elm$html$Html$Attributes$style, 'align-items', 'center'),
+										A2($elm$html$Html$Attributes$style, 'justify-content', 'right'),
+										A2($elm$html$Html$Attributes$style, 'font-size', '20px'),
+										A2($elm$html$Html$Attributes$style, 'color', 'gray')
+									]),
+								_List_fromArray(
+									[
+										$elm$html$Html$text(
+										$elm$core$String$fromInt(remainingTimeSeconds)),
+										$elm$html$Html$text(':'),
+										$elm$html$Html$text(
+										A3(
+											$elm$core$String$padLeft,
+											2,
+											_Utils_chr('0'),
+											$elm$core$String$fromInt(
+												$elm$core$Basics$floor(remainingTime60))))
+									]))
+							]);
+					}())),
+				A2(
+				$elm$html$Html$div,
+				_List_Nil,
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$button,
+						_List_fromArray(
+							[
+								$elm$html$Html$Events$onClick(
+								$author$project$Main$AddTimeline(
+									A2($author$project$Main$timeline1, model.count, 1)))
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text('Add 1')
+							])),
+						A2(
+						$elm$html$Html$button,
+						_List_fromArray(
+							[
+								$elm$html$Html$Events$onClick(
+								$author$project$Main$AddTimeline(
+									A2($author$project$Main$timeline1, model.count, 3)))
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text('Add 3')
+							])),
+						A2(
+						$elm$html$Html$button,
+						_List_fromArray(
+							[
+								$elm$html$Html$Events$onClick(
+								$author$project$Main$AddTimeline(
+									A2($author$project$Main$timeline1, model.count, 5)))
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text('Add 5')
+							])),
+						A2(
+						$elm$html$Html$button,
+						_List_fromArray(
+							[
+								$elm$html$Html$Events$onClick(
+								$author$project$Main$AddTimeline(
+									A2($author$project$Main$timeline1, model.count, 10)))
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text('Add 10')
+							]))
+					])),
+				A2(
+				$elm$html$Html$div,
+				_List_Nil,
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$button,
+						_List_fromArray(
+							[
+								$elm$html$Html$Events$onClick(
+								$author$project$Main$AddTimeline(
+									A2($author$project$Main$timeline2, model.count, 1)))
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text('Add 1')
+							])),
+						A2(
+						$elm$html$Html$button,
+						_List_fromArray(
+							[
+								$elm$html$Html$Events$onClick(
+								$author$project$Main$AddTimeline(
+									A2($author$project$Main$timeline2, model.count, 3)))
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text('Add 3')
+							])),
+						A2(
+						$elm$html$Html$button,
+						_List_fromArray(
+							[
+								$elm$html$Html$Events$onClick(
+								$author$project$Main$AddTimeline(
+									A2($author$project$Main$timeline2, model.count, 5)))
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text('Add 5')
+							])),
+						A2(
+						$elm$html$Html$button,
+						_List_fromArray(
+							[
+								$elm$html$Html$Events$onClick(
+								$author$project$Main$AddTimeline(
+									A2($author$project$Main$timeline2, model.count, 10)))
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text('Add 10')
+							]))
+					]))
 			]));
 };
-var $author$project$Main$cssForSlider = '\n:root {\n  /* Configuration Variables */\n  --slider-track-height:4px;\n  --slider-track-bg: ' + ($author$project$Main$p.colorArrows + (';\n  --slider-thumb-size-height: 40px;\n  --slider-thumb-size-width: 14px;\n  --slider-thumb-bg: ' + ($author$project$Main$p.colorPrimaryBlue + ';\n  --slider-thumb-radius: 6px;\n  --slider-border-radius: 4px;\n}\n\n/* General styling for the input element */\n.slider {\n  -webkit-appearance: none;\n  appearance: none;\n  width: 100%;\n  background: transparent;\n  margin: 5px;\n  padding-bottom: 3px;\n  cursor: pointer;\n}\n\n/* --- TRACK STYLES --- */\n/* Webkit (Chrome, Safari, Edge) */\n.slider::-webkit-slider-runnable-track {\n  width: 100%;\n  height: var(--slider-track-height);\n  background: var(--slider-track-bg);\n  border-radius: var(--slider-border-radius);\n}\n\n/* Firefox */\n.slider::-moz-range-track {\n  width: 100%;\n  height: var(--slider-track-height);\n  background: var(--slider-track-bg);\n  border-radius: var(--slider-border-radius);\n}\n\n/* --- THUMB STYLES --- */\n/* Webkit (Chrome, Safari, Edge) */\n.slider::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  appearance: none;\n  height: var(--slider-thumb-size-height);\n  width: var(--slider-thumb-size-width);\n  background: var(--slider-thumb-bg);\n  border-radius: var(--slider-thumb-radius);\n  /* Centering formula: (track-height / 2) - (thumb-height / 2) */\n  margin-top: calc((var(--slider-track-height) / 2) - (var(--slider-thumb-size-height) / 2));\n}\n\n/* Firefox */\n.slider::-moz-range-thumb {\n  height: var(--slider-thumb-size-height);\n  width: var(--slider-thumb-size-width);\n  background: var(--slider-thumb-bg);\n  border-radius: var(--slider-thumb-radius);\n  border: none; /* Firefox adds a default border */\n}\n')));
+var $author$project$Main$cssForSlider = '\n:root {\n  /* Configuration Variables */\n  --slider-track-height:4px;\n  --slider-track-bg: ' + ($author$project$Main$p.colorArrows + (';\n  --slider-thumb-size-height: 40px;\n  --slider-thumb-size-width: 14px;\n  --slider-thumb-bg: ' + ($author$project$Main$p.colorPrimaryBlue + ';\n  --slider-thumb-radius: 6px;\n  --slider-border-radius: 4px;\n}\n/* General styling for the input element */\n.slider {\n  -webkit-appearance: none;\n  appearance: none;\n  width: 100%;\n  background: transparent;\n  margin: 5px;\n  padding-bottom: 3px;\n  cursor: pointer;\n}\n/* --- TRACK STYLES --- */\n/* Webkit (Chrome, Safari, Edge) */\n.slider::-webkit-slider-runnable-track {\n  width: 100%;\n  height: var(--slider-track-height);\n  background: var(--slider-track-bg);\n  border-radius: var(--slider-border-radius);\n}\n/* Firefox */\n.slider::-moz-range-track {\n  width: 100%;\n  height: var(--slider-track-height);\n  background: var(--slider-track-bg);\n  border-radius: var(--slider-border-radius);\n}\n/* --- THUMB STYLES --- */\n/* Webkit (Chrome, Safari, Edge) */\n.slider::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  appearance: none;\n  height: var(--slider-thumb-size-height);\n  width: var(--slider-thumb-size-width);\n  background: var(--slider-thumb-bg);\n  border-radius: var(--slider-thumb-radius);\n  /* Centering formula: (track-height / 2) - (thumb-height / 2) */\n  margin-top: calc((var(--slider-track-height) / 2) - (var(--slider-thumb-size-height) / 2));\n}\n/* Firefox */\n.slider::-moz-range-thumb {\n  height: var(--slider-thumb-size-height);\n  width: var(--slider-thumb-size-width);\n  background: var(--slider-thumb-bg);\n  border-radius: var(--slider-thumb-radius);\n  border: none; /* Firefox adds a default border */\n}')));
+var $elm$core$String$concat = function (strings) {
+	return A2($elm$core$String$join, '', strings);
+};
+var $author$project$Main$cssTransformer = F2(
+	function (index, _v0) {
+		var x = _v0.a;
+		var y = _v0.b;
+		var opacity = _v0.c;
+		return $elm$core$String$fromInt(index * 10) + ('% { transform: translate(' + ($elm$core$String$fromFloat(x) + ('%, ' + ($elm$core$String$fromFloat(y) + ('%)' + (((opacity === 1) ? '' : ('; opacity: ' + $elm$core$String$fromFloat(opacity))) + ' }'))))));
+	});
+var $author$project$Main$cssKeyframesGrains = $elm$core$String$concat(
+	A2(
+		$elm$core$List$indexedMap,
+		F2(
+			function (index, a) {
+				return A2($author$project$Main$cssTransformer, index, a);
+			}),
+		$author$project$Main$p.cssAnimationTransformationGrains));
+var $author$project$Main$cssKeyframesJiggle = $elm$core$String$concat(
+	A2(
+		$elm$core$List$indexedMap,
+		$author$project$Main$cssTransformer,
+		A2(
+			$elm$core$List$map,
+			function (_v0) {
+				var x = _v0.a;
+				var y = _v0.b;
+				var opacity = _v0.c;
+				return _Utils_Tuple3(x / 300, y / 50, opacity);
+			},
+			$author$project$Main$p.cssAnimationTransformationGrains)));
+var $author$project$Main$cssKeyframesVlines = $elm$core$String$concat(
+	A2(
+		$elm$core$List$indexedMap,
+		F2(
+			function (index, a) {
+				return A2($author$project$Main$cssTransformer, index, a);
+			}),
+		$author$project$Main$p.cssAnimationTransformationVlines));
 var $author$project$Main$cssForVintageFilter = function (isRunning) {
-	return '.elm-tea {\n  filter: sepia(0.4) blur(0.5px);\n  box-shadow: 0 0 150px black inset;\n} ' + (isRunning ? '\n.elm-tea:before {\n  content: \'\';\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  background: repeating-linear-gradient(90deg, rgba(130,130,130,0.3) 0 2px, transparent 4px 35vmin);\n  pointer-events: none;\n  animation: vlines 0.45s steps(1) infinite;\n}\n\n@keyframes  vlines {\n  0%, 100% { transform: translateX(0); opacity: 0.5 }\n  10% { transform: translateX(-1%) }\n  20% { transform: translateX(1%) }\n  30% { transform: translateX(-2%); opacity: 0.75 }\n  40% { transform: translateX(3%) }\n  50% { transform: translateX(-3%); opacity: 0.5 }\n  60% { transform: translateX(8%) }\n  70% { transform: translateX(-3%) }\n  80% { transform: translateX(10%); opacity: 0.25 }\n  90% { transform: translateX(-2%) }\n}\n\n.elm-tea:after {\n  content: \'\';\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  opacity: 0.5;\n  background-image: repeating-conic-gradient(rgba(150,150,150,1) 0%, transparent 0.00003%, transparent 0.0005%, transparent 0.00095%), repeating-conic-gradient(rgba(150,150,150,1) 0%, transparent 0.00005%, transparent 0.00015%, transparent 0.0009%);\n  pointer-events: none;\n  animation: noise 0.5s steps(1) infinite;\n}\n\n@keyframes  noise  {\n  0%, 100% { transform: translate(0,0) }\n  10% { transform: translate(-1%, -1%) }\n  20% { transform: translate(1%, 1%) }\n  30% { transform: translate(-2%, -2%) }\n  40% { transform: translate(3%, 3%) }\n  50% { transform: translate(-3%, -3%) }\n  60% { transform: translate(4%, 4%) }\n  70% { transform: translate(-4%, -4%) }\n  80% { transform: translate(2%, 2%) }\n  90% { transform: translate(-3%, -3%) }\n}' : '');
+	var speed = isRunning ? '0' : '20';
+	return '\n.elm-tea {\n  filter: brightness(90%) sepia(0.4) blur(0.6px);\n  box-shadow: 0 0 150px black inset;\n  animation: jiggle ' + (speed + ('.99s steps(1) infinite;\n}\n.elm-tea:before {\n  content: \'\';\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  background: repeating-linear-gradient(90deg, rgba(130,130,130,0.3) 0 2px, transparent 4px 35vmin);\n  pointer-events: none;\n  animation: vlines ' + (speed + ('.45s steps(1) infinite;\n}\n.elm-tea:after {\n  content: \'\';\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  opacity: 0.6;\n  background-image: repeating-conic-gradient(rgba(160,160,160,1) 0%, transparent 0.00003%, transparent 0.0005%, transparent 0.00095%), repeating-conic-gradient(rgba(160,160,160,1) 0%, transparent 0.00005%, transparent 0.00015%, transparent 0.0009%);\n  pointer-events: none;\n  animation: grains ' + (speed + ('.5s steps(1) infinite;\n}\n@keyframes grains {' + ($author$project$Main$cssKeyframesGrains + ('}\n@keyframes vlines {' + ($author$project$Main$cssKeyframesVlines + ('}\n@keyframes jiggle {' + ($author$project$Main$cssKeyframesJiggle + '}')))))))))));
 };
 var $elm$virtual_dom$VirtualDom$node = function (tag) {
 	return _VirtualDom_node(
@@ -6459,96 +6648,126 @@ var $author$project$Main$viewAnimations = function (model) {
 	return A2(
 		$elm$core$List$filterMap,
 		function (anim) {
-			if ((_Utils_cmp(anim.start, model.count) < 0) && (_Utils_cmp(model.count, anim.end) < 0)) {
-				var position = model.count - anim.start;
-				var pathLength = anim.path.to - anim.path.from;
-				var animLength = anim.end - anim.start;
-				var temp = position / animLength;
-				var percentageAbsolute = (temp * pathLength) + anim.path.from;
-				var percentageRelative = temp * 100;
-				var opacity = (_Utils_cmp(percentageRelative, $author$project$Main$p.fadeIn) < 0) ? (percentageRelative / $author$project$Main$p.fadeIn) : ((_Utils_cmp(percentageRelative, 100 - $author$project$Main$p.fadeOut) > 0) ? ((100 - percentageRelative) / $author$project$Main$p.fadeOut) : 1);
-				return $elm$core$Maybe$Just(
-					function () {
-						var html = $author$project$Main$objectToHtml(anim.object);
-						return A2(
-							html.element,
-							html.argsFixed,
-							{opacity: opacity, percentage: percentageAbsolute});
-					}());
-			} else {
-				return $elm$core$Maybe$Nothing;
-			}
+			return ((_Utils_cmp(anim.showStart, model.count) < 0) && (_Utils_cmp(model.count, anim.showEnd) < 0)) ? $elm$core$Maybe$Just(
+				function () {
+					var position = model.count - anim.showStart;
+					var pathLength = anim.path.to - anim.path.from;
+					var html = $author$project$Main$objectToHtml(anim.object);
+					var animLength = anim.showEnd - anim.showStart;
+					var temp = position / animLength;
+					var percentageAbsolute = (temp * pathLength) + anim.path.from;
+					var percentageRelative = temp * 100;
+					var opacity = (_Utils_cmp(percentageRelative, $author$project$Main$p.fadeIn) < 0) ? (percentageRelative / $author$project$Main$p.fadeIn) : ((_Utils_cmp(percentageRelative, 100 - $author$project$Main$p.fadeOut) > 0) ? ((100 - percentageRelative) / $author$project$Main$p.fadeOut) : 1);
+					return A2(
+						html.element,
+						html.argsFixed,
+						{opacity: opacity, percentage: percentageAbsolute});
+				}()) : $elm$core$Maybe$Nothing;
 		},
 		model.animations);
 };
 var $author$project$Main$fontSize = 18;
-var $author$project$Main$size1 = 80;
-var $author$project$Main$viewAreaSafe = A2(
-	$elm$html$Html$div,
-	_List_fromArray(
-		[
-			A2($elm$html$Html$Attributes$style, 'position', 'absolute'),
-			A2(
-			$elm$html$Html$Attributes$style,
-			'width',
-			$elm$core$String$fromFloat((($author$project$Main$p.sizeWidth - $author$project$Main$p.sizeWidthElmRuntime) / 2) - 50) + 'px'),
-			A2(
-			$elm$html$Html$Attributes$style,
-			'height',
-			$elm$core$String$fromFloat($author$project$Main$p.sizeHeight - $author$project$Main$size1) + 'px'),
-			A2($elm$html$Html$Attributes$style, 'background-color', $author$project$Main$p.colorBackgroundGray),
-			A2($elm$html$Html$Attributes$style, 'color', $author$project$Main$p.colorPrimaryBlue),
-			A2(
-			$elm$html$Html$Attributes$style,
-			'font-size',
-			$elm$core$String$fromFloat($author$project$Main$fontSize) + 'px'),
-			A2($elm$html$Html$Attributes$style, 'padding', '20px'),
-			A2($elm$html$Html$Attributes$style, 'right', '0px'),
-			A2(
-			$elm$html$Html$Attributes$style,
-			'top',
-			$elm$core$String$fromFloat($author$project$Main$size1) + 'px'),
-			A2($elm$html$Html$Attributes$style, 'text-align', 'left'),
-			A2($elm$html$Html$Attributes$style, 'box-sizing', 'border-box'),
-			A2($elm$html$Html$Attributes$style, 'border-radius', '12px')
-		]),
-	_List_fromArray(
-		[
-			$elm$html$Html$text('Safe Area')
-		]));
-var $author$project$Main$viewAreaUnsafe = A2(
-	$elm$html$Html$div,
-	_List_fromArray(
-		[
-			A2($elm$html$Html$Attributes$style, 'position', 'absolute'),
-			A2(
-			$elm$html$Html$Attributes$style,
-			'width',
-			$elm$core$String$fromFloat((($author$project$Main$p.sizeWidth - $author$project$Main$p.sizeWidthElmRuntime) / 2) - 50) + 'px'),
-			A2(
-			$elm$html$Html$Attributes$style,
-			'height',
-			$elm$core$String$fromFloat($author$project$Main$p.sizeHeight - $author$project$Main$size1) + 'px'),
-			A2($elm$html$Html$Attributes$style, 'background-color', $author$project$Main$p.colorBackgroundGray),
-			A2($elm$html$Html$Attributes$style, 'color', $author$project$Main$p.colorPrimaryBlue),
-			A2(
-			$elm$html$Html$Attributes$style,
-			'font-size',
-			$elm$core$String$fromFloat($author$project$Main$fontSize) + 'px'),
-			A2($elm$html$Html$Attributes$style, 'padding', '20px'),
-			A2($elm$html$Html$Attributes$style, 'left', '0px'),
-			A2(
-			$elm$html$Html$Attributes$style,
-			'top',
-			$elm$core$String$fromFloat($author$project$Main$size1) + 'px'),
-			A2($elm$html$Html$Attributes$style, 'text-align', 'right'),
-			A2($elm$html$Html$Attributes$style, 'box-sizing', 'border-box'),
-			A2($elm$html$Html$Attributes$style, 'border-radius', '12px')
-		]),
-	_List_fromArray(
-		[
-			$elm$html$Html$text('Unsafe Area')
-		]));
+var $author$project$Main$viewMajorBlock = function (args) {
+	var size1 = 80;
+	return A2(
+		$elm$html$Html$div,
+		_Utils_ap(
+			_List_fromArray(
+				[
+					A2($elm$html$Html$Attributes$style, 'position', 'absolute'),
+					A2(
+					$elm$html$Html$Attributes$style,
+					'height',
+					$elm$core$String$fromFloat($author$project$Main$p.sizeHeight - size1) + 'px'),
+					A2($elm$html$Html$Attributes$style, 'color', $author$project$Main$p.colorPrimaryBlue),
+					A2(
+					$elm$html$Html$Attributes$style,
+					'font-size',
+					$elm$core$String$fromFloat($author$project$Main$fontSize) + 'px'),
+					A2($elm$html$Html$Attributes$style, 'padding', '20px'),
+					A2(
+					$elm$html$Html$Attributes$style,
+					'top',
+					$elm$core$String$fromFloat(size1) + 'px'),
+					A2($elm$html$Html$Attributes$style, 'text-align', 'right'),
+					A2($elm$html$Html$Attributes$style, 'box-sizing', 'border-box'),
+					A2($elm$html$Html$Attributes$style, 'border-radius', '12px')
+				]),
+			args.extra),
+		_List_fromArray(
+			[
+				$elm$html$Html$text(args.text)
+			]));
+};
+var $author$project$Main$viewAreaSafe = $author$project$Main$viewMajorBlock(
+	{
+		extra: _List_fromArray(
+			[
+				A2($elm$html$Html$Attributes$style, 'right', '0px'),
+				A2(
+				$elm$html$Html$Attributes$style,
+				'width',
+				$elm$core$String$fromFloat((($author$project$Main$p.sizeWidth - $author$project$Main$p.sizeWidthElmRuntime) / 2) - 50) + 'px'),
+				A2($elm$html$Html$Attributes$style, 'background-color', $author$project$Main$p.colorBackgroundGray)
+			]),
+		text: 'Safe Area'
+	});
+var $author$project$Main$viewAreaUnsafe = $author$project$Main$viewMajorBlock(
+	{
+		extra: _List_fromArray(
+			[
+				A2($elm$html$Html$Attributes$style, 'left', '0px'),
+				A2(
+				$elm$html$Html$Attributes$style,
+				'width',
+				$elm$core$String$fromFloat((($author$project$Main$p.sizeWidth - $author$project$Main$p.sizeWidthElmRuntime) / 2) - 50) + 'px'),
+				A2($elm$html$Html$Attributes$style, 'background-color', $author$project$Main$p.colorBackgroundGray)
+			]),
+		text: 'Unsafe Area'
+	});
+var $elm$core$String$replace = F3(
+	function (before, after, string) {
+		return A2(
+			$elm$core$String$join,
+			after,
+			A2($elm$core$String$split, before, string));
+	});
+var $author$project$Main$viewArrowElongated = function (args) {
+	return A2(
+		$elm$svg$Svg$svg,
+		_Utils_ap(
+			$author$project$Main$attrsOffset(args.percentage),
+			_List_fromArray(
+				[
+					$elm$svg$Svg$Attributes$width(
+					$elm$core$String$fromFloat(args.length * 2.14) + 'px'),
+					$elm$svg$Svg$Attributes$viewBox(
+					A2(
+						$elm$core$String$join,
+						' ',
+						A2(
+							$elm$core$List$map,
+							$elm$core$String$fromFloat,
+							_List_fromArray(
+								[(-args.length) + 5, 0, args.length + 5, 10])))),
+					$elm$svg$Svg$Attributes$fill($author$project$Main$p.colorArrows)
+				])),
+		_List_fromArray(
+			[
+				A2(
+				$elm$svg$Svg$path,
+				_List_fromArray(
+					[
+						$elm$svg$Svg$Attributes$d(
+						$author$project$Main$p.svgArrowHead + (' ' + A3(
+							$elm$core$String$replace,
+							'{{size}}',
+							$elm$core$String$fromFloat(args.length - 5),
+							$author$project$Main$p.svgArrowExtra)))
+					]),
+				_List_Nil)
+			]));
+};
 var $author$project$Main$viewBoxGeneric = F2(
 	function (args1, args2) {
 		return A2(
@@ -6558,11 +6777,11 @@ var $author$project$Main$viewBoxGeneric = F2(
 				_List_fromArray(
 					[
 						A2($elm$html$Html$Attributes$style, 'width', '130px'),
+						A2($elm$html$Html$Attributes$style, 'height', '100px'),
 						A2(
 						$elm$html$Html$Attributes$style,
 						'transform',
 						'translateX(' + ($elm$core$String$fromFloat(args2.translateX) + 'px)')),
-						A2($elm$html$Html$Attributes$style, 'height', '100px'),
 						A2($elm$html$Html$Attributes$style, 'background-color', args1.colorBackground),
 						A2($elm$html$Html$Attributes$style, 'color', args1.colorForeground),
 						A2(
@@ -6584,8 +6803,9 @@ var $author$project$Main$viewBoxBlue = $author$project$Main$viewBoxGeneric(
 	{colorBackground: 'rgba(18, 147, 216, 0.3)', colorForeground: $author$project$Main$p.colorPrimaryBlue});
 var $author$project$Main$viewBoxYellow = $author$project$Main$viewBoxGeneric(
 	{colorBackground: 'rgba(255,230,0, 0.8)', colorForeground: 'rgba(100,100,0, 1)'});
+var $elm$core$Basics$round = _Basics_round;
 var $elm$core$Basics$ge = _Utils_ge;
-var $author$project$Main$arrow_ = function (args) {
+var $author$project$Main$viewArrowForTesting = function (args) {
 	return A2(
 		$author$project$Main$viewArrow,
 		{colorBackground: $author$project$Main$p.colorArrowsTest, colorForeground: '', text: '', textTip: $elm$core$Maybe$Nothing},
@@ -6597,7 +6817,6 @@ var $author$project$Main$arrow_ = function (args) {
 			}()
 		});
 };
-var $elm$core$Basics$round = _Basics_round;
 var $author$project$Main$viewDebuggingArrows = function (model) {
 	var debuggingArrowSpeed = 10;
 	var _v0 = model.debugArrowMode;
@@ -6609,7 +6828,7 @@ var $author$project$Main$viewDebuggingArrows = function (model) {
 			return A2(
 				$elm$core$List$map,
 				function (index) {
-					return $author$project$Main$arrow_(
+					return $author$project$Main$viewArrowForTesting(
 						{count: model.count / debuggingArrowSpeed, index: index / qty, opacity: 1});
 				},
 				A2(
@@ -6619,47 +6838,27 @@ var $author$project$Main$viewDebuggingArrows = function (model) {
 		default:
 			return _List_fromArray(
 				[
-					$author$project$Main$arrow_(
+					$author$project$Main$viewArrowForTesting(
 					{count: model.count / debuggingArrowSpeed, index: 0, opacity: 1})
 				]);
 	}
 };
-var $author$project$Main$viewElmRuntime = A2(
-	$elm$html$Html$div,
-	_List_fromArray(
-		[
-			A2($elm$html$Html$Attributes$style, 'position', 'absolute'),
-			A2(
-			$elm$html$Html$Attributes$style,
-			'width',
-			$elm$core$String$fromFloat($author$project$Main$p.sizeWidthElmRuntime) + 'px'),
-			A2(
-			$elm$html$Html$Attributes$style,
-			'height',
-			$elm$core$String$fromFloat($author$project$Main$p.sizeHeight - $author$project$Main$size1) + 'px'),
-			A2($elm$html$Html$Attributes$style, 'background-color', 'rgba(18, 147, 216, 0.3)'),
-			A2($elm$html$Html$Attributes$style, 'color', $author$project$Main$p.colorPrimaryBlue),
-			A2(
-			$elm$html$Html$Attributes$style,
-			'font-size',
-			$elm$core$String$fromFloat($author$project$Main$fontSize) + 'px'),
-			A2(
-			$elm$html$Html$Attributes$style,
-			'left',
-			$elm$core$String$fromFloat(($author$project$Main$p.sizeWidth - $author$project$Main$p.sizeWidthElmRuntime) / 2) + 'px'),
-			A2(
-			$elm$html$Html$Attributes$style,
-			'top',
-			$elm$core$String$fromFloat($author$project$Main$size1) + 'px'),
-			A2($elm$html$Html$Attributes$style, 'text-align', 'center'),
-			A2($elm$html$Html$Attributes$style, 'padding', '20px'),
-			A2($elm$html$Html$Attributes$style, 'box-sizing', 'border-box'),
-			A2($elm$html$Html$Attributes$style, 'border-radius', '12px')
-		]),
-	_List_fromArray(
-		[
-			$elm$html$Html$text('Elm Runtime')
-		]));
+var $author$project$Main$viewElmRuntime = $author$project$Main$viewMajorBlock(
+	{
+		extra: _List_fromArray(
+			[
+				A2(
+				$elm$html$Html$Attributes$style,
+				'left',
+				$elm$core$String$fromFloat(($author$project$Main$p.sizeWidth - $author$project$Main$p.sizeWidthElmRuntime) / 2) + 'px'),
+				A2(
+				$elm$html$Html$Attributes$style,
+				'width',
+				$elm$core$String$fromFloat($author$project$Main$p.sizeWidthElmRuntime) + 'px'),
+				A2($elm$html$Html$Attributes$style, 'background-color', 'rgba(18, 147, 216, 0.3)')
+			]),
+		text: 'Elm Runtime'
+	});
 var $author$project$Main$viewObject = F2(
 	function (object, args) {
 		var f = $author$project$Main$objectToHtml(object);
@@ -6711,86 +6910,76 @@ var $author$project$Main$viewMain = function (model) {
 				A2($elm$html$Html$Attributes$style, 'position', 'relative'),
 				A2($elm$html$Html$Attributes$style, 'font-family', 'monospace')
 			]),
-		_Utils_ap(
-			_List_Nil,
-			_Utils_ap(
-				_List_fromArray(
-					[$author$project$Main$viewAreaUnsafe]),
-				_Utils_ap(
-					_List_fromArray(
-						[$author$project$Main$viewAreaSafe]),
-					_Utils_ap(
-						_List_fromArray(
-							[$author$project$Main$viewElmRuntime]),
-						_Utils_ap(
-							_List_fromArray(
-								[
-									$author$project$Main$viewBoxBlue(
-									{percentage: $author$project$Main$p.pointUpdate, text: 'update', translateX: 20})
-								]),
-							_Utils_ap(
-								_List_fromArray(
-									[
-										$author$project$Main$viewBoxBlue(
-										{percentage: $author$project$Main$p.pointView, text: 'view', translateX: 20})
-									]),
-								_Utils_ap(
-									_List_fromArray(
-										[
-											$author$project$Main$viewBoxYellow(
-											{percentage: $author$project$Main$p.pointDom, text: 'DOM', translateX: -20})
-										]),
+		A2(
+			$elm$core$List$cons,
+			$author$project$Main$viewAreaUnsafe,
+			A2(
+				$elm$core$List$cons,
+				$author$project$Main$viewAreaSafe,
+				A2(
+					$elm$core$List$cons,
+					$author$project$Main$viewElmRuntime,
+					A2(
+						$elm$core$List$cons,
+						$author$project$Main$viewBoxBlue(
+							{percentage: $author$project$Main$p.pointUpdate, text: 'update', translateX: 20}),
+						A2(
+							$elm$core$List$cons,
+							$author$project$Main$viewBoxBlue(
+								{percentage: $author$project$Main$p.pointView, text: 'view', translateX: 20}),
+							A2(
+								$elm$core$List$cons,
+								$author$project$Main$viewBoxYellow(
+									{percentage: $author$project$Main$p.pointDom, text: 'DOM', translateX: -20}),
+								A2(
+									$elm$core$List$cons,
+									$author$project$Main$viewBoxYellow(
+										{percentage: $author$project$Main$p.pointEffects, text: 'Effects', translateX: 10}),
 									_Utils_ap(
-										_List_fromArray(
-											[
-												$author$project$Main$viewBoxYellow(
-												{percentage: $author$project$Main$p.pointEffects, text: 'Effects', translateX: 10})
-											]),
+										A2(
+											$elm$core$List$map,
+											function (percentage) {
+												return $author$project$Main$viewArrowElongated(
+													{length: 105, percentage: percentage});
+											},
+											$author$project$Main$p.positionsArrowLong),
 										_Utils_ap(
 											A2(
 												$elm$core$List$map,
 												function (percentage) {
-													return $author$project$Main$arrowLong(
-														{length: 105, percentage: percentage});
+													return $author$project$Main$viewArrowElongated(
+														{length: 46, percentage: percentage});
 												},
-												$author$project$Main$p.positionsArrowLong),
+												$author$project$Main$p.positionsArrowShort),
 											_Utils_ap(
-												A2(
-													$elm$core$List$map,
-													function (percentage) {
-														return $author$project$Main$arrowLong(
-															{length: 46, percentage: percentage});
-													},
-													$author$project$Main$p.positionsArrowShort),
+												_List_fromArray(
+													[
+														A2(
+														$author$project$Main$viewObject,
+														$author$project$Main$BoxAzzurro('Model'),
+														{opacity: 1, percentage: 31.1})
+													]),
 												_Utils_ap(
-													_List_fromArray(
-														[
-															A2(
-															$author$project$Main$viewObject,
-															$author$project$Main$BoxAzzurro('Model'),
-															{opacity: 1, percentage: 31.1})
-														]),
+													$author$project$Main$viewSvgTrack(model),
 													_Utils_ap(
-														$author$project$Main$viewSvgTrack(model),
+														$author$project$Main$viewDebuggingArrows(model),
 														_Utils_ap(
-															$author$project$Main$viewDebuggingArrows(model),
+															$author$project$Main$viewAnimations(model),
 															_Utils_ap(
-																$author$project$Main$viewAnimations(model),
-																_Utils_ap(
-																	$author$project$Main$viewSvgTrack(model),
-																	_List_fromArray(
-																		[
-																			A3(
-																			$elm$html$Html$node,
-																			'style',
-																			_List_Nil,
-																			_List_fromArray(
-																				[
-																					$elm$html$Html$text(
-																					'.offset-box {offset-path: path(\'' + ($author$project$Main$svgMainPath + ('\')}' + ((model.isVintageFilterOn ? $author$project$Main$cssForVintageFilter(
-																						$author$project$Main$isAnimationPlaying(model)) : '') + $author$project$Main$cssForSlider))))
-																				]))
-																		])))))))))))))))));
+																$author$project$Main$viewSvgTrack(model),
+																_List_fromArray(
+																	[
+																		A3(
+																		$elm$html$Html$node,
+																		'style',
+																		_List_Nil,
+																		_List_fromArray(
+																			[
+																				$elm$html$Html$text(
+																				'.offset-box {offset-path: path(\'' + ($author$project$Main$svgMainPath + ('\')}' + ((model.isVintageFilterOn ? $author$project$Main$cssForVintageFilter(
+																					$author$project$Main$isAnimationPlaying(model)) : '') + $author$project$Main$cssForSlider))))
+																			]))
+																	]))))))))))))))));
 };
 var $author$project$Main$view = function (model) {
 	return A2(
@@ -6800,25 +6989,36 @@ var $author$project$Main$view = function (model) {
 				A2(
 				$elm$html$Html$Attributes$style,
 				'background-color',
-				model.isDarkMode ? 'rgb(30,30,30)' : 'rgb(255,255,255)'),
-				A2($elm$html$Html$Attributes$style, 'height', '100dvh'),
-				A2($elm$html$Html$Attributes$style, 'display', 'flex'),
-				A2($elm$html$Html$Attributes$style, 'align-items', 'center'),
-				A2($elm$html$Html$Attributes$style, 'justify-content', 'center'),
-				A2($elm$html$Html$Attributes$style, 'flex-direction', 'column'),
-				$elm$html$Html$Attributes$class('elm-tea')
+				model.isDarkMode ? 'rgb(30,30,30)' : 'rgb(255,255,255)')
 			]),
 		_List_fromArray(
 			[
-				$author$project$Main$viewMain(model),
-				$author$project$Main$viewControls(model)
+				A2(
+				$elm$html$Html$div,
+				_List_fromArray(
+					[
+						A2($elm$html$Html$Attributes$style, 'height', '100dvh'),
+						A2($elm$html$Html$Attributes$style, 'display', 'flex'),
+						A2($elm$html$Html$Attributes$style, 'align-items', 'center'),
+						A2($elm$html$Html$Attributes$style, 'justify-content', 'center'),
+						A2($elm$html$Html$Attributes$style, 'flex-direction', 'column'),
+						$elm$html$Html$Attributes$class('elm-tea')
+					]),
+				_List_fromArray(
+					[
+						$author$project$Main$viewMain(model),
+						$author$project$Main$viewControls(model)
+					]))
 			]));
 };
 var $author$project$Main$main = $elm$browser$Browser$element(
 	{
 		init: $author$project$Main$init,
 		subscriptions: function (model) {
-			return $author$project$Main$isAnimationPlaying(model) ? $elm$browser$Browser$Events$onAnimationFrameDelta($author$project$Main$OnAnimationFrame) : $elm$core$Platform$Sub$none;
+			return $author$project$Main$isAnimationPlaying(model) ? $elm$browser$Browser$Events$onAnimationFrameDelta(
+				function (_v0) {
+					return $author$project$Main$OnAnimationFrame;
+				}) : $elm$core$Platform$Sub$none;
 		},
 		update: $author$project$Main$update,
 		view: $author$project$Main$view

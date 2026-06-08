@@ -2,9 +2,10 @@ module Main exposing (main)
 
 import Browser
 import Browser.Events
-import Html exposing (Attribute, Html, a, button, div, input, node, text)
+import Html exposing (Attribute, Html, a, button, div, input, node, span, text)
 import Html.Attributes as HA
 import Html.Events as HE
+import Json.Decode as Decode
 import Svg
 import Svg.Attributes as SA
 
@@ -219,6 +220,7 @@ type alias Model =
     , count : Float
     , debugArrowMode : DebugArrowMode
     , isDarkMode : Bool
+    , isModalOpen : Bool
     , isVintageFilterOn : Bool
     , isTrackVisible : Bool
     , playPauseState : PlayPauseState
@@ -263,9 +265,12 @@ type Msg
     | CycleDebugArrowMode
     | OnAnimationFrame
     | ChangeSlider String
+    | ToggleModal
     | ToggleTrackVisibility
     | ToggleDarkMode
     | ToggleFilter
+    | KeyPress String
+    | JumpTo Float
 
 
 type Object
@@ -278,6 +283,7 @@ type Object
     | Pointer
     | Title (Maybe String) String
     | TitleInitial
+    | TitleTheEnd
 
 
 type PlayPauseState
@@ -298,11 +304,16 @@ init _ =
       , debugArrowMode = Disabled
       , animations =
             []
-                ++ timeline1 400 p.defaultSpeed
-                ++ timelineTitleChapter1 200 p.defaultSpeed
-                ++ timeline2 1300 p.defaultSpeed
-                ++ timelineTitleChapter2 1100 p.defaultSpeed
                 ++ timelineTitleOpening 0 p.defaultSpeed
+                ++ timelineTitleChapter1 200 p.defaultSpeed
+                ++ timeline1 400 p.defaultSpeed
+                ++ timelineTitleChapter2 1100 p.defaultSpeed
+                ++ timeline2 1300 p.defaultSpeed
+                ++ timelineNewModel 2050 p.defaultSpeed
+                ++ timelineTitleChapter3 2500 p.defaultSpeed
+                ++ timeline3 2700 p.defaultSpeed
+                ++ timelineTitleTheEnd 3000 p.defaultSpeed
+      , isModalOpen = False
       , isTrackVisible = False
       , isDarkMode = False
       , isVintageFilterOn = True
@@ -427,48 +438,149 @@ timelineTitleOpening current speed =
     [ { showStart = current, showEnd = current + 180, path = { from = 0, to = 0 }, object = TitleInitial } ]
 
 
+timelineTitleTheEnd : Float -> Float -> List Animation
+timelineTitleTheEnd current speed =
+    [ { showStart = current, showEnd = current + 180, path = { from = 0, to = 0 }, object = TitleTheEnd } ]
+
+
 timelineTitleChapter1 : Float -> Float -> List Animation
 timelineTitleChapter1 current speed =
-    [ { showStart = current, showEnd = current + 180, path = { from = 0, to = 0 }, object = Title (Just "CHAPTER 1") "A simple DOM-only interaction without side effects" } ]
+    [ { showStart = current, showEnd = current + 180, path = { from = 0, to = 0 }, object = Title (Just "CHAPTER 1") "An interaction WITHOUT side effects" } ]
 
 
 timelineTitleChapter2 : Float -> Float -> List Animation
 timelineTitleChapter2 current speed =
-    [ { showStart = current, showEnd = current + 180, path = { from = 0, to = 0 }, object = Title (Just "Chapter 2") "A simple DOM-only interaction without side effects" } ]
+    [ { showStart = current, showEnd = current + 180, path = { from = 0, to = 0 }, object = Title (Just "Chapter 2") "An interaction WITH side effects" } ]
+
+
+timelineTitleChapter3 : Float -> Float -> List Animation
+timelineTitleChapter3 current _ =
+    [ { showStart = current, showEnd = current + 180, path = { from = 0, to = 0 }, object = Title (Just "CHAPTER 3") "The Big Picture" } ]
+
+
+timeline3 : Float -> Float -> List Animation
+timeline3 current _ =
+    let
+        duration : Float
+        duration =
+            300
+
+        showEnd : Float
+        showEnd =
+            current + duration
+
+        at : Float -> Object -> Animation
+        at pct obj =
+            { showStart = current, showEnd = showEnd, path = { from = pct, to = pct }, object = obj }
+    in
+    [ at 2.7 (BoxYellow "Event")
+    , at 16.2 (BoxAzzurro "Model")
+    , at 17.8 (BoxGreen "Msg")
+    , at 23.7 (BoxYellow "Cmd")
+    , at 25.3 BoxModelNew
+    , at 37.2 BoxModelNew
+    , at 44.9 (BoxYellow "Html")
+    , at 55.0 (BoxYellow "Html")
+    , at 64.8 (BoxYellow "Event")
+    , at 93.0 (BoxYellow "Cmd")
+    ]
+
+
+timelineNewModel : Float -> Float -> List Animation
+timelineNewModel current speed =
+    let
+        pathUpdateToView : PathSection
+        pathUpdateToView =
+            { from = p.pointUpdate, to = p.pointView }
+
+        pathViewToDom : PathSection
+        pathViewToDom =
+            { from = p.pointView, to = p.pointDom }
+
+        f0 : Float
+        f0 =
+            current
+
+        f1 : Float
+        f1 =
+            f0 + (pathUpdateToView.to - pathUpdateToView.from) * speed
+
+        f2 : Float
+        f2 =
+            f1 + (pathViewToDom.to - pathViewToDom.from) * speed
+    in
+    addPrecedingArrows speed { showStart = f0, showEnd = f1, path = pathUpdateToView, object = BoxModelNew }
+        ++ addPrecedingArrows speed { showStart = f1, showEnd = f2, path = pathViewToDom, object = BoxYellow "Html" }
 
 
 timeline2 : Float -> Float -> List Animation
 timeline2 current speed =
     let
+        startDelay : Float
+        startDelay =
+            7
+
+        f0 : Float
+        f0 =
+            (p.pointAfterStart + startDelay * speed) + current
+
+        f1 : Float
+        f1 =
+            f0 + (p.pointRuntime - p.pointStart) * speed
+
+        f2 : Float
+        f2 =
+            f1 + (p.pointUpdate - p.pointRuntime) * speed
+
         pathUpdateToEffects : PathSection
         pathUpdateToEffects =
             { from = p.pointUpdate2, to = p.pointEffectsEnd }
 
-        pathEffectsToUpdate : PathSection
-        pathEffectsToUpdate =
-            { from = p.pointEffectsStart, to = p.pointUpdate2 }
+        pathEffectsToRuntimeAbove : PathSection
+        pathEffectsToRuntimeAbove =
+            { from = p.pointEffectsStart, to = 70 }
 
-        f0 : Float
-        f0 =
-            (p.pointAfterStart * speed) + current
+        pathRuntimeAboveToUpdate : PathSection
+        pathRuntimeAboveToUpdate =
+            { from = 70, to = p.pointUpdate2 }
 
-        f1 : Float
-        f1 =
-            f0 + (pathUpdateToEffects.to - pathUpdateToEffects.from) * speed
+        fCmdEnd : Float
+        fCmdEnd =
+            f2 + (pathUpdateToEffects.to - pathUpdateToEffects.from) * speed
 
+        delay : Float
         delay =
             10
 
-        f1WithDelay : Float
-        f1WithDelay =
-            f1 + (delay * speed)
+        delayCmd : Float
+        delayCmd =
+            1.8
 
-        f2 : Float
-        f2 =
-            f1 + (pathEffectsToUpdate.to - pathEffectsToUpdate.from + delay) * speed
+        fResponseStart : Float
+        fResponseStart =
+            fCmdEnd + delay * speed
+
+        fRuntimeAbove : Float
+        fRuntimeAbove =
+            fResponseStart + (pathEffectsToRuntimeAbove.to - pathEffectsToRuntimeAbove.from) * speed
+
+        showEndMsg : Float
+        showEndMsg =
+            fRuntimeAbove + (speed * 1.5) + (pathRuntimeAboveToUpdate.to - pathRuntimeAboveToUpdate.from) * speed
+
+        modelLead : Float
+        modelLead =
+            30
+
+        fModelForZzzStart : Float
+        fModelForZzzStart =
+            showEndMsg - (p.pointUpdate - p.pointRuntime) * speed - 50 - modelLead
     in
-    addPrecedingArrows speed { showStart = f0, showEnd = f1, path = pathUpdateToEffects, object = BoxYellow "Cmd" }
-        ++ addPrecedingArrows speed { showStart = f1WithDelay, showEnd = f2, path = pathEffectsToUpdate, object = BoxYellow "Response" }
+    timeline1 current speed
+        ++ [ { showStart = f2 + delayCmd * speed, showEnd = fCmdEnd + delayCmd * speed, path = pathUpdateToEffects, object = BoxYellow "Cmd" } ]
+        ++ addPrecedingArrows speed { showStart = fResponseStart, showEnd = fRuntimeAbove, path = pathEffectsToRuntimeAbove, object = BoxYellow "Event" }
+        ++ addPrecedingArrows speed { showStart = fRuntimeAbove + speed * 1.5 - 37.5, showEnd = showEndMsg, path = pathRuntimeAboveToUpdate, object = BoxGreen "Msg" }
+        ++ addPrecedingArrows speed { showStart = fModelForZzzStart, showEnd = showEndMsg - modelLead, path = { from = p.pointRuntime, to = p.pointUpdate }, object = BoxAzzurro "Model" }
 
 
 update : Msg -> Model -> ( Model, Cmd msg )
@@ -513,6 +625,9 @@ update msg model =
         OnAnimationFrame ->
             ( { model | count = model.count + 1 }, Cmd.none )
 
+        ToggleModal ->
+            ( { model | isModalOpen = not model.isModalOpen }, Cmd.none )
+
         ToggleTrackVisibility ->
             ( { model | isTrackVisible = not model.isTrackVisible }, Cmd.none )
 
@@ -521,6 +636,25 @@ update msg model =
 
         ToggleFilter ->
             ( { model | isVintageFilterOn = not model.isVintageFilterOn }, Cmd.none )
+
+        KeyPress key ->
+            if key == " " then
+                ( { model
+                    | playPauseState =
+                        if model.playPauseState == Play then
+                            Pause
+
+                        else
+                            Play
+                  }
+                , Cmd.none
+                )
+
+            else
+                ( model, Cmd.none )
+
+        JumpTo count ->
+            ( { model | count = count, playPauseState = Pause }, Cmd.none )
 
 
 objectToHtml :
@@ -621,6 +755,16 @@ objectToHtml object =
             , element = viewTitleInitial
             }
 
+        TitleTheEnd ->
+            { argsFixed =
+                { colorBackground = ""
+                , colorForeground = ""
+                , text = ""
+                , textTip = Nothing
+                }
+            , element = viewTitleTheEnd
+            }
+
 
 view : Model -> Html Msg
 view model =
@@ -643,6 +787,71 @@ view model =
             ]
             [ viewMain model
             , viewControls model
+            ]
+        , if model.isModalOpen then
+            viewModal
+
+          else
+            text ""
+        ]
+
+
+viewModal : Html Msg
+viewModal =
+    div
+        [ HA.style "position" "fixed"
+        , HA.style "inset" "0"
+        , HA.style "display" "flex"
+        , HA.style "align-items" "center"
+        , HA.style "justify-content" "center"
+        , HA.style "background-color" "rgba(0,0,0,0.5)"
+        , HA.style "z-index" "100"
+        ]
+        [ div
+            [ HA.style "background" "white"
+            , HA.style "border-radius" "8px"
+            , HA.style "padding" "32px"
+            , HA.style "max-width" "480px"
+            , HA.style "max-height" "80vh"
+            , HA.style "overflow-y" "auto"
+            , HA.style "width" "90%"
+            , HA.style "font-family" "monospace"
+            ]
+            [ div [ HA.style "font-size" "18px", HA.style "font-weight" "bold", HA.style "margin-bottom" "16px" ]
+                [ text "About \"The Elm Architecture\" animation" ]
+            , div [ HA.style "margin-bottom" "12px", HA.style "line-height" "1.6" ]
+                [ text "This animation was inspired by a "
+                , a [ HA.href "https://youtu.be/kEitFAY7Gc8?si=_xRb12HCWb-1nnzY&t=1687", HA.target "_blank" ] [ text "presentation by Mario Rogic" ]
+                , text " at Reactivate London (2018). It became "
+                , a [ HA.href "https://lucamug.medium.com/the-elm-architecture-tea-animation-3efc555e8faf", HA.target "_blank" ] [ text "this article" ]
+                , text ", and this is a refined version written in Elm."
+                ]
+            , div [ HA.style "margin-bottom" "12px", HA.style "line-height" "1.6" ]
+                [ text "This animation illustrates the conceptual cycle of The Elm Architecture: an Event travels from the DOM into the Elm Runtime, which calls "
+                , span [ HA.style "font-weight" "bold" ] [ text "update" ]
+                , text " with the current Model and a Msg, producing a new Model and optional Commands. The new Model is passed to "
+                , span [ HA.style "font-weight" "bold" ] [ text "view" ]
+                , text ", which produces Html that updates the DOM. Commands go to Effects, which may generate new Events. We define "
+                , span [ HA.style "font-family" "monospace", HA.style "font-weight" "bold" ] [ text "Msg" ]
+                , text " and "
+                , span [ HA.style "font-family" "monospace", HA.style "font-weight" "bold" ] [ text "Model" ]
+                , text " values. We write "
+                , span [ HA.style "font-family" "monospace", HA.style "font-weight" "bold" ] [ text "update" ]
+                , text " and "
+                , span [ HA.style "font-family" "monospace", HA.style "font-weight" "bold" ] [ text "view" ]
+                , text " functions. Elm does the rest!"
+                ]
+            , div [ HA.style "margin-bottom" "12px", HA.style "line-height" "1.6" ]
+                [ text "⚠ The animation is a mental model of the cycle, not an exact temporal representation. In reality, the steps do not take equal time and some may happen in a slightly different order." ]
+            , div [ HA.style "margin-bottom" "12px", HA.style "line-height" "1.6" ]
+                [ text "In particular: "
+                , span [ HA.style "font-weight" "bold" ] [ text "update" ]
+                , text " is called synchronously inside the click event listener — so two rapid clicks always produce two separate update calls in order. "
+                , span [ HA.style "font-weight" "bold" ] [ text "view" ]
+                , text " is scheduled on the next animation frame (~16 ms), so multiple update calls can happen before a single view call and DOM update. Commands and subscriptions are enqueued after the DOM step, meaning they fire before the next render in the default (async) rendering mode."
+                ]
+            , div [ HA.style "text-align" "right", HA.style "margin-top" "24px" ]
+                [ button [ HE.onClick ToggleModal ] [ text "Close" ] ]
             ]
         ]
 
@@ -754,6 +963,29 @@ viewButtonTemplate extra =
         , HA.style "cursor" "pointer"
         ]
         [ Svg.path [ SA.d (p.svgOuterButton ++ " " ++ extra) ] []
+        ]
+
+
+viewButtonInfo : Html msg
+viewButtonInfo =
+    Svg.svg
+        [ SA.viewBox "0 0 10 10"
+        , SA.width "40px"
+        , SA.fill p.colorPrimaryBlue
+        , HA.style "margin" "5px"
+        , HA.style "cursor" "pointer"
+        ]
+        [ Svg.path [ SA.d p.svgOuterButton ] []
+        , Svg.text_
+            [ SA.x "5"
+            , SA.y "7.5"
+            , SA.textAnchor "middle"
+            , SA.fontSize "7"
+            , SA.fill "white"
+            , SA.fontWeight "bold"
+            , SA.fontFamily "monospace"
+            ]
+            [ Svg.text "?" ]
         ]
 
 
@@ -990,6 +1222,7 @@ viewControls model =
              , button (attrsButton "Toggle Filter" ToggleFilter) [ viewButtonTemplate p.svgInnerSettings ]
              , button (attrsButton "Toggle Filter" ToggleFilter) [ viewButtonTemplate p.svgInnerFilter ]
              , button (attrsButton "Replay" Replay) [ viewButtonTemplate p.svgInnerReplay ]
+             , button (attrsButton "Info" ToggleModal) [ viewButtonInfo ]
              , input
                 [ HA.type_ "range"
                 , HA.min "0"
@@ -1027,17 +1260,19 @@ viewControls model =
                     ]
                    )
             )
-        , div []
-            [ button [ HE.onClick <| AddTimeline <| timeline1 model.count 1 ] [ text "Add 1" ]
-            , button [ HE.onClick <| AddTimeline <| timeline1 model.count 3 ] [ text "Add 3" ]
-            , button [ HE.onClick <| AddTimeline <| timeline1 model.count 5 ] [ text "Add 5" ]
-            , button [ HE.onClick <| AddTimeline <| timeline1 model.count 10 ] [ text "Add 10" ]
-            ]
-        , div []
-            [ button [ HE.onClick <| AddTimeline <| timeline2 model.count 1 ] [ text "Add 1" ]
-            , button [ HE.onClick <| AddTimeline <| timeline2 model.count 3 ] [ text "Add 3" ]
-            , button [ HE.onClick <| AddTimeline <| timeline2 model.count 5 ] [ text "Add 5" ]
-            , button [ HE.onClick <| AddTimeline <| timeline2 model.count 10 ] [ text "Add 10" ]
+        , div [ HA.style "display" "flex", HA.style "gap" "4px", HA.style "margin-top" "4px", HA.style "flex-wrap" "wrap" ]
+            [ span [ HA.style "color" "gray", HA.style "font-size" "11px", HA.style "align-self" "center" ] [ text "ch1:" ]
+            , button (attrsDebugButton (AddTimeline (timeline1 model.count 1))) [ text "×1" ]
+            , button (attrsDebugButton (AddTimeline (timeline1 model.count 3))) [ text "×3" ]
+            , button (attrsDebugButton (AddTimeline (timeline1 model.count 5))) [ text "×5" ]
+            , button (attrsDebugButton (AddTimeline (timeline1 model.count 10))) [ text "×10" ]
+            , span [ HA.style "color" "gray", HA.style "font-size" "11px", HA.style "align-self" "center", HA.style "margin-left" "8px" ] [ text "ch2:" ]
+            , button (attrsDebugButton (AddTimeline (timeline2 model.count 1))) [ text "×1" ]
+            , button (attrsDebugButton (AddTimeline (timeline2 model.count 3))) [ text "×3" ]
+            , button (attrsDebugButton (AddTimeline (timeline2 model.count 5))) [ text "×5" ]
+            , button (attrsDebugButton (AddTimeline (timeline2 model.count 10))) [ text "×10" ]
+            , span [ HA.style "color" "gray", HA.style "font-size" "11px", HA.style "align-self" "center", HA.style "margin-left" "8px" ] [ text "jump:" ]
+            , button (attrsDebugButton (JumpTo (model.cachedMaxCount - 300))) [ text "big picture" ]
             ]
         ]
 
@@ -1182,6 +1417,21 @@ viewTitleInitial argsFixed argsVariable =
         argsVariable
 
 
+viewTitleTheEnd : ObjectDataFixed -> ObjectDataVariable -> Html msg
+viewTitleTheEnd argsFixed argsVariable =
+    viewTitle_
+        [ div
+            [ HA.style "font-size" "60px"
+            , HA.style "padding" "10px"
+            , HA.style "font-family" "cursive"
+            , HA.style "text-align" "center"
+            ]
+            [ text "The End" ]
+        ]
+        argsFixed
+        argsVariable
+
+
 viewPointer : ObjectDataFixed -> ObjectDataVariable -> Html msg
 viewPointer _ argsVariable =
     let
@@ -1231,6 +1481,20 @@ attrsButton title msg =
     ]
 
 
+attrsDebugButton : b -> List (Attribute b)
+attrsDebugButton msg =
+    [ HA.style "font-family" "monospace"
+    , HA.style "font-size" "11px"
+    , HA.style "padding" "2px 6px"
+    , HA.style "border" ("1px solid " ++ p.colorPrimaryBlue)
+    , HA.style "border-radius" "4px"
+    , HA.style "background-color" "transparent"
+    , HA.style "color" p.colorPrimaryBlue
+    , HA.style "cursor" "pointer"
+    , HE.onClick msg
+    ]
+
+
 attrsOffset : Float -> List (Attribute msg)
 attrsOffset percentage =
     [ SA.class "offset-box"
@@ -1262,9 +1526,12 @@ main =
         , update = update
         , subscriptions =
             \model ->
-                if isAnimationPlaying model then
-                    Browser.Events.onAnimationFrameDelta (\_ -> OnAnimationFrame)
+                Sub.batch
+                    [ if isAnimationPlaying model then
+                        Browser.Events.onAnimationFrameDelta (\_ -> OnAnimationFrame)
 
-                else
-                    Sub.none
+                      else
+                        Sub.none
+                    , Browser.Events.onKeyDown (Decode.map KeyPress (Decode.field "key" Decode.string))
+                    ]
         }
